@@ -1,9 +1,9 @@
 <?php
 
-namespace IsmaAmbrosi\GeneratorBundle\Tests\Generator;
+namespace IsmaAmbrosi\Bundle\GeneratorBundle\Tests\Generator;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use IsmaAmbrosi\GeneratorBundle\Generator\DoctrineDocumentGenerator;
+use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineDocumentGenerator;
 
 /**
  * Class

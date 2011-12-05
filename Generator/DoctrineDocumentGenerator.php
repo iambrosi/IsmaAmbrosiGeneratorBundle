@@ -1,6 +1,6 @@
 <?php
 
-namespace IsmaAmbrosi\GeneratorBundle\Generator;
+namespace IsmaAmbrosi\Bundle\GeneratorBundle\Generator;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;

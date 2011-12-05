@@ -1,6 +1,6 @@
 <?php
 
-namespace IsmaAmbrosi\GeneratorBundle;
+namespace IsmaAmbrosi\Bundle\GeneratorBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

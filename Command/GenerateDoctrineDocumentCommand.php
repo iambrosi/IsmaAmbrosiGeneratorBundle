@@ -1,8 +1,8 @@
 <?php
 
-namespace IsmaAmbrosi\GeneratorBundle\Command;
+namespace IsmaAmbrosi\Bundle\GeneratorBundle\Command;
 
-use IsmaAmbrosi\GeneratorBundle\Generator\DoctrineDocumentGenerator;
+use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineDocumentGenerator;
 use Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;

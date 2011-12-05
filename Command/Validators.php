@@ -1,6 +1,6 @@
 <?php
 
-namespace IsmaAmbrosi\GeneratorBundle\Command;
+namespace IsmaAmbrosi\Bundle\GeneratorBundle\Command;
 
 use Sensio\Bundle\GeneratorBundle\Command\Validators as BaseValidators;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace IsmaAmbrosi\GeneratorBundle\Command;
+namespace IsmaAmbrosi\Bundle\GeneratorBundle\Command;
 
 use Symfony\Bundle\DoctrineBundle\Mapping\MetadataFactory;
 use Symfony\Bundle\DoctrineBundle\Command\DoctrineCommand;

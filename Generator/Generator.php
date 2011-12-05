@@ -1,6 +1,6 @@
 <?php
 
-namespace IsmaAmbrosi\GeneratorBundle\Generator;
+namespace IsmaAmbrosi\Bundle\GeneratorBundle\Generator;
 
 use \Sensio\Bundle\GeneratorBundle\Generator\Generator as BaseGenerator;
 
