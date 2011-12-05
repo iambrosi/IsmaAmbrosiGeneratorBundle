@@ -248,9 +248,9 @@ EOT
             $defaultType = 'string';
 
             if (substr($name, -3) == '_at') {
-                $defaultType = 'datetime';
+                $defaultType = 'timestamp';
             } else if (substr($name, -3) == '_id') {
-                $defaultType = 'integer';
+                $defaultType = 'int';
             }
 
             $type = $dialog->askAndValidate($output, $dialog->getQuestion('Field type', $defaultType), $fieldValidator, false, $defaultType);
