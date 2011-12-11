@@ -23,7 +23,7 @@ class DoctrineDocumentGeneratorTest extends WebTestCase
 
     protected function tearDown()
     {
-        $this->getFilesystem()->remove($this->getBundle()->getPath() . DIRECTORY_SEPARATOR . 'Document');
+        $this->getFilesystem()->remove($this->getBundle()->getPath().DIRECTORY_SEPARATOR.'Document');
     }
 
     public function testSimpleGenerator()
@@ -35,17 +35,19 @@ class DoctrineDocumentGeneratorTest extends WebTestCase
             $bundle = $this->getBundle(),
             $name,
             array(
-                 array('fieldName'=> 'myField',
-                       'type'     => 'string')
+                array(
+                    'fieldName'=> 'myField',
+                    'type'     => 'string'
+                )
             ), false
         );
 
-        $this->assertFileExists($bundle->getPath() . DIRECTORY_SEPARATOR . 'Document' . DIRECTORY_SEPARATOR . $name . '.php');
-        $this->assertFileNotExists($bundle->getPath() . DIRECTORY_SEPARATOR . 'Document' . DIRECTORY_SEPARATOR . $name . 'Repository.php');
-        $this->assertTrue(class_exists($bundle->getNamespace() . '\\Document\\' . $name));
-        $this->assertTrue(class_exists($bundle->getNamespace() . '\\Document\\' . $name), 'Document class does not exists');
-        $this->assertFalse(class_exists($bundle->getNamespace() . '\\Document\\' . $name . 'Repository'), 'Repository class does exists');
-        $this->assertClassHasAttribute('myField', $bundle->getNamespace() . '\\Document\\' . $name, 'Class does not have the specified attribute');
+        $this->assertFileExists($bundle->getPath().DIRECTORY_SEPARATOR.'Document'.DIRECTORY_SEPARATOR.$name.'.php');
+        $this->assertFileNotExists($bundle->getPath().DIRECTORY_SEPARATOR.'Document'.DIRECTORY_SEPARATOR.$name.'Repository.php');
+        $this->assertTrue(class_exists($bundle->getNamespace().'\\Document\\'.$name));
+        $this->assertTrue(class_exists($bundle->getNamespace().'\\Document\\'.$name), 'Document class does not exists');
+        $this->assertFalse(class_exists($bundle->getNamespace().'\\Document\\'.$name.'Repository'), 'Repository class does exists');
+        $this->assertClassHasAttribute('myField', $bundle->getNamespace().'\\Document\\'.$name, 'Class does not have the specified attribute');
     }
 
     public function testSimpleGeneratorWithRepository()
@@ -57,16 +59,18 @@ class DoctrineDocumentGeneratorTest extends WebTestCase
             $bundle = $this->getBundle(),
             $name,
             array(
-                 array('fieldName'=> 'myField',
-                       'type'     => 'string')
+                array(
+                    'fieldName'=> 'myField',
+                    'type'     => 'string'
+                )
             ), true
         );
 
-        $this->assertFileExists($bundle->getPath() . DIRECTORY_SEPARATOR . 'Document' . DIRECTORY_SEPARATOR . $name . '.php');
-        $this->assertFileExists($bundle->getPath() . DIRECTORY_SEPARATOR . 'Document' . DIRECTORY_SEPARATOR . $name . 'Repository.php');
-        $this->assertTrue(class_exists($bundle->getNamespace() . '\\Document\\' . $name), 'Document class does not exists');
-        $this->assertTrue(class_exists($bundle->getNamespace() . '\\Document\\' . $name . 'Repository'), 'Repository class does not exists');
-        $this->assertClassHasAttribute('myField', $bundle->getNamespace() . '\\Document\\' . $name, 'Class does not have the specified attribute');
+        $this->assertFileExists($bundle->getPath().DIRECTORY_SEPARATOR.'Document'.DIRECTORY_SEPARATOR.$name.'.php');
+        $this->assertFileExists($bundle->getPath().DIRECTORY_SEPARATOR.'Document'.DIRECTORY_SEPARATOR.$name.'Repository.php');
+        $this->assertTrue(class_exists($bundle->getNamespace().'\\Document\\'.$name), 'Document class does not exists');
+        $this->assertTrue(class_exists($bundle->getNamespace().'\\Document\\'.$name.'Repository'), 'Repository class does not exists');
+        $this->assertClassHasAttribute('myField', $bundle->getNamespace().'\\Document\\'.$name, 'Class does not have the specified attribute');
     }
 
     public function testFieldType()
@@ -74,21 +78,23 @@ class DoctrineDocumentGeneratorTest extends WebTestCase
         $generator = new DoctrineDocumentGenerator($this->getFilesystem(), $this->getDocumentManager());
 
         foreach (array_keys(Type::getTypesMap()) as $type) {
-            $name = ucfirst(__FUNCTION__) . ucfirst(md5($type));
+            $name = ucfirst(__FUNCTION__).ucfirst(md5($type));
             $generator->generate(
                 $bundle = $this->getBundle(),
                 $name,
                 array(
-                     array('fieldName'=> 'myField',
-                           'type'     => $type)
+                    array(
+                        'fieldName'=> 'myField',
+                        'type'     => $type
+                    )
                 ), true
             );
 
-            $this->assertFileExists($bundle->getPath() . DIRECTORY_SEPARATOR . 'Document' . DIRECTORY_SEPARATOR . $name . '.php');
-            $this->assertFileExists($bundle->getPath() . DIRECTORY_SEPARATOR . 'Document' . DIRECTORY_SEPARATOR . $name . 'Repository.php');
-            $this->assertTrue(class_exists($bundle->getNamespace() . '\\Document\\' . $name), 'Document class does not exists');
-            $this->assertTrue(class_exists($bundle->getNamespace() . '\\Document\\' . $name . 'Repository'), 'Repository class does not exists');
-            $this->assertClassHasAttribute('myField', $bundle->getNamespace() . '\\Document\\' . $name, 'Class does not have the specified attribute');
+            $this->assertFileExists($bundle->getPath().DIRECTORY_SEPARATOR.'Document'.DIRECTORY_SEPARATOR.$name.'.php');
+            $this->assertFileExists($bundle->getPath().DIRECTORY_SEPARATOR.'Document'.DIRECTORY_SEPARATOR.$name.'Repository.php');
+            $this->assertTrue(class_exists($bundle->getNamespace().'\\Document\\'.$name), 'Document class does not exists');
+            $this->assertTrue(class_exists($bundle->getNamespace().'\\Document\\'.$name.'Repository'), 'Repository class does not exists');
+            $this->assertClassHasAttribute('myField', $bundle->getNamespace().'\\Document\\'.$name, 'Class does not have the specified attribute');
         }
     }
 
