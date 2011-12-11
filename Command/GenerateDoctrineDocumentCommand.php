@@ -23,7 +23,7 @@ class GenerateDoctrineDocumentCommand extends GenerateDoctrineCommand
     protected function configure()
     {
         $this
-            ->setName('doctrine:generate:document')
+            ->setName('doctrine:mongodb:generate:document')
             ->setAliases(array('generate:doctrine:document'))
             ->setDescription('Generates a new Doctrine document inside a bundle')
             ->addOption('document', null, InputOption::VALUE_REQUIRED, 'The document class name to initialize (shortcut notation)')
@@ -100,21 +100,27 @@ EOT
         $dialog->writeSection($output, 'Welcome to the Doctrine2 document generator');
 
         // namespace
-        $output->writeln(array('', 'This command helps you generate Doctrine2 entities.',
-                              '', 'First, you need to give the document name you want to generate.',
-                              'You must use the shortcut notation like <comment>AcmeBlogBundle:Post</comment>.',
-                              ''));
+        $output->writeln(array(
+            '',
+            'This command helps you generate Doctrine2 entities.',
+            '',
+            'First, you need to give the document name you want to generate.',
+            'You must use the shortcut notation like <comment>AcmeBlogBundle:Post</comment>.',
+            ''
+        ));
 
         while (true) {
-            $entity = $dialog->askAndValidate($output, $dialog->getQuestion('The Document shortcut name', $input->getOption('document')), array('Sensio\Bundle\GeneratorBundle\Command\Validators',
-                                                                                                                                               'validateEntityName'), false, $input->getOption('document'));
+            $entity = $dialog->askAndValidate($output, $dialog->getQuestion('The Document shortcut name', $input->getOption('document')), array(
+                'Sensio\Bundle\GeneratorBundle\Command\Validators',
+                'validateEntityName'
+            ), false, $input->getOption('document'));
 
             list($bundle, $entity) = $this->parseShortcutNotation($entity);
 
             try {
                 $b = $this->getContainer()->get('kernel')->getBundle($bundle);
 
-                if (!file_exists($b->getPath() . '/Document/' . str_replace('\\', '/', $entity) . '.php')) {
+                if (!file_exists($b->getPath().'/Document/'.str_replace('\\', '/', $entity).'.php')) {
                     break;
                 }
 
@@ -123,12 +129,18 @@ EOT
                 $output->writeln(sprintf('<bg=red>Bundle "%s" does not exist.</>', $bundle));
             }
         }
-        $input->setOption('document', $bundle . ':' . $entity);
+        $input->setOption('document', $bundle.':'.$entity);
 
         // format
-        $output->writeln(array('', 'Determine the format to use for the mapping information.', '',));
-        $format = $dialog->askAndValidate($output, $dialog->getQuestion('Configuration format (yml, xml, php, or annotation)', $input->getOption('format')), array('Sensio\Bundle\GeneratorBundle\Command\Validators',
-                                                                                                                                                                  'validateFormat'), false, $input->getOption('format'));
+        $output->writeln(array(
+            '',
+            'Determine the format to use for the mapping information.',
+            '',
+        ));
+        $format = $dialog->askAndValidate($output, $dialog->getQuestion('Configuration format (yml, xml, php, or annotation)', $input->getOption('format')), array(
+            'Sensio\Bundle\GeneratorBundle\Command\Validators',
+            'validateFormat'
+        ), false, $input->getOption('format'));
         $input->setOption('format', $format);
 
         // fields
@@ -141,13 +153,13 @@ EOT
 
         // summary
         $output->writeln(array(
-                              '',
-                              $this->getHelper('formatter')->formatBlock('Summary before generation', 'bg=blue;fg=white', true),
-                              '',
-                              sprintf("You are going to generate a \"<info>%s:%s</info>\" Doctrine2 document", $bundle, $entity),
-                              sprintf("using the \"<info>%s</info>\" format.", $format),
-                              '',
-                         ));
+            '',
+            $this->getHelper('formatter')->formatBlock('Summary before generation', 'bg=blue;fg=white', true),
+            '',
+            sprintf("You are going to generate a \"<info>%s:%s</info>\" Doctrine2 document", $bundle, $entity),
+            sprintf("using the \"<info>%s</info>\" format.", $format),
+            '',
+        ));
     }
 
     private function parseFields($input)
@@ -166,9 +178,7 @@ EOT
                 $type = isset($matches[1][0]) ? $matches[1][0] : $type;
                 $length = isset($matches[2][0]) ? $matches[2][0] : null;
 
-                $fields[$name] = array('fieldName' => $name,
-                                       'type'      => $type,
-                                       'length'    => $length);
+                $fields[$name] = array('fieldName' => $name, 'type' => $type, 'length' => $length);
             }
         }
 
@@ -179,11 +189,11 @@ EOT
     {
         $fields = $this->parseFields($input->getOption('fields'));
         $output->writeln(array(
-                              '',
-                              'Instead of starting with a blank document, you can add some fields now.',
-                              'Note that the primary key will be added automatically (named <comment>id</comment>).',
-                              '',
-                         ));
+            '',
+            'Instead of starting with a blank document, you can add some fields now.',
+            'Note that the primary key will be added automatically (named <comment>id</comment>).',
+            '',
+        ));
         $output->write('<info>Available types:</info> ');
 
         $types = array_keys(Type::getTypesMap());
@@ -220,8 +230,8 @@ EOT
             }
 
             $result = filter_var($length, FILTER_VALIDATE_INT, array(
-                                                                    'options' => array('min_range' => 1)
-                                                               ));
+                'options' => array('min_range' => 1)
+            ));
 
             if (false === $result) {
                 throw new \InvalidArgumentException(sprintf('Invalid length "%s".', $length));
@@ -255,8 +265,7 @@ EOT
 
             $type = $dialog->askAndValidate($output, $dialog->getQuestion('Field type', $defaultType), $fieldValidator, false, $defaultType);
 
-            $data = array('fieldName' => $name,
-                          'type'      => $type);
+            $data = array('fieldName' => $name, 'type' => $type);
 
             $fields[$name] = $data;
         }
