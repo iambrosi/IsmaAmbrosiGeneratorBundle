@@ -10,8 +10,6 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Util\Filesystem;
 
-use Doctrine\ORM\Tools\Export\ClassMetadataExporter;
-
 /**
  * Class DoctrineDocumentGenerator
  *
@@ -58,9 +56,11 @@ class DoctrineDocumentGenerator extends Generator
             $class->setCustomRepositoryClass($documentClass . 'Repository');
         }
 
-        $class->mapField(array('fieldName' => 'id',
-                               'type'      => 'integer',
-                               'id'        => true));
+        $class->mapField(array(
+            'fieldName' => 'id',
+            'type'      => 'integer',
+            'id'        => true
+        ));
         $class->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_AUTO);
         foreach ($fields as $field) {
             $class->mapField($field);
