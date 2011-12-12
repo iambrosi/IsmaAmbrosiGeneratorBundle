@@ -36,6 +36,7 @@ class GenerateDoctrineCrudCommand extends GenerateDoctrineCommand
             ->setDefinition(array(
             new InputOption('document', '', InputOption::VALUE_REQUIRED, 'The document class name to initialize (shortcut notation)'),
             new InputOption('route-prefix', '', InputOption::VALUE_REQUIRED, 'The route prefix'),
+            new InputOption('controller-name', '', InputOption::VALUE_REQUIRED, 'The controller name'),
             new InputOption('with-write', '', InputOption::VALUE_NONE, 'Whether or not to generate create, new and delete actions'),
             new InputOption('format', '', InputOption::VALUE_REQUIRED, 'Use the format for configuration files (php, xml, yml, or annotation)', 'annotation'),
         ))
@@ -74,6 +75,8 @@ EOT
         $document = Validators::validateDocumentName($input->getOption('document'));
         list($bundle, $document) = $this->parseShortcutNotation($document);
 
+        $controller = Validators::validateControllerName($input->getOption('controller-name'));
+
         $format = Validators::validateFormat($input->getOption('format'));
         $prefix = $this->getRoutePrefix($input, $document);
         $withWrite = $input->getOption('with-write');
@@ -85,7 +88,7 @@ EOT
         $bundle = $this->getBundle($bundle);
 
         $generator = $this->getGenerator();
-        $generator->generate($bundle, $document, $metadata, $format, $prefix, $withWrite);
+        $generator->generate($bundle, $document, $controller, $metadata, $format, $prefix, $withWrite);
 
         $output->writeln('Generating the CRUD code: <info>OK</info>');
 
@@ -134,6 +137,20 @@ EOT
         // Document exists?
         $documentClass = $this->getDocumentNamespace($bundle).'\\'.$document;
         $metadata = $this->getDocumentMetadata($documentClass);
+
+        $output->writeln(array(
+            '',
+            'Now you can set the name for the controller. By default, the generator creates',
+            'the controller name based on the document.',
+            '',
+        ));
+
+        $controllerName = $input->getOption('controller-name') ? $input->getOption('controller-name') : $document;
+        $controllerName = $dialog->askAndValidate($output, $dialog->getQuestion('The controller name', $controllerName), array(
+            'IsmaAmbrosi\Bundle\GeneratorBundle\Command\Validators',
+            'validateControllerName'
+        ), false, $controllerName);
+        $input->setOption('controller-name', $controllerName);
 
         // write?
         $withWrite = $input->getOption('with-write') ? : false;
@@ -230,6 +247,9 @@ EOT
         return $prefix;
     }
 
+    /**
+     * @return \IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator
+     */
     protected function getGenerator()
     {
         if (null === $this->generator) {
