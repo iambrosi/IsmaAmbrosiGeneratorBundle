@@ -43,17 +43,17 @@ class DoctrineDocumentGenerator extends Generator
     public function generate(BundleInterface $bundle, $document, array $fields, $withRepository)
     {
         $config = $this->documentManager->getConfiguration();
-        $config->addDocumentNamespace($bundle->getName(), $bundle->getNamespace() . '\\Document');
+        $config->addDocumentNamespace($bundle->getName(), $bundle->getNamespace().'\\Document');
 
-        $documentClass = $config->getDocumentNamespace($bundle->getName()) . '\\' . $document;
-        $documentPath = $bundle->getPath() . '/Document/' . str_replace('\\', '/', $document) . '.php';
+        $documentClass = $config->getDocumentNamespace($bundle->getName()).'\\'.$document;
+        $documentPath = $bundle->getPath().'/Document/'.str_replace('\\', '/', $document).'.php';
         if (file_exists($documentPath)) {
             throw new \RuntimeException(sprintf('Document "%s" already exists.', $documentClass));
         }
 
         $class = new ClassMetadataInfo($documentClass);
         if ($withRepository) {
-            $class->setCustomRepositoryClass($documentClass . 'Repository');
+            $class->setCustomRepositoryClass($documentClass.'Repository');
         }
 
         $class->mapField(array(
@@ -73,7 +73,7 @@ class DoctrineDocumentGenerator extends Generator
         file_put_contents($documentPath, $documentCode, LOCK_EX);
 
         if ($withRepository) {
-            $path = $bundle->getPath() . str_repeat('/..', substr_count(get_class($bundle), '\\'));
+            $path = $bundle->getPath().str_repeat('/..', substr_count(get_class($bundle), '\\'));
             $this->getRepositoryGenerator()->writeDocumentRepositoryClass($class->customRepositoryClassName, $path);
         }
     }
