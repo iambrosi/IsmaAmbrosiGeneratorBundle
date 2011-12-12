@@ -47,12 +47,12 @@ class DoctrineCrudGenerator extends Generator
     /**
      * Generate the CRUD controller.
      *
-     * @param BundleInterface   $bundle A bundle object
-     * @param string            $document The document relative class name
-     * @param ClassMetadataInfo $metadata The document class metadata
-     * @param string            $format The configuration format (xml, yaml, annotation)
-     * @param string            $routePrefix The route name prefix
-     * @param array             $needWriteActions Wether or not to generate write actions
+     * @param \Symfony\Component\HttpKernel\Bundle\BundleInterface $bundle A bundle object
+     * @param string                                               $document The document relative class name
+     * @param \Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo      $metadata The document class metadata
+     * @param string                                               $format
+     * @param string                                               $routePrefix
+     * @param boolean                                              $needWriteActions
      *
      * @throws \RuntimeException
      */
