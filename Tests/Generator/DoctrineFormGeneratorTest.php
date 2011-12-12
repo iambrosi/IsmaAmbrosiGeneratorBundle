@@ -2,7 +2,6 @@
 
 namespace IsmaAmbrosi\Bundle\GeneratorBundle\Tests\Generator;
 
-use IsmaAmbrosi\Bundle\GeneratorBundle\Tests\WebTestCase;
 use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineFormGenerator;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 

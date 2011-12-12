@@ -2,7 +2,6 @@
 
 namespace IsmaAmbrosi\Bundle\GeneratorBundle\Tests\Generator;
 
-use IsmaAmbrosi\Bundle\GeneratorBundle\Tests\WebTestCase;
 use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator;
 use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineFormGenerator;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
@@ -12,49 +11,8 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
  *
  * @author Ismael Ambrosi<ismael@servergrove.com>
  */
-class DoctrineCrudGeneratorTest extends WebTestCase
+class DoctrineCrudGeneratorTest extends GeneratorTest
 {
-
-    private $documentName;
-
-    protected function setUp()
-    {
-        $this->pathsToRemove = array();
-
-        static::$kernel = static::createKernel();
-        static::$kernel->boot();
-
-        $this->documentName = ucfirst($this->getName());
-        $this->metadata = new ClassMetadataInfo($this->documentName);
-        $this->metadata->mapField(array(
-            'name'      => 'id',
-            'id'        => true,
-            'strategy'  => 'auto'
-        ));
-
-        $this->metadata->mapField(array(
-            'fieldName' => 'name',
-            'type'      => 'string'
-        ));
-
-        $this->metadata->mapField(array(
-            'fieldName' => 'description',
-            'type'      => 'string'
-        ));
-
-        $generator = new DoctrineFormGenerator($this->getFilesystem(), $this->getBundle()->getPath().'/Resources/skeleton/form');
-        $generator->generate($this->getTestBundle(), $this->documentName, $this->metadata);
-    }
-
-    protected function tearDown()
-    {
-        $filesystem = $this->getFilesystem();
-        $filesystem->remove($this->getTestBundle()->getPath().'/Controller/'.$this->documentName.'Controller.php');
-        $filesystem->remove($this->getTestBundle()->getPath().'/Form/'.$this->documentName.'Type.php');
-        $filesystem->remove($this->getTestBundle()->getPath().'/Resources/views/'.$this->documentName);
-        $filesystem->remove($this->getTestBundle()->getPath().'/Resources/config/routing/'.strtolower($this->documentName).'.yml');
-        $filesystem->remove($this->getTestBundle()->getPath().'/Resources/config/routing/'.strtolower($this->documentName).'.xml');
-    }
 
     public function testAnnotation()
     {
@@ -64,6 +22,7 @@ class DoctrineCrudGeneratorTest extends WebTestCase
 
         $file = $this->getTestBundle()->getPath().'/Controller/'.$this->documentName.'Controller.php';
         $this->assertFileExists($file, 'Controller class file does not exists');
+        require_once $file;
 
         $namespace = $this->getTestBundle()->getNamespace();
         $this->assertTrue(class_exists($controller = $namespace.'\\Controller\\'.$this->documentName.'Controller'), 'Controller class does not exists');
@@ -85,6 +44,7 @@ class DoctrineCrudGeneratorTest extends WebTestCase
 
         $file = $this->getTestBundle()->getPath().'/Controller/'.$this->documentName.'Controller.php';
         $this->assertFileExists($file, 'Controller class file does not exists');
+        require_once $file;
 
         $namespace = $this->getTestBundle()->getNamespace();
         $this->assertTrue(class_exists($controller = $namespace.'\\Controller\\'.$this->documentName.'Controller'), 'Controller class does not exists');
@@ -106,6 +66,7 @@ class DoctrineCrudGeneratorTest extends WebTestCase
 
         $file = $this->getTestBundle()->getPath().'/Controller/'.$this->documentName.'Controller.php';
         $this->assertFileExists($file, 'Controller class file does not exists');
+        require_once $file;
 
         $namespace = $this->getTestBundle()->getNamespace();
         $this->assertTrue(class_exists($controller = $namespace.'\\Controller\\'.$this->documentName.'Controller'), 'Controller class does not exists');
@@ -129,6 +90,7 @@ class DoctrineCrudGeneratorTest extends WebTestCase
 
         $file = $this->getTestBundle()->getPath().'/Controller/'.$this->documentName.'Controller.php';
         $this->assertFileExists($file, 'Controller class file does not exists');
+        require_once $file;
 
         $namespace = $this->getTestBundle()->getNamespace();
         $this->assertTrue(class_exists($controller = $namespace.'\\Controller\\'.$this->documentName.'Controller'), 'Controller class does not exists');
@@ -152,6 +114,7 @@ class DoctrineCrudGeneratorTest extends WebTestCase
 
         $file = $this->getTestBundle()->getPath().'/Controller/'.$this->documentName.'Controller.php';
         $this->assertFileExists($file, 'Controller class file does not exists');
+        require_once $file;
 
         $namespace = $this->getTestBundle()->getNamespace();
         $this->assertTrue(class_exists($controller = $namespace.'\\Controller\\'.$this->documentName.'Controller'), 'Controller class does not exists');
@@ -175,6 +138,7 @@ class DoctrineCrudGeneratorTest extends WebTestCase
 
         $file = $this->getTestBundle()->getPath().'/Controller/'.$this->documentName.'Controller.php';
         $this->assertFileExists($file, 'Controller class file does not exists');
+        require_once $file;
 
         $namespace = $this->getTestBundle()->getNamespace();
         $this->assertTrue(class_exists($controller = $namespace.'\\Controller\\'.$this->documentName.'Controller'), 'Controller class does not exists');
