@@ -2,10 +2,9 @@
 
 namespace IsmaAmbrosi\Bundle\GeneratorBundle\Tests\Generator;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Finder\Finder;
-use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineDocumentGenerator;
 use Doctrine\ODM\MongoDB\Mapping\Types\Type;
+use IsmaAmbrosi\Bundle\GeneratorBundle\Tests\WebTestCase;
+use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineDocumentGenerator;
 
 /**
  * Class DoctrineDocumentGeneratorTest
@@ -96,29 +95,5 @@ class DoctrineDocumentGeneratorTest extends WebTestCase
             $this->assertTrue(class_exists($bundle->getNamespace().'\\Document\\'.$name.'Repository'), 'Repository class does not exists');
             $this->assertClassHasAttribute('myField', $bundle->getNamespace().'\\Document\\'.$name, 'Class does not have the specified attribute');
         }
-    }
-
-    /**
-     * @return \Symfony\Component\HttpKernel\Bundle\BundleInterface
-     */
-    private function getBundle()
-    {
-        return static::$kernel->getBundle('IsmaAmbrosiGeneratorBundle');
-    }
-
-    /**
-     * @return \Doctrine\ODM\MongoDB\DocumentManager
-     */
-    private function getDocumentManager()
-    {
-        return static::$kernel->getContainer()->get('doctrine.odm.mongodb.document_manager');
-    }
-
-    /**
-     * @return \Symfony\Component\HttpKernel\Util\Filesystem
-     */
-    private function getFilesystem()
-    {
-        return static::$kernel->getContainer()->get('filesystem');
     }
 }
