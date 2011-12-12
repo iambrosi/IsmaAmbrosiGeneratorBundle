@@ -49,6 +49,7 @@ class DoctrineCrudGenerator extends Generator
      *
      * @param \Symfony\Component\HttpKernel\Bundle\BundleInterface $bundle A bundle object
      * @param string                                               $document The document relative class name
+     * @param string                                               $controller The controller name
      * @param \Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo      $metadata The document class metadata
      * @param string                                               $format
      * @param string                                               $routePrefix
@@ -56,7 +57,7 @@ class DoctrineCrudGenerator extends Generator
      *
      * @throws \RuntimeException
      */
-    public function generate(BundleInterface $bundle, $document, ClassMetadataInfo $metadata, $format, $routePrefix, $needWriteActions)
+    public function generate(BundleInterface $bundle, $document, $controller, ClassMetadataInfo $metadata, $format, $routePrefix, $needWriteActions)
     {
         $this->routePrefix = $routePrefix;
         $this->routeNamePrefix = str_replace('/', '_', $routePrefix);
@@ -75,9 +76,9 @@ class DoctrineCrudGenerator extends Generator
         $this->metadata = $metadata;
         $this->setFormat($format);
 
-        $this->generateControllerClass();
+        $this->generateControllerClass($controller);
 
-        $dir = sprintf('%s/Resources/views/%s', $this->bundle->getPath(), str_replace('\\', '/', $this->document));
+        $dir = sprintf('%s/Resources/views/%s', $this->bundle->getPath(), $controller);
 
         if (!file_exists($dir)) {
             $this->filesystem->mkdir($dir, 0777);
@@ -151,7 +152,7 @@ class DoctrineCrudGenerator extends Generator
      * Generates the controller class only.
      *
      */
-    private function generateControllerClass()
+    private function generateControllerClass($name = null)
     {
         $dir = $this->bundle->getPath();
 
@@ -159,11 +160,13 @@ class DoctrineCrudGenerator extends Generator
         $documentClass = array_pop($parts);
         $documentNamespace = implode('\\', $parts);
 
+        $name = is_null($name) ? $documentClass : $name;
+
         $target = sprintf(
             '%s/Controller/%s/%sController.php',
             $dir,
             str_replace('\\', '/', $documentNamespace),
-            $documentClass
+            $name
         );
 
         if (file_exists($target)) {
@@ -178,6 +181,7 @@ class DoctrineCrudGenerator extends Generator
             'bundle'              => $this->bundle->getName(),
             'document'            => $this->document,
             'document_class'      => $documentClass,
+            'controller_name'     => $name,
             'namespace'           => $this->bundle->getNamespace(),
             'document_namespace'  => $documentNamespace,
             'format'              => $this->format,
