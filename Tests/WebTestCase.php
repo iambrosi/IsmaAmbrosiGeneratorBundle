@@ -21,14 +21,6 @@ abstract class WebTestCase extends BaseWebTestCase
     }
 
     /**
-     * @return \Symfony\Component\HttpKernel\Bundle\BundleInterface
-     */
-    protected function getTestBundle()
-    {
-        return static::$kernel->getBundle('IsmaAmbrosiTestBundle');
-    }
-
-    /**
      * @return \Doctrine\ODM\MongoDB\DocumentManager
      */
     protected function getDocumentManager()
