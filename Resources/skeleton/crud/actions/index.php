@@ -9,7 +9,7 @@
      */
     public function indexAction()
     {
-        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        $dm = $this->getDocumentManager();
 
         $documents = $dm->getRepository('{{ bundle }}:{{ document }}')->findAll();
 

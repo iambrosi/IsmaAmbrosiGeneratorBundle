@@ -16,7 +16,7 @@
         $form->bindRequest($request);
 
         if ($form->isValid()) {
-            $dm = $this->get('doctrine.odm.mongodb.document_manager');
+            $dm = $this->getDocumentManager();
             $dm->persist($document);
             $dm->flush();
 

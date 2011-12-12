@@ -10,7 +10,7 @@
      */
     public function updateAction($id)
     {
-        $dm = $this->get('doctrine.odm.mongodb.document_manager');
+        $dm = $this->getDocumentManager();
 
         $document = $dm->getRepository('{{ bundle }}:{{ document }}')->find($id);
 

@@ -46,4 +46,13 @@ class {{ controller_name }}Controller extends Controller
         {%- include 'actions/delete.php' %}
     {%- endif %}
 
+    /**
+     * Returns the DocumentManager
+     *
+     * @return DocumentManager
+     */
+    private function getDocumentManager()
+    {
+        return $this->get('doctrine.odm.mongodb.document_manager');
+    }
 }
