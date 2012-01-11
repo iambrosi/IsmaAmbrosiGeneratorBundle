@@ -11,17 +11,16 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
  *
  * @author Ismael Ambrosi<ismael@servergrove.com>
  */
-abstract class GeneratorTest extends WebTestCase
+abstract class GeneratorTestCase extends WebTestCase
 {
 
     protected $tmpDir;
     protected $documentName;
     protected $metadata;
 
-    public function setUp()
+    protected function setUp()
     {
-        static::$kernel = static::createKernel();
-        static::$kernel->boot();
+        parent::setUp();
 
         $this->documentName = ucfirst($this->getName());
         $this->tmpDir = sys_get_temp_dir().'/ismaambrosi';
@@ -45,9 +44,10 @@ abstract class GeneratorTest extends WebTestCase
         ));
     }
 
-    public function tearDown()
+    protected function tearDown()
     {
-        $this->getFilesystem()->remove($this->tmpDir);
+        //$this->getFilesystem()->remove($this->tmpDir);
+        parent::tearDown();
     }
 
     /**

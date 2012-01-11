@@ -11,14 +11,14 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
  *
  * @author Ismael Ambrosi<ismael@servergrove.com>
  */
-class DoctrineCrudGeneratorTest extends GeneratorTest
+class DoctrineCrudGeneratorTest extends GeneratorTestCase
 {
 
     public function testAnnotation()
     {
         $prefix = 'test/admin/'.strtolower($this->getName());
         $generator = new DoctrineCrudGenerator($this->getFilesystem(), $this->getBundle()->getPath().'/Resources/skeleton/crud');
-        $generator->generate($this->getTestBundle(), $this->documentName, $this->metadata, 'annotation', $prefix, false);
+        $generator->generate($this->getTestBundle(), $this->documentName, $this->documentName, $this->metadata, 'annotation', $prefix, false);
 
         $file = $this->getTestBundle()->getPath().'/Controller/'.$this->documentName.'Controller.php';
         $this->assertFileExists($file, 'Controller class file does not exists');

@@ -10,7 +10,7 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
  *
  * @author Ismael Ambrosi<ismael@servergrove.com>
  */
-class DoctrineFormGeneratorTest extends GeneratorTest
+class DoctrineFormGeneratorTest extends GeneratorTestCase
 {
 
     public function testSimpleGenerator()
