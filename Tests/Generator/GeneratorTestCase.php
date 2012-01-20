@@ -10,20 +10,22 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
  *
  * @author Ismael Ambrosi<ismael@servergrove.com>
  */
-abstract class GeneratorTestCase extends WebTestCase
+abstract class GeneratorTestCase extends \PHPUnit_Framework_TestCase
 {
 
     protected $tmpDir;
     protected $documentName;
     protected $metadata;
+    protected $filesystem;
 
     protected function setUp()
     {
         parent::setUp();
 
+        $this->filesystem = new Filesystem();
+
         $this->documentName = ucfirst($this->getName());
         $this->tmpDir = sys_get_temp_dir().'/ismaambrosi';
-        $this->getFilesystem()->remove($this->tmpDir);
 
         $this->metadata = new ClassMetadataInfo($this->documentName);
         $this->metadata->mapField(array(
@@ -45,7 +47,7 @@ abstract class GeneratorTestCase extends WebTestCase
 
     protected function tearDown()
     {
-        //$this->getFilesystem()->remove($this->tmpDir);
+        $this->getFilesystem()->remove($this->tmpDir);
         parent::tearDown();
     }
 
@@ -59,5 +61,13 @@ abstract class GeneratorTestCase extends WebTestCase
         $bundle->expects($this->any())->method('getNamespace')->will($this->returnValue('Foo\BarBundle'));
 
         return $bundle;
+    }
+
+    /**
+     * @return \Symfony\Component\Filesystem\Filesystem
+     */
+    protected function getFilesystem()
+    {
+        return $this->filesystem;
     }
 }

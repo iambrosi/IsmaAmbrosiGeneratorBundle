@@ -172,7 +172,11 @@ EOT
                 $type = isset($matches[1][0]) ? $matches[1][0] : $type;
                 $length = isset($matches[2][0]) ? $matches[2][0] : null;
 
-                $fields[$name] = array('fieldName' => $name, 'type' => $type, 'length' => $length);
+                $fields[$name] = array(
+                    'fieldName' => $name,
+                    'type'      => $type,
+                    'length'    => $length
+                );
             }
         }
 
@@ -259,7 +263,10 @@ EOT
 
             $type = $dialog->askAndValidate($output, $dialog->getQuestion('Field type', $defaultType), $fieldValidator, false, $defaultType);
 
-            $data = array('fieldName' => $name, 'type' => $type);
+            $data = array(
+                'fieldName' => $name,
+                'type'      => $type
+            );
 
             $fields[$name] = $data;
         }
