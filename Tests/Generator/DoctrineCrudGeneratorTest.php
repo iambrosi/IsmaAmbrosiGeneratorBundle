@@ -15,7 +15,7 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
     public function testAnnotation()
     {
         $prefix = 'test/admin/'.strtolower($this->getName());
-        $generator = new DoctrineCrudGenerator($this->getFilesystem(), $this->getBundle()->getPath().'/Resources/skeleton/crud');
+        $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
         $generator->generate($this->getTestBundle(), $this->documentName, $this->documentName, $this->metadata, 'annotation', $prefix, false);
 
         $file = $this->getTestBundle()->getPath().'/Controller/'.$this->documentName.'Controller.php';
@@ -37,8 +37,8 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
     public function testAnnotationWithWriteActions()
     {
         $prefix = 'test/admin/'.strtolower($this->getName());
-        $generator = new DoctrineCrudGenerator($this->getFilesystem(), $this->getBundle()->getPath().'/Resources/skeleton/crud');
-        $generator->generate($this->getTestBundle(), $this->documentName, $this->metadata, 'annotation', $prefix, true);
+        $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
+        $generator->generate($this->getTestBundle(), $this->documentName, $this->documentName, $this->metadata, 'annotation', $prefix, true);
 
         $file = $this->getTestBundle()->getPath().'/Controller/'.$this->documentName.'Controller.php';
         $this->assertFileExists($file, 'Controller class file does not exists');
@@ -59,8 +59,8 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
     public function testYaml()
     {
         $prefix = 'test/admin/'.strtolower($this->getName());
-        $generator = new DoctrineCrudGenerator($this->getFilesystem(), $this->getBundle()->getPath().'/Resources/skeleton/crud');
-        $generator->generate($this->getTestBundle(), $this->documentName, $this->metadata, 'yaml', $prefix, false);
+        $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
+        $generator->generate($this->getTestBundle(), $this->documentName, $this->documentName, $this->metadata, 'yaml', $prefix, false);
 
         $file = $this->getTestBundle()->getPath().'/Controller/'.$this->documentName.'Controller.php';
         $this->assertFileExists($file, 'Controller class file does not exists');
@@ -83,8 +83,8 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
     public function testYamlWithWriteActions()
     {
         $prefix = 'test/admin/'.strtolower($this->getName());
-        $generator = new DoctrineCrudGenerator($this->getFilesystem(), $this->getBundle()->getPath().'/Resources/skeleton/crud');
-        $generator->generate($this->getTestBundle(), $this->documentName, $this->metadata, 'yaml', $prefix, true);
+        $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
+        $generator->generate($this->getTestBundle(), $this->documentName, $this->documentName, $this->metadata, 'yaml', $prefix, true);
 
         $file = $this->getTestBundle()->getPath().'/Controller/'.$this->documentName.'Controller.php';
         $this->assertFileExists($file, 'Controller class file does not exists');
@@ -107,8 +107,8 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
     public function testXml()
     {
         $prefix = 'test/admin/'.strtolower($this->getName());
-        $generator = new DoctrineCrudGenerator($this->getFilesystem(), $this->getBundle()->getPath().'/Resources/skeleton/crud');
-        $generator->generate($this->getTestBundle(), $this->documentName, $this->metadata, 'xml', $prefix, false);
+        $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
+        $generator->generate($this->getTestBundle(), $this->documentName, $this->documentName, $this->metadata, 'xml', $prefix, false);
 
         $file = $this->getTestBundle()->getPath().'/Controller/'.$this->documentName.'Controller.php';
         $this->assertFileExists($file, 'Controller class file does not exists');
@@ -131,8 +131,8 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
     public function testXmllWithWriteActions()
     {
         $prefix = 'test/admin/'.strtolower($this->getName());
-        $generator = new DoctrineCrudGenerator($this->getFilesystem(), $this->getBundle()->getPath().'/Resources/skeleton/crud');
-        $generator->generate($this->getTestBundle(), $this->documentName, $this->metadata, 'xml', $prefix, true);
+        $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
+        $generator->generate($this->getTestBundle(), $this->documentName, $this->documentName, $this->metadata, 'xml', $prefix, true);
 
         $file = $this->getTestBundle()->getPath().'/Controller/'.$this->documentName.'Controller.php';
         $this->assertFileExists($file, 'Controller class file does not exists');
