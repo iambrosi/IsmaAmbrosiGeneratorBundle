@@ -9,12 +9,6 @@ use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Console\Command\Command;
 use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineFormGenerator;
 
-/**
- * Generates a form type class for a given Doctrine document.
- *
- * @author Fabien Potencier <fabien@symfony.com>
- * @author Hugo Hamon <hugo.hamon@sensio.com>
- */
 class GenerateDoctrineFormCommand extends GenerateDoctrineCommand
 {
 

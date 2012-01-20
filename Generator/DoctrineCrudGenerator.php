@@ -6,11 +6,6 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 
-/**
- * Generates a CRUD controller.
- *
- * @author Fabien Potencier <fabien@symfony.com>
- */
 class DoctrineCrudGenerator extends Generator
 {
 

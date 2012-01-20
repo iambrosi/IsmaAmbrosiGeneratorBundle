@@ -13,11 +13,6 @@ use Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper;
 use Sensio\Bundle\GeneratorBundle\Manipulator\RoutingManipulator;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
-/**
- * Generates a CRUD for a Doctrine entity.
- *
- * @author Fabien Potencier <fabien@symfony.com>
- */
 class GenerateDoctrineCrudCommand extends GenerateDoctrineCommand
 {
 

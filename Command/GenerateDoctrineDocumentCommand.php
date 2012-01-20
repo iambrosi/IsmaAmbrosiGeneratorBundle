@@ -9,11 +9,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Doctrine\ODM\MongoDB\Mapping\Types\Type;
 
-/**
- * Initializes a Doctrine entity inside a bundle.
- *
- * @author Fabien Potencier <fabien@symfony.com>
- */
 class GenerateDoctrineDocumentCommand extends GenerateDoctrineCommand
 {
 

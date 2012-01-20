@@ -6,12 +6,6 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 
-/**
- * Generates a form class based on a Doctrine document.
- *
- * @author Fabien Potencier <fabien@symfony.com>
- * @author Hugo Hamon <hugo.hamon@sensio.com>
- */
 class DoctrineFormGenerator extends Generator
 {
 
