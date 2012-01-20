@@ -2,7 +2,7 @@
 
 namespace IsmaAmbrosi\Bundle\GeneratorBundle\Command;
 
-use Doctrine\Bundle\DoctrineBundle\Command\DoctrineCommand;
+use Symfony\Bundle\DoctrineBundle\Command\DoctrineCommand;
 
 abstract class GenerateDoctrineCommand extends DoctrineCommand
 {
