@@ -2,7 +2,7 @@
 
 namespace IsmaAmbrosi\Bundle\GeneratorBundle\Generator;
 
-use Symfony\Component\HttpKernel\Util\Filesystem;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 
@@ -41,10 +41,10 @@ class DoctrineFormGenerator extends Generator
 
     /**
      * Generates the document form class if it does not exist.
+     * @param \Symfony\Component\HttpKernel\Bundle\BundleInterface $bundle
+     * @param string                                               $document
+     * @param \Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo      $metadata
      *
-     * @param BundleInterface   $bundle The bundle in which to create the class
-     * @param string            $document The document relative class name
-     * @param ClassMetadataInfo $metadata The document metadata class
      */
     public function generate(BundleInterface $bundle, $document, ClassMetadataInfo $metadata)
     {
@@ -80,9 +80,9 @@ class DoctrineFormGenerator extends Generator
      * Returns an array of fields. Fields can be both column fields and
      * association fields.
      *
-     * @param ClassMetadataInfo $metadata
+     * @param \Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo $metadata
      *
-     * @return array $fields
+     * @return array
      */
     private function getFieldsFromMetadata(ClassMetadataInfo $metadata)
     {

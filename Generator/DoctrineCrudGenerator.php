@@ -2,7 +2,7 @@
 
 namespace IsmaAmbrosi\Bundle\GeneratorBundle\Generator;
 
-use Symfony\Component\HttpKernel\Util\Filesystem;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 
@@ -35,8 +35,8 @@ class DoctrineCrudGenerator extends Generator
     /**
      * Constructor.
      *
-     * @param Filesystem $filesystem A Filesystem instance
-     * @param string     $skeletonDir Path to the skeleton directory
+     * @param \Symfony\Component\Filesystem\Filesystem $filesystem A Filesystem instance
+     * @param string                                   $skeletonDir Path to the skeleton directory
      */
     public function __construct(Filesystem $filesystem, $skeletonDir)
     {

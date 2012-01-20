@@ -2,7 +2,6 @@
 
 namespace IsmaAmbrosi\Bundle\GeneratorBundle\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,7 +11,6 @@ use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator;
 use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineFormGenerator;
 use Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper;
 use Sensio\Bundle\GeneratorBundle\Manipulator\RoutingManipulator;
-use Doctrine\ORM\Mapping\MappingException;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 /**

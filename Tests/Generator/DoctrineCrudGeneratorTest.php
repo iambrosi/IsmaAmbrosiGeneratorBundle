@@ -3,8 +3,6 @@
 namespace IsmaAmbrosi\Bundle\GeneratorBundle\Tests\Generator;
 
 use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator;
-use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineFormGenerator;
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 
 /**
  * Class DoctrineDocumentGeneratorTest
