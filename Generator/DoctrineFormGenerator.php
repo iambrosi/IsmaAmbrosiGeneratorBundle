@@ -39,6 +39,7 @@ class DoctrineFormGenerator extends Generator
      * @param string                                               $document
      * @param \Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo      $metadata
      *
+     * @throws \RuntimeException
      */
     public function generate(BundleInterface $bundle, $document, ClassMetadataInfo $metadata)
     {
