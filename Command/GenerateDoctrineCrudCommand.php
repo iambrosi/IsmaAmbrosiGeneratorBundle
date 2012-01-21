@@ -46,7 +46,8 @@ Using the --with-write option allows to generate the new, edit and delete action
 <info>php app/console doctrine:generate:crud --document=AcmeBlogBundle:Post --route-prefix=post_admin --with-write</info>
 EOT
         )
-            ->setName('doctrine:mongodb:generate:crud')//->setAliases(array('generate:doctrine:crud'))
+            ->setName('doctrine:mongodb:generate:crud')
+            ->setAliases(array('generate:doctrine:mongodb:crud'))
         ;
     }
 

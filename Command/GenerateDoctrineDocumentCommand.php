@@ -18,7 +18,7 @@ class GenerateDoctrineDocumentCommand extends GenerateDoctrineCommand
     {
         $this
             ->setName('doctrine:mongodb:generate:document')
-            ->setAliases(array('generate:doctrine:document'))
+            ->setAliases(array('generate:doctrine:mongodb:document'))
             ->setDescription('Generates a new Doctrine document inside a bundle')
             ->addOption('document', null, InputOption::VALUE_REQUIRED, 'The document class name to initialize (shortcut notation)')
             ->addOption('fields', null, InputOption::VALUE_REQUIRED, 'The fields to create with the new document')
