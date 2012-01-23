@@ -1,7 +1,7 @@
 IsmaAmbrosiGeneratorBundle
 ==========================
 
-This bundle extends the commands provided by [SensioGeneratorBundle](https://github.com/sensio/SensioGeneratorBundle) adding MongoDB document generator and CRUD generators for these MongoDB documents.
+This bundle extends the commands provided by [SensioGeneratorBundle](https://github.com/sensio/SensioGeneratorBundle), adding a MongoDB document generator and CRUD generators for these MongoDB documents.
 
 Installation
 ------------
@@ -41,3 +41,20 @@ $loader->registerNamespaces(array(
     // ...
 ));
 ```
+
+###Add the bundle to the app Kernel
+
+```php
+<?php
+// app/AppKernel.php
+
+public function registerBundles()
+{	
+	// ...
+	if (in_array($this->getEnvironment(), array('dev', 'test'))) {
+		// ...
+    	$bundles[] = new IsmaAmbrosi\Bundle\GeneratorBundle\IsmaAmbrosiGeneratorBundle();
+	}
+}
+```
+It is recommended to disable this bundle on the production environment.
