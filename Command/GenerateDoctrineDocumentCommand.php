@@ -28,7 +28,7 @@ class GenerateDoctrineDocumentCommand extends GenerateDoctrineCommand
 The <info>doctrine:generate:document</info> task generates a new Doctrine
 document inside a bundle:
 
-<info>php app/console doctrine:generate:document --document=AcmeBlogBundle:Blog/Post</info>
+<info>php app/console doctrine:mongodb:generate:document --document=AcmeBlogBundle:Blog/Post</info>
 
 The above command would initialize a new document in the following document
 namespace <info>Acme\BlogBundle\Document\Blog\Post</info>.
@@ -36,7 +36,7 @@ namespace <info>Acme\BlogBundle\Document\Blog\Post</info>.
 You can also optionally specify the fields you want to generate in the new
 document:
 
-<info>php app/console doctrine:generate:document --document=AcmeBlogBundle:Blog/Post --fields="title:string(255) body:text"</info>
+<info>php app/console doctrine:generate:document --document=AcmeBlogBundle:Blog/Post --fields="title:string body:string"</info>
 
 The command can also generate the corresponding document repository class with the
 <comment>--with-repository</comment> option:
@@ -51,7 +51,7 @@ with <comment>--format</comment>:
 To deactivate the interaction mode, simply use the `--no-interaction` option
 whitout forgetting to pass all needed options:
 
-<info>php app/console doctrine:generate:document --document=AcmeBlogBundle:Blog/Post --format=annotation --fields="title:string(255) body:text" --with-repository --no-interaction</info>
+<info>php app/console doctrine:generate:document --document=AcmeBlogBundle:Blog/Post --format=annotation --fields="title:string body:string" --with-repository --no-interaction</info>
 EOT
         );
     }
