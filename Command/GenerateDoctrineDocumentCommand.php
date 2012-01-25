@@ -277,7 +277,7 @@ EOT
     public function getGenerator()
     {
         if (null === $this->generator) {
-            $this->generator = new DoctrineDocumentGenerator($this->getContainer()->get('filesystem'), $this->getContainer()->get('doctrine.odm.mongodb.document_manager'));
+            $this->generator = new DoctrineDocumentGenerator($this->getFilesystem(), $this->getDocumentManager());
         }
 
         return $this->generator;

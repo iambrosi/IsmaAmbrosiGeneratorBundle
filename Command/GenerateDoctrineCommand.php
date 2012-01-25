@@ -61,4 +61,12 @@ abstract class GenerateDoctrineCommand extends DoctrineCommand
 
         return $metadata;
     }
+
+    /**
+     * @return \Symfony\Component\Filesystem\Filesystem
+     */
+    protected function getFilesystem()
+    {
+        return $this->getContainer()->get('filsystem');
+    }
 }
