@@ -46,7 +46,7 @@ EOT
 
         $metadata = $this->getDocumentMetadata($documentClass);
 
-        $generator = new DoctrineFormGenerator($this->getContainer()->get('filesystem'), __DIR__.'/../Resources/skeleton/form');
+        $generator = new DoctrineFormGenerator($this->getFilesystem(), __DIR__.'/../Resources/skeleton/form');
         $generator->generate($bundle, $document, $metadata);
 
         $output->writeln(sprintf(
