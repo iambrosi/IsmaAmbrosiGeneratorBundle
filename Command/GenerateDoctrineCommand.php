@@ -67,6 +67,6 @@ abstract class GenerateDoctrineCommand extends DoctrineCommand
      */
     protected function getFilesystem()
     {
-        return $this->getContainer()->get('filsystem');
+        return $this->getContainer()->get('filesystem');
     }
 }
