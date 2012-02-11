@@ -25,7 +25,6 @@
             {% else -%}
                 return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
             {%- endif %}
-
         }
 
 {% if 'annotation' == format %}
