@@ -37,6 +37,6 @@ class Validators extends BaseValidators
             throw new \InvalidArgumentException(sprintf('The controller name must end with "Controller" : ("%s" given, expecting something like PostController)', $controller));
         }
 
-        return $controller;
+        return str_replace('/', '\\', $controller);
     }
 }

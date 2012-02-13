@@ -137,6 +137,8 @@ EOT
             'Now you can set the name for the controller. By default, the generator creates',
             'the controller name based on the document.',
             '',
+            'It is recommended to separate namespaces with a "/" instead of the "\\"',
+            ''
         ));
 
         $controllerName = $input->getOption('controller-name') ? $input->getOption('controller-name') : $document;
