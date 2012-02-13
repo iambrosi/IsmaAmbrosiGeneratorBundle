@@ -33,7 +33,7 @@ class Validators extends BaseValidators
 
     static public function validateControllerName($controller)
     {
-        if (preg_match('/[^\w]+$/', $controller)) {
+        if (preg_match('/[^\w\/]+$/', $controller)) {
             throw new \InvalidArgumentException(sprintf('The controller name must end with "Controller" : ("%s" given, expecting something like PostController)', $controller));
         }
 
