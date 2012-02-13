@@ -5,7 +5,7 @@
 {% if 'annotation' == format %}
      * @Route("/create", name="{{ route_name_prefix }}_create")
      * @Method("post")
-     * @Template("{{ bundle }}:{{ document }}:new.html.twig")
+     * @Template("{{ bundle }}:{{ controller_namespace ? controller_namespace|replace({"\\": "/"}) ~ '/' : '' }}{{ document }}:new.html.twig")
 {% endif %}
      */
     public function createAction()

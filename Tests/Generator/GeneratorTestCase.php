@@ -59,6 +59,7 @@ abstract class GeneratorTestCase extends \PHPUnit_Framework_TestCase
         $bundle = $this->getMock('Symfony\Component\HttpKernel\Bundle\BundleInterface');
         $bundle->expects($this->any())->method('getPath')->will($this->returnValue($this->tmpDir));
         $bundle->expects($this->any())->method('getNamespace')->will($this->returnValue('Foo\BarBundle'));
+        $bundle->expects($this->any())->method('getName')->will($this->returnValue('FooBarBundle'));
 
         return $bundle;
     }

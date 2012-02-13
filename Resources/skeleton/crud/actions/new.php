@@ -10,17 +10,17 @@
     public function newAction()
     {
         $document = new {{ document_class }}();
-        $form   = $this->createForm(new {{ document_class }}Type(), $document);
+        $form = $this->createForm(new {{ document_class }}Type(), $document);
 
 {% if 'annotation' == format %}
         return array(
             'document' => $document,
-            'form'   => $form->createView()
+            'form'     => $form->createView()
         );
 {% else %}
         return $this->render('{{ bundle }}:{{ document|replace({'\\': '/'}) }}:new.html.twig', array(
             'document' => $document,
-            'form'   => $form->createView()
+            'form'     => $form->createView()
         ));
 {% endif %}
     }
