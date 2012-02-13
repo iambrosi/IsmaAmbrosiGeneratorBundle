@@ -1,6 +1,6 @@
 <?php
 
-namespace {{ namespace }}\Controller{{ document_namespace ? '\\' ~ document_namespace : '' }};
+namespace {{ namespace }}\Controller{{ controller_namespace ? '\\' ~ controller_namespace : '' }};
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 {% if 'annotation' == format -%}

@@ -5,7 +5,7 @@
 {% if 'annotation' == format %}
      * @Route("/{id}/update", name="{{ route_name_prefix }}_update")
      * @Method("post")
-     * @Template("{{ bundle }}:{{ document }}:edit.html.twig")
+     * @Template("{{ bundle }}:{{ controller_namespace ? controller_namespace|replace({"\\": "/"}) ~ '/' : '' }}{{ document }}:edit.html.twig")
 {% endif %}
      */
     public function updateAction($id)

@@ -23,15 +23,16 @@
 
 {% if 'annotation' == format %}
         return array(
-            'document'      => $document,
+            'document' => $document,
 {% if 'delete' in actions %}
             'delete_form' => $deleteForm->createView(),
 
 {%- endif %}
+
         );
 {% else %}
         return $this->render('{{ bundle }}:{{ document|replace({'\\': '/'}) }}:show.html.twig', array(
-            'document'      => $document,
+            'document' => $document,
 {% if 'delete' in actions %}
             'delete_form' => $deleteForm->createView(),
 
