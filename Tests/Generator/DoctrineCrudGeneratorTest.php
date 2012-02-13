@@ -14,7 +14,7 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
 
     public function testAnnotation()
     {
-        $prefix = 'test/admin/'.strtolower($this->getName());
+        $prefix = $this->getPathPrefix();
         $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
         $generator->generate($this->getTestBundle(), $this->documentName, $this->documentName, $this->metadata, 'annotation', $prefix, false);
 
@@ -23,12 +23,7 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
         require_once $file;
 
         $namespace = $this->getTestBundle()->getNamespace();
-        $this->assertTrue(class_exists($controller = $namespace.'\\Controller\\'.$this->documentName.'Controller'), 'Controller class does not exists');
-        $this->assertTrue(method_exists($controller, 'indexAction'), 'Index action for controller does not exists');
-        $this->assertTrue(method_exists($controller, 'showAction'), 'Show action for controller does not exists');
-        $this->assertFalse(method_exists($controller, 'newAction'), '"new" action for controller does exists');
-        $this->assertFalse(method_exists($controller, 'createAction'), '"create" action for controller does exists');
-        $this->assertFalse(method_exists($controller, 'deleteAction'), '"delete" action for controller does exists');
+        $this->assertControllerWithoutWriteActions($namespace, $this->documentName);
 
         $content = file_get_contents($file);
         $this->assertTrue(false !== strpos($content, '@Route("/'.$prefix.'")'), 'Route annotation not found in class');
@@ -36,7 +31,7 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
 
     public function testAnnotationWithWriteActions()
     {
-        $prefix = 'test/admin/'.strtolower($this->getName());
+        $prefix = $this->getPathPrefix();
         $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
         $generator->generate($this->getTestBundle(), $this->documentName, $this->documentName, $this->metadata, 'annotation', $prefix, true);
 
@@ -45,12 +40,7 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
         require_once $file;
 
         $namespace = $this->getTestBundle()->getNamespace();
-        $this->assertTrue(class_exists($controller = $namespace.'\\Controller\\'.$this->documentName.'Controller'), 'Controller class does not exists');
-        $this->assertTrue(method_exists($controller, 'indexAction'), 'Index action for controller does not exists');
-        $this->assertTrue(method_exists($controller, 'showAction'), 'Show action for controller does not exists');
-        $this->assertTrue(method_exists($controller, 'newAction'), '"new" action for controller does not exists');
-        $this->assertTrue(method_exists($controller, 'createAction'), '"create" action for controller does not exists');
-        $this->assertTrue(method_exists($controller, 'deleteAction'), '"delete" action for controller does not exists');
+        $this->assertControllerWithWriteActions($namespace, $this->documentName);
 
         $content = file_get_contents($file);
         $this->assertTrue(false !== strpos($content, '@Route("/'.$prefix.'")'), 'Route annotation not found in class');
@@ -58,7 +48,7 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
 
     public function testYaml()
     {
-        $prefix = 'test/admin/'.strtolower($this->getName());
+        $prefix = $this->getPathPrefix();
         $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
         $generator->generate($this->getTestBundle(), $this->documentName, $this->documentName, $this->metadata, 'yaml', $prefix, false);
 
@@ -67,12 +57,7 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
         require_once $file;
 
         $namespace = $this->getTestBundle()->getNamespace();
-        $this->assertTrue(class_exists($controller = $namespace.'\\Controller\\'.$this->documentName.'Controller'), 'Controller class does not exists');
-        $this->assertTrue(method_exists($controller, 'indexAction'), 'Index action for controller does not exists');
-        $this->assertTrue(method_exists($controller, 'showAction'), 'Show action for controller does not exists');
-        $this->assertFalse(method_exists($controller, 'newAction'), '"new" action for controller does exists');
-        $this->assertFalse(method_exists($controller, 'createAction'), '"create" action for controller does exists');
-        $this->assertFalse(method_exists($controller, 'deleteAction'), '"delete" action for controller does exists');
+        $this->assertControllerWithoutWriteActions($namespace, $this->documentName);
 
         $content = file_get_contents($file);
         $this->assertTrue(false === strpos($content, '@Route("/'.$prefix.'")'), 'Route annotation not found in class');
@@ -82,7 +67,7 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
 
     public function testYamlWithWriteActions()
     {
-        $prefix = 'test/admin/'.strtolower($this->getName());
+        $prefix = $this->getPathPrefix();
         $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
         $generator->generate($this->getTestBundle(), $this->documentName, $this->documentName, $this->metadata, 'yaml', $prefix, true);
 
@@ -91,12 +76,7 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
         require_once $file;
 
         $namespace = $this->getTestBundle()->getNamespace();
-        $this->assertTrue(class_exists($controller = $namespace.'\\Controller\\'.$this->documentName.'Controller'), 'Controller class does not exists');
-        $this->assertTrue(method_exists($controller, 'indexAction'), 'Index action for controller does not exists');
-        $this->assertTrue(method_exists($controller, 'showAction'), 'Show action for controller does not exists');
-        $this->assertTrue(method_exists($controller, 'newAction'), '"new" action for controller does not exists');
-        $this->assertTrue(method_exists($controller, 'createAction'), '"create" action for controller does not exists');
-        $this->assertTrue(method_exists($controller, 'deleteAction'), '"delete" action for controller does not exists');
+        $this->assertControllerWithWriteActions($namespace, $this->documentName);
 
         $content = file_get_contents($file);
         $this->assertTrue(false === strpos($content, '@Route("/'.$prefix.'")'), 'Route annotation not found in class');
@@ -106,7 +86,7 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
 
     public function testXml()
     {
-        $prefix = 'test/admin/'.strtolower($this->getName());
+        $prefix = $this->getPathPrefix();
         $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
         $generator->generate($this->getTestBundle(), $this->documentName, $this->documentName, $this->metadata, 'xml', $prefix, false);
 
@@ -115,12 +95,7 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
         require_once $file;
 
         $namespace = $this->getTestBundle()->getNamespace();
-        $this->assertTrue(class_exists($controller = $namespace.'\\Controller\\'.$this->documentName.'Controller'), 'Controller class does not exists');
-        $this->assertTrue(method_exists($controller, 'indexAction'), 'Index action for controller does not exists');
-        $this->assertTrue(method_exists($controller, 'showAction'), 'Show action for controller does not exists');
-        $this->assertFalse(method_exists($controller, 'newAction'), '"new" action for controller does exists');
-        $this->assertFalse(method_exists($controller, 'createAction'), '"create" action for controller does exists');
-        $this->assertFalse(method_exists($controller, 'deleteAction'), '"delete" action for controller does exists');
+        $this->assertControllerWithoutWriteActions($namespace, $this->documentName);
 
         $content = file_get_contents($file);
         $this->assertTrue(false === strpos($content, '@Route("/'.$prefix.'")'), 'Route annotation not found in class');
@@ -128,9 +103,9 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
         $this->assertFileExists($this->getTestBundle()->getPath().'/Resources/config/routing/'.strtolower($this->documentName).'.xml', 'Routing file does not exists');
     }
 
-    public function testXmllWithWriteActions()
+    public function testXmlWithWriteActions()
     {
-        $prefix = 'test/admin/'.strtolower($this->getName());
+        $prefix = $this->getPathPrefix();
         $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
         $generator->generate($this->getTestBundle(), $this->documentName, $this->documentName, $this->metadata, 'xml', $prefix, true);
 
@@ -139,16 +114,69 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
         require_once $file;
 
         $namespace = $this->getTestBundle()->getNamespace();
-        $this->assertTrue(class_exists($controller = $namespace.'\\Controller\\'.$this->documentName.'Controller'), 'Controller class does not exists');
+        $this->assertControllerWithWriteActions($namespace, $this->documentName);
+
+        $content = file_get_contents($file);
+        $this->assertTrue(false === strpos($content, '@Route("/'.$prefix.'")'), 'Route annotation not found in class');
+
+        $this->assertFileExists($this->getTestBundle()->getPath().'/Resources/config/routing/'.strtolower($this->documentName).'.xml', 'Routing file does not exists');
+    }
+
+    public function testGeneratorWithDeeperPath()
+    {
+        $prefix = $this->getPathPrefix();
+
+        $controllerName = 'Admin\\Canned\\Message\\'.$this->documentName;
+        $controllerPath = str_replace('\\', DIRECTORY_SEPARATOR, $controllerName);
+        $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
+        $generator->generate($this->getTestBundle(), $this->documentName, $controllerName, $this->metadata, 'annotation', $prefix, true);
+
+        $file = $this->getTestBundle()->getPath().'/Controller/'.$controllerPath.'Controller.php';
+        $this->assertFileExists($file, 'Controller class file does not exists');
+        require_once $file;
+
+        $namespace = $this->getTestBundle()->getNamespace();
+        $this->assertControllerWithWriteActions($namespace, $controllerName);
+
+        $content = file_get_contents($file);
+        $this->assertTrue(false !== strpos($content, '@Route("/'.$prefix.'")'), 'Route annotation not found in class');
+
+    }
+
+    protected function assertControllerWithWriteActions($namespace, $controllerName)
+    {
+        $this->assertTrue(class_exists($controller = $namespace.'\\Controller\\'.$controllerName.'Controller'), 'Controller class does not exists');
         $this->assertTrue(method_exists($controller, 'indexAction'), 'Index action for controller does not exists');
         $this->assertTrue(method_exists($controller, 'showAction'), 'Show action for controller does not exists');
         $this->assertTrue(method_exists($controller, 'newAction'), '"new" action for controller does not exists');
         $this->assertTrue(method_exists($controller, 'createAction'), '"create" action for controller does not exists');
         $this->assertTrue(method_exists($controller, 'deleteAction'), '"delete" action for controller does not exists');
 
-        $content = file_get_contents($file);
-        $this->assertTrue(false === strpos($content, '@Route("/'.$prefix.'")'), 'Route annotation not found in class');
+        $controllerPath = str_replace('\\', '/', $controllerName);
+        $this->assertFileExists($this->getTestBundle()->getPath().'/Resources/views/'.$controllerPath.'/index.html.twig');
+        $this->assertFileExists($this->getTestBundle()->getPath().'/Resources/views/'.$controllerPath.'/show.html.twig');
+        $this->assertFileExists($this->getTestBundle()->getPath().'/Resources/views/'.$controllerPath.'/new.html.twig');
+        $this->assertFileExists($this->getTestBundle()->getPath().'/Resources/views/'.$controllerPath.'/edit.html.twig');
+    }
 
-        $this->assertFileExists($this->getTestBundle()->getPath().'/Resources/config/routing/'.strtolower($this->documentName).'.xml', 'Routing file does not exists');
+    protected function assertControllerWithoutWriteActions($namespace, $controllerName)
+    {
+        $this->assertTrue(class_exists($controller = $namespace.'\\Controller\\'.$controllerName.'Controller'), 'Controller class does not exists');
+        $this->assertTrue(method_exists($controller, 'indexAction'), 'Index action for controller does not exists');
+        $this->assertTrue(method_exists($controller, 'showAction'), 'Show action for controller does not exists');
+        $this->assertFalse(method_exists($controller, 'newAction'), '"new" action for controller does exists');
+        $this->assertFalse(method_exists($controller, 'createAction'), '"create" action for controller does exists');
+        $this->assertFalse(method_exists($controller, 'deleteAction'), '"delete" action for controller does exists');
+
+        $controllerPath = str_replace('\\', '/', $controllerName);
+        $this->assertFileExists($this->getTestBundle()->getPath().'/Resources/views/'.$controllerPath.'/index.html.twig');
+        $this->assertFileExists($this->getTestBundle()->getPath().'/Resources/views/'.$controllerPath.'/show.html.twig');
+        $this->assertFileNotExists($this->getTestBundle()->getPath().'/Resources/views/'.$controllerPath.'/new.html.twig');
+        $this->assertFileNotExists($this->getTestBundle()->getPath().'/Resources/views/'.$controllerPath.'/edit.html.twig');
+    }
+
+    private function getPathPrefix()
+    {
+        return 'test/admin/'.strtolower($this->getName());
     }
 }
