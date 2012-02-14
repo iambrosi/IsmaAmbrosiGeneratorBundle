@@ -55,7 +55,7 @@ class DoctrineCrudGenerator extends Generator
     public function generate(BundleInterface $bundle, $document, $controller, ClassMetadataInfo $metadata, $format, $routePrefix, $needWriteActions)
     {
         $this->routePrefix = $routePrefix;
-        $this->routeNamePrefix = str_replace('/', '_', $routePrefix);
+        $this->routeNamePrefix = preg_replace('/[^\w]+/', '_', $routePrefix);
         $this->actions = $needWriteActions ? array('index', 'show', 'new', 'edit', 'delete') : array('index', 'show');
 
         if (count($metadata->identifier) > 1) {

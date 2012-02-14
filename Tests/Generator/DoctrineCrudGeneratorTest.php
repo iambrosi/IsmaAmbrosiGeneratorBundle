@@ -143,6 +143,27 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
 
     }
 
+    public function testGeneratorWithInvalidCharsOnRoutePrefix()
+    {
+        $prefix = 'my-very-strange-prefix';
+        $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
+        $generator->generate($this->getTestBundle(), $this->documentName, $this->documentName, $this->metadata, 'annotation', $prefix, true);
+
+        $file = $this->getTestBundle()->getPath().'/Controller/'.$this->documentName.'Controller.php';
+        $classContent = file_get_contents($file);
+
+        $this->assertFalse((bool)preg_match('/.*\@Route\(\"([\w\/\-\{\}]+)\", name="([^\w\_]+)"\).*/', $classContent));
+
+        $this->assertFileExists($file, 'Controller class file does not exists');
+        require_once $file;
+
+        $namespace = $this->getTestBundle()->getNamespace();
+        $this->assertControllerWithWriteActions($namespace, $this->documentName);
+
+        $content = file_get_contents($file);
+        $this->assertTrue(false !== strpos($content, '@Route("/'.$prefix.'")'), 'Route annotation not found in class');
+    }
+
     protected function assertControllerWithWriteActions($namespace, $controllerName)
     {
         $this->assertTrue(class_exists($controller = $namespace.'\\Controller\\'.$controllerName.'Controller'), 'Controller class does not exists');
