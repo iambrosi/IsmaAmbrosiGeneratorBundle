@@ -21,6 +21,8 @@ class DoctrineCrudGenerator extends Generator
 
     private $document;
 
+    private $controller;
+
     private $metadata;
 
     private $format;
@@ -55,7 +57,7 @@ class DoctrineCrudGenerator extends Generator
     public function generate(BundleInterface $bundle, $document, $controller, ClassMetadataInfo $metadata, $format, $routePrefix, $needWriteActions)
     {
         $this->routePrefix = $routePrefix;
-        $this->routeNamePrefix = str_replace('/', '_', $routePrefix);
+        $this->routeNamePrefix = preg_replace('/[^\w]+/', '_', $routePrefix);
         $this->actions = $needWriteActions ? array('index', 'show', 'new', 'edit', 'delete') : array('index', 'show');
 
         if (count($metadata->identifier) > 1) {
@@ -71,10 +73,11 @@ class DoctrineCrudGenerator extends Generator
         $this->metadata = $metadata;
         $this->setFormat($format);
 
-        $this->generateControllerClass($controller);
-        $controllerPath = str_replace('\\', DIRECTORY_SEPARATOR, $controller);
+        $this->controller = $controller;
 
-        $dir = sprintf('%s/Resources/views/%s', $this->bundle->getPath(), $controllerPath);
+        $this->generateControllerClass();
+
+        $dir = sprintf('%s/Resources/views/%s', $this->bundle->getPath(), str_replace('\\', DIRECTORY_SEPARATOR, $this->controller));
 
         if (!file_exists($dir)) {
             $this->filesystem->mkdir($dir, 0777);
@@ -148,27 +151,19 @@ class DoctrineCrudGenerator extends Generator
      * Generates the controller class only.
      *
      */
-    private function generateControllerClass($name = null)
+    private function generateControllerClass()
     {
         $dir = $this->bundle->getPath();
 
-        $parts = explode('\\', $this->document);
-        $documentClass = array_pop($parts);
-        $documentNamespace = implode('\\', $parts);
+        $documentParts = explode('\\', $this->document);
+        $documentClass = array_pop($documentParts);
 
-        $namespace = $documentNamespace;
-
-        if (!is_null($name)) {
-            $parts = explode('\\', $name);
-            $controllerClass = array_pop($parts);
-            $controllerNamespace = implode('\\', $parts);
-
-            $namespace = $documentNamespace;
-            if (!empty($controllerNamespace)) {
-                $namespace .= $controllerNamespace;
-            }
+        $controllerParts = explode('\\', $this->controller);
+        $controllerClass = array_pop($controllerParts);
+        if (false !== strpos($this->controller, '\\')) {
+            $namespace = implode('\\', $controllerParts);
         } else {
-            $controllerClass = $documentClass;
+            $namespace = implode('\\', $documentParts);
         }
 
         $target = sprintf(
@@ -203,22 +198,30 @@ class DoctrineCrudGenerator extends Generator
      */
     private function generateTestClass()
     {
-        $parts = explode('\\', $this->document);
-        $documentClass = array_pop($parts);
-        $documentNamespace = implode('\\', $parts);
+        $documentParts = explode('\\', $this->document);
+        $documentClass = array_pop($documentParts);
+
+        $controllerParts = explode('\\', $this->controller);
+        $controllerClass = array_pop($controllerParts);
+        if (false !== strpos($this->controller, '\\')) {
+            $namespace = implode('\\', $controllerParts);
+        } else {
+            $namespace = implode('\\', $documentParts);
+        }
 
         $dir = $this->bundle->getPath().'/Tests/Controller';
-        $target = $dir.'/'.str_replace('\\', '/', $documentNamespace).'/'.$documentClass.'ControllerTest.php';
+        $target = $dir.'/'.str_replace('\\', '/', $namespace).'/'.$controllerClass.'ControllerTest.php';
 
         $this->renderFile($this->skeletonDir, 'tests/test.php', $target, array(
-            'route_prefix'        => $this->routePrefix,
-            'route_name_prefix'   => $this->routeNamePrefix,
-            'document'            => $this->document,
-            'document_class'      => $documentClass,
-            'namespace'           => $this->bundle->getNamespace(),
-            'document_namespace'  => $documentNamespace,
-            'actions'             => $this->actions,
-            'dir'                 => $this->skeletonDir,
+            'route_prefix'         => $this->routePrefix,
+            'route_name_prefix'    => $this->routeNamePrefix,
+            'document'             => $this->document,
+            'document_class'       => $documentClass,
+            'namespace'            => $this->bundle->getNamespace(),
+            'controller_class'     => $controllerClass,
+            'controller_namespace' => $namespace,
+            'actions'              => $this->actions,
+            'dir'                  => $this->skeletonDir,
         ));
     }
 

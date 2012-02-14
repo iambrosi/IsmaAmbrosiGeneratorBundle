@@ -1,10 +1,10 @@
 <?php
 
-namespace {{ namespace }}\Tests\Controller{{ document_namespace ? '\\' ~ document_namespace : '' }};
+namespace {{ namespace }}\Tests\Controller{{ controller_namespace ? '\\' ~ controller_namespace : '' }};
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class {{ document_class }}ControllerTest extends WebTestCase
+class {{ controller_class }}ControllerTest extends WebTestCase
 {
     /*
 
