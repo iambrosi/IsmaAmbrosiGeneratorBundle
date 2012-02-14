@@ -178,6 +178,8 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
         $this->assertFileExists($this->getTestBundle()->getPath().'/Resources/views/'.$controllerPath.'/show.html.twig');
         $this->assertFileExists($this->getTestBundle()->getPath().'/Resources/views/'.$controllerPath.'/new.html.twig');
         $this->assertFileExists($this->getTestBundle()->getPath().'/Resources/views/'.$controllerPath.'/edit.html.twig');
+
+        $this->assertFileExists($this->getTestBundle()->getPath().'/Tests/Controller/'.$controllerPath.'ControllerTest.php');
     }
 
     protected function assertControllerWithoutWriteActions($namespace, $controllerName)
@@ -194,6 +196,8 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
         $this->assertFileExists($this->getTestBundle()->getPath().'/Resources/views/'.$controllerPath.'/show.html.twig');
         $this->assertFileNotExists($this->getTestBundle()->getPath().'/Resources/views/'.$controllerPath.'/new.html.twig');
         $this->assertFileNotExists($this->getTestBundle()->getPath().'/Resources/views/'.$controllerPath.'/edit.html.twig');
+
+        $this->assertFileExists($this->getTestBundle()->getPath().'/Tests/Controller/'.$controllerPath.'ControllerTest.php');
     }
 
     private function getPathPrefix()
