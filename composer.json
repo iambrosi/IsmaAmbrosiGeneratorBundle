@@ -1,0 +1,15 @@
+{
+    "name": "IsmaAmbrosi/GeneratorBundle",
+    "description": "Generates Symfony2 documents, forms and CRUD",
+    "require": {
+        "sensio/generator-bundle": "dev-master",
+        "doctrine/mongodb-odm": "dev-master",
+        "twig/extensions": "dev-master"
+    },
+    "authors": [
+        {
+            "name": "Ismael Ambrosi",
+            "email": "ismaambrosi@gmail.com"
+        }
+    ]
+}
