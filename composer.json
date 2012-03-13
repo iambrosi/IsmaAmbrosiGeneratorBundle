@@ -1,5 +1,5 @@
 {
-    "name": "IsmaAmbrosi/GeneratorBundle",
+    "name": "ismaambrosi/generator-bundle",
     "description": "Generates Symfony2 documents, forms and CRUD",
     "require": {
         "sensio/generator-bundle": "dev-master",
@@ -11,5 +11,11 @@
             "name": "Ismael Ambrosi",
             "email": "ismaambrosi@gmail.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-0": {
+            "IsmaAmbrosi\\Bundle\\GeneratorBundle": ""
+        }
+    },
+    "target-dir": "IsmaAmbrosi/Bundle/GeneratorBundle"
 }

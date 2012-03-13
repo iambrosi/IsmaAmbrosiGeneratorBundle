@@ -1,22 +1,20 @@
 <?php
 
-/** @var $loader \Composer\Autoload\ClassLoader */
-if (!$loader = include __DIR__.'/../vendor/.composer/autoload.php') {
-    $nl = PHP_SAPI === 'cli' ? PHP_EOL : '<br />';
-    echo "$nl$nl";
-    if (is_writable(dirname(__DIR__)) && $installer = @file_get_contents('http://getcomposer.org/installer')) {
-        echo 'You must set up the project dependencies.'.$nl;
-        $installerPath = dirname(__DIR__).'/install-composer.php';
-        file_put_contents($installerPath, $installer);
-        echo 'The composer installer has been downloaded in '.$installerPath.$nl;
-        die('Run the following commands in '.dirname(__DIR__).':'.$nl.$nl.
-            'php install-composer.php'.$nl.
-            'php composer.phar install'.$nl);
-    }
-    die('You must set up the project dependencies.'.$nl.
-        'Run the following commands in '.dirname(__DIR__).':'.$nl.$nl.
-        'curl -s http://getcomposer.org/installer | php'.$nl.
-        'php composer.phar install'.$nl);
+if (!is_readable($file = __DIR__.'/../vendor/.composer/autoload.php')) {
+    throw new RuntimeException('You must install dependencies before running any tests');
 }
 
-$loader->add('IsmaAmbrosi\\Bundle\\GeneratorBundle', __DIR__.'/../../../..');
+require $file;
+
+spl_autoload_register(function($class) {
+    if (0 === strpos($class, 'IsmaAmbrosi\\Bundle\\GeneratorBundle\\')) {
+        $path = __DIR__.'/../'.implode('/', array_slice(explode('\\', $class), 3)).'.php';
+        if (!stream_resolve_include_path($path)) {
+            return false;
+        }
+
+        require_once $path;
+
+        return true;
+    }
+});
