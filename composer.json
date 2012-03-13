@@ -1,6 +1,8 @@
 {
     "name": "ismaambrosi/generator-bundle",
     "description": "Generates Symfony2 documents, forms and CRUD",
+    "type": "symfony-bundle",
+    "licence": "MIT",
     "require": {
         "sensio/generator-bundle": "dev-master",
         "doctrine/mongodb-odm": "dev-master",
