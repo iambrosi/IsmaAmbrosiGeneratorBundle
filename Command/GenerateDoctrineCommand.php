@@ -2,9 +2,9 @@
 
 namespace IsmaAmbrosi\Bundle\GeneratorBundle\Command;
 
-use Symfony\Bundle\DoctrineBundle\Command\DoctrineCommand;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
-abstract class GenerateDoctrineCommand extends DoctrineCommand
+abstract class GenerateDoctrineCommand extends ContainerAwareCommand
 {
 
     protected function parseShortcutNotation($shortcut)
