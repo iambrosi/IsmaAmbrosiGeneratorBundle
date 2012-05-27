@@ -33,12 +33,14 @@
         }
 
 {% if 'annotation' == format %}
+
         return array(
             'document'    => $document,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
 {% else %}
+
         return $this->render('{{ bundle }}:{{ document|replace({'\\': '/'}) }}:edit.html.twig', array(
             'document'    => $document,
             'edit_form'   => $editForm->createView(),

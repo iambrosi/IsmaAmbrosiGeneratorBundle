@@ -81,7 +81,7 @@ class DoctrineFormGenerator extends Generator
      */
     private function getFieldsFromMetadata(ClassMetadataInfo $metadata)
     {
-        $fields = (array)$metadata->getFieldNames();
+        $fields = (array) $metadata->getFieldNames();
 
         // Remove the primary key field if it's not managed manually
         if ($metadata->isIdGeneratorAuto()) {

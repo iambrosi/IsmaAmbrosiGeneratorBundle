@@ -22,7 +22,7 @@ class Validators extends BaseValidators
      * @return mixed
      * @throws \InvalidArgumentException
      */
-    static public function validateDocumentName($document)
+    public static function validateDocumentName($document)
     {
         if (false === $pos = strpos($document, ':')) {
             throw new \InvalidArgumentException(sprintf('The document name must contain a : ("%s" given, expecting something like AcmeBlogBundle:Blog/Post)', $document));
@@ -31,7 +31,7 @@ class Validators extends BaseValidators
         return $document;
     }
 
-    static public function validateControllerName($controller)
+    public static function validateControllerName($controller)
     {
         if (preg_match('/[^\w\/]+$/', $controller)) {
             throw new \InvalidArgumentException(sprintf('The controller name must end with "Controller" : ("%s" given, expecting something like PostController)', $controller));

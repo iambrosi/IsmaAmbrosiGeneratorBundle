@@ -4,9 +4,7 @@ namespace {{ namespace }}\Controller{{ controller_namespace ? '\\' ~ controller_
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 {% if 'annotation' == format -%}
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 {%- endif %}
 
 use {{ namespace }}\Document\{{ document }};

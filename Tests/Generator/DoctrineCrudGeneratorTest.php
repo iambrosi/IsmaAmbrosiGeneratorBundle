@@ -152,7 +152,7 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
         $file = $this->getTestBundle()->getPath().'/Controller/'.$this->documentName.'Controller.php';
         $classContent = file_get_contents($file);
 
-        $this->assertFalse((bool)preg_match('/.*\@Route\(\"([\w\/\-\{\}]+)\", name="([^\w\_]+)"\).*/', $classContent));
+        $this->assertFalse((bool) preg_match('/.*\@Route\(\"([\w\/\-\{\}]+)\", name="([^\w\_]+)"\).*/', $classContent));
 
         $this->assertFileExists($file, 'Controller class file does not exists');
         require_once $file;
