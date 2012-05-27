@@ -1,6 +1,6 @@
 <?php
 
-if (!is_readable($file = __DIR__.'/../vendor/.composer/autoload.php')) {
+if (!is_readable($file = __DIR__.'/../vendor/autoload.php')) {
     throw new RuntimeException('You must install dependencies before running any tests');
 }
 
