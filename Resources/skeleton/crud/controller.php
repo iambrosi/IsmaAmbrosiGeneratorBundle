@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 {% if 'annotation' == format -%}
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 {%- endif %}
-
 use {{ namespace }}\Document\{{ document }};
 {% if 'new' in actions or 'edit' in actions %}
 use {{ namespace }}\Form\{{ document }}Type;
@@ -14,8 +13,8 @@ use {{ namespace }}\Form\{{ document }}Type;
 
 /**
  * {{ document }} controller.
- *
 {% if 'annotation' == format %}
+ *
  * @Route("/{{ route_prefix }}")
 {% endif %}
  */
