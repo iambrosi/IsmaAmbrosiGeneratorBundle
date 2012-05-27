@@ -16,8 +16,6 @@
 {% if 'annotation' == format %}
         return array('documents' => $documents);
 {% else %}
-        return $this->render('{{ bundle }}:{{ document|replace({'\\': '/'}) }}:index.html.twig', array(
-            'documents' => $documents
-        ));
+        return $this->render('{{ bundle }}:{{ document|replace({'\\': '/'}) }}:index.html.twig', array('documents' => $documents));
 {% endif %}
     }
