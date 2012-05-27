@@ -21,23 +21,19 @@
             $dm->flush();
 
             {% if 'show' in actions -%}
-
                 return $this->redirect($this->generateUrl('{{ route_name_prefix }}_show', array('id' => $document->getId())));
             {% else -%}
-
                 return $this->redirect($this->generateUrl('{{ route_name_prefix }}'));
             {%- endif %}
 
         }
 
 {% if 'annotation' == format %}
-
         return array(
             'document' => $document,
             'form'     => $form->createView()
         );
 {% else %}
-
         return $this->render('{{ bundle }}:{{ document|replace({'\\': '/'}) }}:new.html.twig', array(
             'document' => $document,
             'form'     => $form->createView()

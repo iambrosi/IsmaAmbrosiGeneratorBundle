@@ -20,25 +20,27 @@
 
         $deleteForm = $this->createDeleteForm($id);
 {% endif %}
-
 {% if 'annotation' == format %}
+    {% if 'delete' in actions %}
 
         return array(
             'document' => $document,
-{% if 'delete' in actions %}
             'delete_form' => $deleteForm->createView(),
-
-{%- endif %}
-
         );
+    {% else %}
+
+        return array('document' => $document);
+    {% endif %}
 {% else %}
+    {% if 'delete' in actions %}
 
         return $this->render('{{ bundle }}:{{ document|replace({'\\': '/'}) }}:show.html.twig', array(
             'document' => $document,
-{% if 'delete' in actions %}
             'delete_form' => $deleteForm->createView(),
-
-{% endif %}
         ));
+    {% else %}
+
+        return $this->render('{{ bundle }}:{{ document|replace({'\\': '/'}) }}:show.html.twig', array('document' => $document));
+    {% endif %}
 {% endif %}
-    }
+}
