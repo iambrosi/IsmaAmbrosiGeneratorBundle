@@ -5,7 +5,17 @@
 {% if 'annotation' == format %}
      * @Route("/{id}/show", name="{{ route_name_prefix }}_show")
      * @Template()
+     *
+     * @param string $id The document ID
+     *
+     * @return array
+{% else %}
+     * @param string $id The document ID
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
 {% endif %}
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
     public function showAction($id)
     {

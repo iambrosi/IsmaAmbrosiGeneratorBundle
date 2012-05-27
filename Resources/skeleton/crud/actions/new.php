@@ -5,6 +5,10 @@
 {% if 'annotation' == format %}
      * @Route("/new", name="{{ route_name_prefix }}_new")
      * @Template()
+     *
+     * @return array
+{% else %}
+     * @return \Symfony\Component\HttpFoundation\Response
 {% endif %}
      */
     public function newAction()

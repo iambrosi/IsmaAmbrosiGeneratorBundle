@@ -6,6 +6,10 @@
      * @Route("/create", name="{{ route_name_prefix }}_create")
      * @Method("post")
      * @Template("{{ bundle }}:{{ controller_namespace ? controller_namespace|replace({"\\": "/"}) ~ '/' : '' }}{{ document }}:new.html.twig")
+     *
+     * @return array
+{% else %}
+     * @return \Symfony\Component\HttpFoundation\Response
 {% endif %}
      */
     public function createAction()

@@ -5,6 +5,10 @@
 {% if 'annotation' == format %}
      * @Route("/", name="{{ route_name_prefix }}")
      * @Template()
+     *
+     * @return array
+{% else %}
+     * @return \Symfony\Component\HttpFoundation\Response
 {% endif %}
      */
     public function indexAction()

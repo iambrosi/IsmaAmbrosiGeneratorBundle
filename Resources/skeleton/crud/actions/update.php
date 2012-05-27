@@ -6,7 +6,17 @@
      * @Route("/{id}/update", name="{{ route_name_prefix }}_update")
      * @Method("post")
      * @Template("{{ bundle }}:{{ controller_namespace ? controller_namespace|replace({"\\": "/"}) ~ '/' : '' }}{{ document }}:edit.html.twig")
+     *
+     * @param string $id The document ID
+     *
+     * @return array
+{% else %}
+     * @param string $id The document ID
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
 {% endif %}
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
     public function updateAction($id)
     {
