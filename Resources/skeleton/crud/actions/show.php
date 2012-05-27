@@ -22,6 +22,7 @@
 {% endif %}
 
 {% if 'annotation' == format %}
+
         return array(
             'document' => $document,
 {% if 'delete' in actions %}
@@ -31,6 +32,7 @@
 
         );
 {% else %}
+
         return $this->render('{{ bundle }}:{{ document|replace({'\\': '/'}) }}:show.html.twig', array(
             'document' => $document,
 {% if 'delete' in actions %}

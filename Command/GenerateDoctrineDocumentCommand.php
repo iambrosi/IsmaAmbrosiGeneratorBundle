@@ -211,8 +211,7 @@ EOT
         }
         $output->writeln('');
 
-        $fieldValidator = function ($type) use ($types)
-        {
+        $fieldValidator = function ($type) use ($types) {
             // FIXME: take into account user-defined field types
             if (!in_array($type, $types)) {
                 throw new \InvalidArgumentException(sprintf('Invalid type "%s".', $type));
@@ -221,8 +220,7 @@ EOT
             return $type;
         };
 
-        $lengthValidator = function ($length)
-        {
+        $lengthValidator = function ($length) {
             if (!$length) {
                 return $length;
             }
@@ -241,8 +239,7 @@ EOT
         while (true) {
             $output->writeln('');
             $self = $this;
-            $name = $dialog->askAndValidate($output, $dialog->getQuestion('New field name (press <return> to stop adding fields)', null), function ($name) use ($fields, $self)
-            {
+            $name = $dialog->askAndValidate($output, $dialog->getQuestion('New field name (press <return> to stop adding fields)', null), function ($name) use ($fields, $self) {
                 if (isset($fields[$name]) || 'id' == $name) {
                     throw new \InvalidArgumentException(sprintf('Field "%s" is already defined.', $name));
                 }
@@ -257,7 +254,7 @@ EOT
 
             if (substr($name, -3) == '_at') {
                 $defaultType = 'timestamp';
-            } else if (substr($name, -3) == '_id') {
+            } elseif (substr($name, -3) == '_id') {
                 $defaultType = 'int';
             }
 

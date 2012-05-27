@@ -32,7 +32,7 @@ class DoctrineCrudGenerator extends Generator
     /**
      * Constructor.
      *
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem A Filesystem instance
+     * @param \Symfony\Component\Filesystem\Filesystem $filesystem  A Filesystem instance
      * @param string                                   $skeletonDir Path to the skeleton directory
      */
     public function __construct(Filesystem $filesystem, $skeletonDir)
@@ -44,10 +44,10 @@ class DoctrineCrudGenerator extends Generator
     /**
      * Generate the CRUD controller.
      *
-     * @param \Symfony\Component\HttpKernel\Bundle\BundleInterface $bundle A bundle object
-     * @param string                                               $document The document relative class name
-     * @param string                                               $controller The controller name
-     * @param \Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo      $metadata The document class metadata
+     * @param \Symfony\Component\HttpKernel\Bundle\BundleInterface $bundle           A bundle object
+     * @param string                                               $document         The document relative class name
+     * @param string                                               $controller       The controller name
+     * @param \Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo      $metadata         The document class metadata
      * @param string                                               $format
      * @param string                                               $routePrefix
      * @param boolean                                              $needWriteActions
@@ -299,8 +299,7 @@ class DoctrineCrudGenerator extends Generator
      */
     private function getRecordActions()
     {
-        return array_filter($this->actions, function($item)
-        {
+        return array_filter($this->actions, function($item) {
             return in_array($item, array('show', 'edit'));
         });
     }
