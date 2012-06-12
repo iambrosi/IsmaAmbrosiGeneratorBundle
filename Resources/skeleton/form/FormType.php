@@ -3,11 +3,11 @@
 namespace {{ namespace }}\Form{{ document_namespace ? '\\' ~ document_namespace : '' }};
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class {{ form_class }} extends AbstractType
 {
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
         {%- for field in fields %}
