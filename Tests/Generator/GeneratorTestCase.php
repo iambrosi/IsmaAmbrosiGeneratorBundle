@@ -13,9 +13,16 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 abstract class GeneratorTestCase extends \PHPUnit_Framework_TestCase
 {
 
+    /** @var string */
     protected $tmpDir;
+
+    /** @var string */
     protected $documentName;
+
+    /** @var ClassMetadataInfo */
     protected $metadata;
+
+    /** @var Filesystem */
     protected $filesystem;
 
     protected function setUp()
@@ -25,7 +32,7 @@ abstract class GeneratorTestCase extends \PHPUnit_Framework_TestCase
         $this->filesystem = new Filesystem();
 
         $this->documentName = ucfirst($this->getName());
-        $this->tmpDir = sys_get_temp_dir().'/ismaambrosi';
+        $this->tmpDir       = sys_get_temp_dir().'/ismaambrosi';
 
         $this->metadata = new ClassMetadataInfo($this->documentName);
         $this->metadata->mapField(array(
