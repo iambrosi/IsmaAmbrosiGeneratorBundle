@@ -1,23 +1,22 @@
 {
     "name": "ismaambrosi/generator-bundle",
     "description": "Generates Symfony2 documents, forms and CRUD",
+    "keywords": [],
     "type": "symfony-bundle",
-    "licence": "MIT",
-    "require": {
-        "sensio/generator-bundle": "2.0.x-dev",
-        "doctrine/mongodb-odm": "dev-master",
-        "twig/extensions": "dev-master"
-    },
+    "license": "MIT",
     "authors": [
         {
             "name": "Ismael Ambrosi",
             "email": "ismaambrosi@gmail.com"
         }
     ],
+    "require": {
+        "sensio/generator-bundle": "2.0.x-dev",
+        "doctrine/mongodb-odm": "dev-master",
+        "doctrine/mongodb": "dev-master"
+    },
     "autoload": {
-        "psr-0": {
-            "IsmaAmbrosi\\Bundle\\GeneratorBundle": ""
-        }
+        "psr-0": { "IsmaAmbrosi\\Bundle\\GeneratorBundle": "" }
     },
     "target-dir": "IsmaAmbrosi/Bundle/GeneratorBundle"
 }
