@@ -1,8 +1,7 @@
 IsmaAmbrosiGeneratorBundle
 ==========================
 
-* Master: [![Build Status](https://secure.travis-ci.org/iambrosi/IsmaAmbrosiGeneratorBundle.png?branch=master)](http://travis-ci.org/iambrosi/IsmaAmbrosiGeneratorBundle)
-* 2.0: [![Build Status](https://secure.travis-ci.org/iambrosi/IsmaAmbrosiGeneratorBundle.png?branch=2.0)](http://travis-ci.org/iambrosi/IsmaAmbrosiGeneratorBundle)
+[![Build Status](https://secure.travis-ci.org/iambrosi/IsmaAmbrosiGeneratorBundle.png?branch=2.0)](http://travis-ci.org/iambrosi/IsmaAmbrosiGeneratorBundle)
 
 This bundle extends the commands provided by [SensioGeneratorBundle](https://github.com/sensio/SensioGeneratorBundle), adding a MongoDB document generator and CRUD generators for these MongoDB documents.
 
@@ -52,7 +51,7 @@ $loader->registerNamespaces(array(
 // app/AppKernel.php
 
 public function registerBundles()
-{	
+{
 	// ...
 	if (in_array($this->getEnvironment(), array('dev', 'test'))) {
 		// ...
