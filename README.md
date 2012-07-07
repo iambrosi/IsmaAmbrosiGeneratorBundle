@@ -22,9 +22,11 @@ $ git submodule add git://github.com/iambrosi/IsmaAmbrosiGeneratorBundle.git ven
 
 Add the following lines to your deps file:
 
-    [IsmaAmbrosiGeneratorBundle]
-        git=git://github.com/iambrosi/IsmaAmbrosiGeneratorBundle.git
-        target=/bundles/IsmaAmbrosi/Bundle/GeneratorBundle
+```ini
+[IsmaAmbrosiGeneratorBundle]
+git=git://github.com/iambrosi/IsmaAmbrosiGeneratorBundle.git
+target="bundles/IsmaAmbrosi/Bundle/GeneratorBundle
+```
 
 And then run the vendors script:
 
