@@ -4,9 +4,9 @@
     "type": "symfony-bundle",
     "licence": "MIT",
     "require": {
-        "sensio/generator-bundle": "dev-master",
-        "doctrine/mongodb-odm": "dev-master",
-        "twig/extensions": "dev-master"
+        "sensio/generator-bundle": "2.1.x-dev",
+        "symfony/framework-bundle": "2.1.x-dev",
+        "doctrine/mongodb-odm": "dev-master"
     },
     "authors": [
         {
@@ -19,5 +19,18 @@
             "IsmaAmbrosi\\Bundle\\GeneratorBundle": ""
         }
     },
-    "target-dir": "IsmaAmbrosi/Bundle/GeneratorBundle"
+    "target-dir": "IsmaAmbrosi/Bundle/GeneratorBundle",
+    "require-dev": {
+        "symfony/dependency-injection": "2.1.x-dev",
+        "symfony/config": "2.1.x-dev",
+        "symfony/event-dispatcher": "2.1.x-dev",
+        "symfony/http-kernel": "2.1.x-dev",
+        "symfony/filesystem": "2.1.x-dev",
+        "symfony/routing": "2.1.x-dev",
+        "symfony/templating": "2.1.x-dev",
+        "symfony/translation": "2.1.x-dev",
+        "symfony/http-foundation": "2.1.x-dev",
+        "doctrine/mongodb": "dev-master",
+        "twig/twig": "1.8,<2.0-dev"
+    }
 }
