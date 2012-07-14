@@ -18,7 +18,7 @@ class DoctrineDocumentGenerator extends Generator
 {
 
     /**
-     * @var \Symfony\Component\Filesystem\Filesystem
+     * @var \Symfony\Component\HttpKernel\Util\Filesystem
      */
     private $filesystem;
 
@@ -30,8 +30,8 @@ class DoctrineDocumentGenerator extends Generator
     /**
      * Constructor
      *
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
-     * @param \Doctrine\ODM\MongoDB\DocumentManager    $documentManager
+     * @param \Symfony\Component\HttpKernel\Util\Filesystem $filesystem
+     * @param \Doctrine\ODM\MongoDB\DocumentManager         $documentManager
      */
     public function __construct(Filesystem $filesystem, DocumentManager $documentManager)
     {

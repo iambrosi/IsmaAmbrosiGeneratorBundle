@@ -72,7 +72,7 @@ abstract class GeneratorTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Symfony\Component\Filesystem\Filesystem
+     * @return \Symfony\Component\HttpKernel\Util\Filesystem
      */
     protected function getFilesystem()
     {

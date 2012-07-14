@@ -33,8 +33,8 @@ class DoctrineCrudGenerator extends Generator
     /**
      * Constructor.
      *
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem  A Filesystem instance
-     * @param string                                   $skeletonDir Path to the skeleton directory
+     * @param \Symfony\Component\HttpKernel\Util\Filesystem $filesystem  A Filesystem instance
+     * @param string                                        $skeletonDir Path to the skeleton directory
      */
     public function __construct(Filesystem $filesystem, $skeletonDir)
     {
