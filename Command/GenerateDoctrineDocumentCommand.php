@@ -171,11 +171,11 @@ EOT
         $fields = array();
         foreach (explode(' ', $input) as $value) {
             $elements = explode(':', $value);
-            $name = $elements[0];
+            $name     = $elements[0];
             if (strlen($name)) {
                 $type = isset($elements[1]) ? $elements[1] : 'string';
                 preg_match_all('/(.*)\((.*)\)/', $type, $matches);
-                $type = isset($matches[1][0]) ? $matches[1][0] : $type;
+                $type   = isset($matches[1][0]) ? $matches[1][0] : $type;
                 $length = isset($matches[2][0]) ? $matches[2][0] : null;
 
                 $fields[$name] = array(
@@ -229,6 +229,7 @@ EOT
         while (true) {
             $output->writeln('');
             $self = $this;
+
             $name = $dialog->askAndValidate($output, $dialog->getQuestion('New field name (press <return> to stop adding fields)', null), function ($name) use ($fields, $self) {
                 if (isset($fields[$name]) || 'id' == $name) {
                     throw new \InvalidArgumentException(sprintf('Field "%s" is already defined.', $name));
@@ -236,6 +237,7 @@ EOT
 
                 return $name;
             });
+
             if (!$name) {
                 break;
             }
@@ -244,8 +246,6 @@ EOT
 
             if (substr($name, -3) == '_at') {
                 $defaultType = 'timestamp';
-            } elseif (substr($name, -3) == '_id') {
-                $defaultType = 'int';
             }
 
             $type = $dialog->askAndValidate($output, $dialog->getQuestion('Field type', $defaultType), $fieldValidator, false, $defaultType);

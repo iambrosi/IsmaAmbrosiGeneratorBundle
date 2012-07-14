@@ -35,7 +35,7 @@ class DoctrineDocumentGenerator extends Generator
      */
     public function __construct(Filesystem $filesystem, DocumentManager $documentManager)
     {
-        $this->filesystem = $filesystem;
+        $this->filesystem      = $filesystem;
         $this->documentManager = $documentManager;
     }
 
@@ -45,7 +45,7 @@ class DoctrineDocumentGenerator extends Generator
         $config->addDocumentNamespace($bundle->getName(), $bundle->getNamespace().'\\Document');
 
         $documentClass = $config->getDocumentNamespace($bundle->getName()).'\\'.$document;
-        $documentPath = $bundle->getPath().'/Document/'.str_replace('\\', '/', $document).'.php';
+        $documentPath  = $bundle->getPath().'/Document/'.str_replace('\\', '/', $document).'.php';
         if (file_exists($documentPath)) {
             throw new \RuntimeException(sprintf('Document "%s" already exists.', $documentClass));
         }
@@ -66,7 +66,7 @@ class DoctrineDocumentGenerator extends Generator
         }
 
         $documentGenerator = $this->getDocumentGenerator();
-        $documentCode = $documentGenerator->generateDocumentClass($class);
+        $documentCode      = $documentGenerator->generateDocumentClass($class);
 
         $this->filesystem->mkdir(dirname($documentPath));
         file_put_contents($documentPath, $documentCode, LOCK_EX);
@@ -77,6 +77,9 @@ class DoctrineDocumentGenerator extends Generator
         }
     }
 
+    /**
+     * @return \Doctrine\ODM\MongoDB\Tools\DocumentGenerator
+     */
     protected function getDocumentGenerator()
     {
         $documentGenerator = new DocumentGenerator();
@@ -89,6 +92,9 @@ class DoctrineDocumentGenerator extends Generator
         return $documentGenerator;
     }
 
+    /**
+     * @return \Doctrine\ODM\MongoDB\Tools\DocumentRepositoryGenerator
+     */
     protected function getRepositoryGenerator()
     {
         return new DocumentRepositoryGenerator();
