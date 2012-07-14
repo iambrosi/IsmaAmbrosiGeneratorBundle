@@ -115,7 +115,7 @@ EOT
             'This command helps you generate CRUD controllers and templates.',
             '',
             'First, you need to give the document for which you want to generate a CRUD.',
-            'You can give an document that does not exist yet and the wizard will help',
+            'You can give a document that does not exist yet and the wizard will help',
             'you defining it.',
             '',
             'You must use the shortcut notation like <comment>AcmeBlogBundle:Post</comment>.',
