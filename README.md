@@ -49,11 +49,11 @@ $loader->registerNamespaces(array(
 
 public function registerBundles()
 {
-	// ...
-	if (in_array($this->getEnvironment(), array('dev', 'test'))) {
-		// ...
-    	$bundles[] = new IsmaAmbrosi\Bundle\GeneratorBundle\IsmaAmbrosiGeneratorBundle();
-	}
+    // ...
+    if (in_array($this->getEnvironment(), array('dev', 'test'))) {
+        // ...
+        $bundles[] = new IsmaAmbrosi\Bundle\GeneratorBundle\IsmaAmbrosiGeneratorBundle();
+    }
 }
 ```
 It is recommended to disable this bundle on the production environment.
