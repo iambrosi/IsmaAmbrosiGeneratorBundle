@@ -2,7 +2,7 @@
 
 namespace IsmaAmbrosi\Bundle\GeneratorBundle\Tests\Generator;
 
-use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpKernel\Util\Filesystem;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 
 /**
