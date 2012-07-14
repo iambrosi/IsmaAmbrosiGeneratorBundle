@@ -25,7 +25,8 @@ Add the following lines to your deps file:
 ```ini
 [IsmaAmbrosiGeneratorBundle]
 git=git://github.com/iambrosi/IsmaAmbrosiGeneratorBundle.git
-target="bundles/IsmaAmbrosi/Bundle/GeneratorBundle
+target=bundles/IsmaAmbrosi/Bundle/GeneratorBundle
+version="origin/2.0"
 ```
 
 And then run the vendors script:
