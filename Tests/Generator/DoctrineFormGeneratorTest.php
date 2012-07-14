@@ -14,7 +14,7 @@ class DoctrineFormGeneratorTest extends GeneratorTestCase
 
     public function testSimpleGenerator()
     {
-        $generator = new DoctrineFormGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/form');
+        $generator = new DoctrineFormGenerator(dirname(dirname(__DIR__)).'/Resources/skeleton/form');
         $generator->generate($this->getTestBundle(), $this->documentName, $this->metadata);
 
         $this->assertFileExists($file = $this->getTestBundle()->getPath().'/Form/'.$this->documentName.'Type.php');

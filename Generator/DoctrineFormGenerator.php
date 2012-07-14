@@ -9,17 +9,17 @@ use Symfony\Component\HttpKernel\Util\Filesystem;
 class DoctrineFormGenerator extends Generator
 {
 
-    private $filesystem;
-
     private $skeletonDir;
 
     private $className;
 
     private $classPath;
 
-    public function __construct(Filesystem $filesystem, $skeletonDir)
+    /**
+     * @param string $skeletonDir
+     */
+    public function __construct($skeletonDir)
     {
-        $this->filesystem = $filesystem;
         $this->skeletonDir = $skeletonDir;
     }
 

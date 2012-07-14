@@ -13,7 +13,7 @@ class GenerateDoctrineFormCommand extends GenerateDoctrineCommand
 {
 
     /**
-     * @see Command
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -33,7 +33,7 @@ EOT
     }
 
     /**
-     * @see Command
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -50,7 +50,7 @@ EOT
 
         $metadata = $this->getDocumentMetadata($documentClass);
 
-        $generator = new DoctrineFormGenerator($this->getFilesystem(), __DIR__.'/../Resources/skeleton/form');
+        $generator = new DoctrineFormGenerator(dirname(__DIR__).'/Resources/skeleton/form');
         $generator->generate($bundle, $document, $metadata);
 
         $output->writeln(sprintf(
