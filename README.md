@@ -22,22 +22,11 @@ $ git submodule add git://github.com/iambrosi/IsmaAmbrosiGeneratorBundle.git ven
 
 Add the following lines to your deps file:
 
-```ini
-[doctrine-mongodb]
-git=http://github.com/doctrine/mongodb.git
-
-[doctrine-mongodb-odm]
-git=http://github.com/doctrine/mongodb-odm.git
-
-[DoctrineMongoDBBundle]
-git=http://github.com/doctrine/DoctrineMongoDBBundle.git
-target=/bundles/Symfony/Bundle/DoctrineMongoDBBundle
-version=origin/2.0
-
+```
 [IsmaAmbrosiGeneratorBundle]
-git=git://github.com/iambrosi/IsmaAmbrosiGeneratorBundle.git
-target=bundles/IsmaAmbrosi/Bundle/GeneratorBundle
-version="origin/2.0"
+    git=git://github.com/iambrosi/IsmaAmbrosiGeneratorBundle.git
+    target=bundles/IsmaAmbrosi/Bundle/GeneratorBundle
+    version=origin/2.0
 ```
 
 And then run the vendors script:
@@ -45,6 +34,8 @@ And then run the vendors script:
 ```bash
 $ php ./bin/vendors install
 ```
+
+You will also need to install the DoctrineMongoDBBundle. The instructions on how to install it are available in the Symfony2 [documentation](http://symfony.com/doc/current/bundles/DoctrineMongoDBBundle/index.html).
 
 ###Add the namespace to the autoloader
 
