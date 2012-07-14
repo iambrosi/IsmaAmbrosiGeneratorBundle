@@ -17,6 +17,7 @@ class DoctrineCrudGenerator extends Generator
 
     private $routeNamePrefix;
 
+    /** @var BundleInterface */
     private $bundle;
 
     private $document;

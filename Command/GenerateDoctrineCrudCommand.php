@@ -47,8 +47,7 @@ Using the --with-write option allows to generate the new, edit and delete action
 EOT
         )
             ->setName('doctrine:mongodb:generate:crud')
-            ->setAliases(array('generate:doctrine:mongodb:crud'))
-        ;
+            ->setAliases(array('generate:doctrine:mongodb:crud'));
     }
 
     /**
@@ -71,15 +70,15 @@ EOT
 
         $controller = Validators::validateControllerName($input->getOption('controller-name'));
 
-        $format = Validators::validateFormat($input->getOption('format'));
-        $prefix = $this->getRoutePrefix($input, $document);
+        $format    = Validators::validateFormat($input->getOption('format'));
+        $prefix    = $this->getRoutePrefix($input, $document);
         $withWrite = $input->getOption('with-write');
 
         $dialog->writeSection($output, 'CRUD generation');
 
         $documentClass = $this->getDocumentNamespace($bundle).'\\'.$document;
-        $metadata = $this->getDocumentMetadata($documentClass);
-        $bundle = $this->getBundle($bundle);
+        $metadata      = $this->getDocumentMetadata($documentClass);
+        $bundle        = $this->getBundle($bundle);
 
         $generator = $this->getGenerator();
         $generator->generate($bundle, $document, $controller, $metadata, $format, $prefix, $withWrite);
@@ -97,10 +96,12 @@ EOT
 
         // routing
         if ('annotation' != $format) {
-            $runner($this->updateRouting($dialog, $input, $output, $bundle, $format, $document, $prefix));
+            call_user_func($runner, $this->updateRouting($dialog, $input, $output, $bundle, $format, $document, $prefix));
         }
 
         $dialog->writeGeneratorSummary($output, $errors);
+
+        return 0;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -130,7 +131,6 @@ EOT
 
         // Document exists?
         $documentClass = $this->getDocumentNamespace($bundle).'\\'.$document;
-        $metadata = $this->getDocumentMetadata($documentClass);
 
         $output->writeln(array(
             '',
@@ -186,7 +186,7 @@ EOT
         // summary
         $output->writeln(array(
             '',
-            $this->getHelper('formatter')->formatBlock('Summary before generation', 'bg=blue;fg=white', true),
+            $this->getFormatter()->formatBlock('Summary before generation', 'bg=blue;fg=white', true),
             '',
             sprintf("You are going to generate a CRUD controller for \"<info>%s:%s</info>\"", $bundle, $document),
             sprintf("using the \"<info>%s</info>\" format.", $format),
@@ -206,7 +206,7 @@ EOT
         }
     }
 
-    private function updateRouting($dialog, InputInterface $input, OutputInterface $output, $bundle, $format, $document, $prefix)
+    private function updateRouting(DialogHelper $dialog, InputInterface $input, OutputInterface $output, BundleInterface $bundle, $format, $document, $prefix)
     {
         $auto = true;
         if ($input->isInteractive()) {
@@ -216,7 +216,7 @@ EOT
         $output->write('Importing the CRUD routes: ');
         $this->getFilesystem()->mkdir($bundle->getPath().'/Resources/config/');
         $routing = new RoutingManipulator($bundle->getPath().'/Resources/config/routing.yml');
-        $ret = $auto ? $routing->addResource($bundle->getName(), $format, '/'.$prefix, 'routing/'.strtolower(str_replace('\\', '_', $document))) : false;
+        $ret     = $auto ? $routing->addResource($bundle->getName(), $format, '/'.$prefix, 'routing/'.strtolower(str_replace('\\', '_', $document))) : false;
         if (!$ret) {
             $help = sprintf("        <comment>resource: \"@%s/Resources/config/routing/%s.%s\"</comment>\n", $bundle->getName(), strtolower(str_replace('\\', '_', $document)), $format);
             $help .= sprintf("        <comment>prefix:   /%s</comment>\n", $prefix);
@@ -230,6 +230,8 @@ EOT
                 '',
             );
         }
+
+        return null;
     }
 
     protected function getRoutePrefix(InputInterface $input, $document)
@@ -260,6 +262,9 @@ EOT
         $this->generator = $generator;
     }
 
+    /**
+     * @return DoctrineFormGenerator
+     */
     protected function getFormGenerator()
     {
         if (null === $this->formGenerator) {
@@ -273,15 +278,5 @@ EOT
     public function setFormGenerator(DoctrineFormGenerator $formGenerator)
     {
         $this->formGenerator = $formGenerator;
-    }
-
-    protected function getDialogHelper()
-    {
-        $dialog = $this->getHelperSet()->get('dialog');
-        if (!$dialog || get_class($dialog) !== 'Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper') {
-            $this->getHelperSet()->set($dialog = new DialogHelper());
-        }
-
-        return $dialog;
     }
 }

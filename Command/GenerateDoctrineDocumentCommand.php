@@ -49,7 +49,7 @@ with <comment>--format</comment>:
 <info>php app/console doctrine:generate:document --document=AcmeBlogBundle:Blog/Post --format=yml</info>
 
 To deactivate the interaction mode, simply use the `--no-interaction` option
-whitout forgetting to pass all needed options:
+without forgetting to pass all needed options:
 
 <info>php app/console doctrine:generate:document --document=AcmeBlogBundle:Blog/Post --format=annotation --fields="title:string body:string" --with-repository --no-interaction</info>
 EOT
@@ -73,12 +73,12 @@ EOT
 
         $entity = Validators::validateDocumentName($input->getOption('document'));
         list($bundle, $entity) = $this->parseShortcutNotation($entity);
-        $format = Validators::validateFormat($input->getOption('format'));
+        Validators::validateFormat($input->getOption('format'));
         $fields = $this->parseFields($input->getOption('fields'));
 
         $dialog->writeSection($output, 'Document generation');
 
-        $bundle = $this->getContainer()->get('kernel')->getBundle($bundle);
+        $bundle = $this->getKernel()->getBundle($bundle);
 
         $generator = $this->getGenerator();
         $generator->generate($bundle, $entity, array_values($fields), $input->getOption('with-repository'));
@@ -86,8 +86,14 @@ EOT
         $output->writeln('Generating the document code: <info>OK</info>');
 
         $dialog->writeGeneratorSummary($output, array());
+
+        return 0;
     }
 
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $dialog = $this->getDialogHelper();
@@ -112,7 +118,7 @@ EOT
             list($bundle, $entity) = $this->parseShortcutNotation($entity);
 
             try {
-                $b = $this->getContainer()->get('kernel')->getBundle($bundle);
+                $b = $this->getKernel()->getBundle($bundle);
 
                 if (!file_exists($b->getPath().'/Document/'.str_replace('\\', '/', $entity).'.php')) {
                     break;
@@ -148,7 +154,7 @@ EOT
         // summary
         $output->writeln(array(
             '',
-            $this->getHelper('formatter')->formatBlock('Summary before generation', 'bg=blue;fg=white', true),
+            $this->getFormatter()->formatBlock('Summary before generation', 'bg=blue;fg=white', true),
             '',
             sprintf("You are going to generate a \"<info>%s:%s</info>\" Doctrine2 document", $bundle, $entity),
             sprintf("using the \"<info>%s</info>\" format.", $format),
@@ -220,22 +226,6 @@ EOT
             return $type;
         };
 
-        $lengthValidator = function ($length) {
-            if (!$length) {
-                return $length;
-            }
-
-            $result = filter_var($length, FILTER_VALIDATE_INT, array(
-                'options' => array('min_range' => 1)
-            ));
-
-            if (false === $result) {
-                throw new \InvalidArgumentException(sprintf('Invalid length "%s".', $length));
-            }
-
-            return $length;
-        };
-
         while (true) {
             $output->writeln('');
             $self = $this;
@@ -271,7 +261,10 @@ EOT
         return $fields;
     }
 
-    public function getGenerator()
+    /**
+     * @return DoctrineDocumentGenerator
+     */
+    private function getGenerator()
     {
         if (null === $this->generator) {
             $this->generator = new DoctrineDocumentGenerator($this->getFilesystem(), $this->getDocumentManager());
@@ -280,18 +273,11 @@ EOT
         return $this->generator;
     }
 
-    public function setGenerator(DoctrineDocumentGenerator $generator)
+    /**
+     * @param \IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineDocumentGenerator $generator
+     */
+    private function setGenerator(DoctrineDocumentGenerator $generator)
     {
         $this->generator = $generator;
-    }
-
-    protected function getDialogHelper()
-    {
-        $dialog = $this->getHelperSet()->get('dialog');
-        if (!$dialog || get_class($dialog) !== 'Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper') {
-            $this->getHelperSet()->set($dialog = new DialogHelper());
-        }
-
-        return $dialog;
     }
 }

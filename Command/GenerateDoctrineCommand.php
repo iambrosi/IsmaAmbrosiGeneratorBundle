@@ -3,6 +3,7 @@
 namespace IsmaAmbrosi\Bundle\GeneratorBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper;
 
 abstract class GenerateDoctrineCommand extends ContainerAwareCommand
 {
@@ -19,13 +20,21 @@ abstract class GenerateDoctrineCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param $name
+     * @param string $name
      *
      * @return \Symfony\Component\HttpKernel\Bundle\BundleInterface
      */
     protected function getBundle($name)
     {
-        return $this->getContainer()->get('kernel')->getBundle($name);
+        return $this->getKernel()->getBundle($name);
+    }
+
+    /**
+     * @return \Symfony\Component\HttpKernel\KernelInterface
+     */
+    protected function getKernel()
+    {
+        return $this->getContainer()->get('kernel');
     }
 
     /**
@@ -68,5 +77,26 @@ abstract class GenerateDoctrineCommand extends ContainerAwareCommand
     protected function getFilesystem()
     {
         return $this->getContainer()->get('filesystem');
+    }
+
+    /**
+     * @return \Symfony\Component\Console\Helper\FormatterHelper
+     */
+    protected function getFormatter()
+    {
+        return $this->getHelper('formatter');
+    }
+
+    /**
+     * @return DialogHelper
+     */
+    protected function getDialogHelper()
+    {
+        $dialog = $this->getHelperSet()->get('dialog');
+        if (!$dialog || get_class($dialog) !== 'Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper') {
+            $this->getHelperSet()->set($dialog = new DialogHelper());
+        }
+
+        return $dialog;
     }
 }

@@ -40,8 +40,12 @@ EOT
         $document = Validators::validateDocumentName($input->getArgument('document'));
         list($bundle, $document) = $this->parseShortcutNotation($document);
 
+        /** @var $application \Symfony\Bundle\FrameworkBundle\Console\Application */
+        $application = $this->getApplication();
+
         /* @var $bundle \Symfony\Component\HttpKernel\Bundle\BundleInterface */
-        $bundle = $this->getApplication()->getKernel()->getBundle($bundle);
+        $bundle = $application->getKernel()->getBundle($bundle);
+
         $documentClass = $bundle->getNamespace().'\\Document\\'.$document;
 
         $metadata = $this->getDocumentMetadata($documentClass);
