@@ -71,8 +71,8 @@ EOT
             }
         }
 
-        $entity = Validators::validateDocumentName($input->getOption('document'));
-        list($bundle, $entity) = $this->parseShortcutNotation($entity);
+        $document = Validators::validateDocumentName($input->getOption('document'));
+        list($bundle, $document) = $this->parseShortcutNotation($document);
         Validators::validateFormat($input->getOption('format'));
         $fields = $this->parseFields($input->getOption('fields'));
 
@@ -81,7 +81,7 @@ EOT
         $bundle = $this->getKernel()->getBundle($bundle);
 
         $generator = $this->getGenerator();
-        $generator->generate($bundle, $entity, array_values($fields), $input->getOption('with-repository'));
+        $generator->generate($bundle, $document, array_values($fields), $input->getOption('with-repository'));
 
         $output->writeln('Generating the document code: <info>OK</info>');
 
@@ -102,7 +102,7 @@ EOT
         // namespace
         $output->writeln(array(
             '',
-            'This command helps you generate Doctrine2 entities.',
+            'This command helps you generate Doctrine2 documents.',
             '',
             'First, you need to give the document name you want to generate.',
             'You must use the shortcut notation like <comment>AcmeBlogBundle:Post</comment>.',
@@ -110,26 +110,26 @@ EOT
         ));
 
         while (true) {
-            $entity = $dialog->askAndValidate($output, $dialog->getQuestion('The Document shortcut name', $input->getOption('document')), array(
-                'Sensio\Bundle\GeneratorBundle\Command\Validators',
-                'validateEntityName'
+            $document = $dialog->askAndValidate($output, $dialog->getQuestion('The Document shortcut name', $input->getOption('document')), array(
+                'IsmaAmbrosi\Bundle\GeneratorBundle\Command\Validators',
+                'validateDocumentName'
             ), false, $input->getOption('document'));
 
-            list($bundle, $entity) = $this->parseShortcutNotation($entity);
+            list($bundle, $document) = $this->parseShortcutNotation($document);
 
             try {
                 $b = $this->getKernel()->getBundle($bundle);
 
-                if (!file_exists($b->getPath().'/Document/'.str_replace('\\', '/', $entity).'.php')) {
+                if (!file_exists($b->getPath().'/Document/'.str_replace('\\', '/', $document).'.php')) {
                     break;
                 }
 
-                $output->writeln(sprintf('<bg=red>Document "%s:%s" already exists</>.', $bundle, $entity));
+                $output->writeln(sprintf('<bg=red>Document "%s:%s" already exists</>.', $bundle, $document));
             } catch (\Exception $e) {
                 $output->writeln(sprintf('<bg=red>Bundle "%s" does not exist.</>', $bundle));
             }
         }
-        $input->setOption('document', $bundle.':'.$entity);
+        $input->setOption('document', $bundle.':'.$document);
 
         // format
         $output->writeln(array(
@@ -138,7 +138,7 @@ EOT
             '',
         ));
         $format = $dialog->askAndValidate($output, $dialog->getQuestion('Configuration format (yml, xml, php, or annotation)', $input->getOption('format')), array(
-            'Sensio\Bundle\GeneratorBundle\Command\Validators',
+            'IsmaAmbrosi\Bundle\GeneratorBundle\Command\Validators',
             'validateFormat'
         ), false, $input->getOption('format'));
         $input->setOption('format', $format);
@@ -156,7 +156,7 @@ EOT
             '',
             $this->getFormatter()->formatBlock('Summary before generation', 'bg=blue;fg=white', true),
             '',
-            sprintf("You are going to generate a \"<info>%s:%s</info>\" Doctrine2 document", $bundle, $entity),
+            sprintf("You are going to generate a \"<info>%s:%s</info>\" Doctrine2 document", $bundle, $document),
             sprintf("using the \"<info>%s</info>\" format.", $format),
             '',
         ));

@@ -195,7 +195,7 @@ EOT
     }
 
     /**
-     * Tries to generate forms if they don't exist yet and if we need write operations on entities.
+     * Tries to generate forms if they don't exist yet and if we need write operations on documents.
      */
     private function generateForm(BundleInterface $bundle, $document, $metadata)
     {
