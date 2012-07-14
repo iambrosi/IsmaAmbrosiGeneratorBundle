@@ -8,15 +8,7 @@ This bundle extends the commands provided by [SensioGeneratorBundle](https://git
 Installation
 ------------
 
-###Add the bundle to your project.
-
-**Using submodules**
-
-Execute the following command:
-
-```bash
-$ git submodule add git://github.com/iambrosi/IsmaAmbrosiGeneratorBundle.git vendor/bundles/IsmaAmbrosi/Bundle/GeneratorBundle
-```
+### Add the bundle to your project.
 
 **Using Symfony's vendors script**
 
