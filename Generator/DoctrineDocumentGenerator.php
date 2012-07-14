@@ -7,7 +7,7 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 use Doctrine\ODM\MongoDB\Tools\DocumentGenerator;
 use Doctrine\ODM\MongoDB\Tools\DocumentRepositoryGenerator;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpKernel\Util\Filesystem;
 
 /**
  * Class DoctrineDocumentGenerator

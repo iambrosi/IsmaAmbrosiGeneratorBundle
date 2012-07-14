@@ -2,9 +2,9 @@
 
 namespace IsmaAmbrosi\Bundle\GeneratorBundle\Generator;
 
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
+use Symfony\Component\HttpKernel\Util\Filesystem;
 
 class DoctrineFormGenerator extends Generator
 {
