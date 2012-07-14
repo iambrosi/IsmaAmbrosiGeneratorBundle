@@ -1,21 +1,23 @@
 {
-    "hash": "a2d4f165298cb00932ad814d27776f91",
+    "hash": "6e3a71f653d7d017d4ebe53ccce9e227",
     "packages": [
         {
             "package": "doctrine/common",
-            "version": "2.2.2"
+            "version": "2.2.x-dev",
+            "source-reference": "1e0aa60d109c630d19543d999f12e2852ef8f932",
+            "commit-date": "1334303204"
         },
         {
             "package": "doctrine/mongodb",
             "version": "dev-master",
-            "source-reference": "bf542f0ef6df724a390d888494b864f772454474",
-            "commit-date": "1341251039"
+            "source-reference": "3994f6bfe589c519ee9d92f65befb34048497a7c",
+            "commit-date": "1342201132"
         },
         {
             "package": "doctrine/mongodb-odm",
             "version": "dev-master",
-            "source-reference": "0aee1337ea4917459f6845218a1ab3c8c147cf59",
-            "commit-date": "1341518392"
+            "source-reference": "7827f3f12778c82b46de01856ce6f6601c7548a4",
+            "commit-date": "1342214207"
         },
         {
             "package": "monolog/monolog",
@@ -29,15 +31,33 @@
         },
         {
             "package": "swiftmailer/swiftmailer",
-            "version": "v4.1.8"
+            "version": "dev-master",
+            "alias-pretty-version": "4.2.x-dev",
+            "alias-version": "4.2.9999999.9999999-dev"
+        },
+        {
+            "package": "swiftmailer/swiftmailer",
+            "version": "dev-master",
+            "source-reference": "8b2aa953f87da228ba413e8fb1372e49c1374050",
+            "commit-date": "1342198037"
         },
         {
             "package": "symfony/symfony",
-            "version": "v2.0.15"
+            "version": "2.0.x-dev",
+            "source-reference": "50eb170ead6e48d08a01e157c704a143030b6695",
+            "commit-date": "1342171844"
         },
         {
             "package": "twig/twig",
-            "version": "v1.8.3"
+            "version": "dev-master",
+            "alias-pretty-version": "1.9.x-dev",
+            "alias-version": "1.9.9999999.9999999-dev"
+        },
+        {
+            "package": "twig/twig",
+            "version": "dev-master",
+            "source-reference": "3f9f587ba72f9da84266b93ee1d0fc025b6b010f",
+            "commit-date": "1342197076"
         }
     ],
     "packages-dev": [
@@ -46,10 +66,8 @@
     "aliases": [
 
     ],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": {
-        "sensio/generator-bundle": 20,
-        "doctrine/mongodb-odm": 20,
-        "doctrine/mongodb": 20
+        "doctrine/mongodb-odm": 20
     }
 }

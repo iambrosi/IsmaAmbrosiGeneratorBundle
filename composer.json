@@ -11,10 +11,10 @@
         }
     ],
     "require": {
-        "sensio/generator-bundle": "2.0.x-dev",
-        "doctrine/mongodb-odm": "dev-master",
-        "doctrine/mongodb": "dev-master"
+        "sensio/generator-bundle": ">=2.0,<2.1",
+        "doctrine/mongodb-odm": "dev-master"
     },
+    "minimum-stability": "dev",
     "autoload": {
         "psr-0": { "IsmaAmbrosi\\Bundle\\GeneratorBundle": "" }
     },
