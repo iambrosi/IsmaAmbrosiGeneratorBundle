@@ -4,7 +4,7 @@ namespace {{ namespace }}\Tests\Controller{{ controller_namespace ? '\\' ~ contr
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class {{ controller_class }}ControllerTest extends WebTestCase
+class {{ document_class }}ControllerTest extends WebTestCase
 {
     /*
 
