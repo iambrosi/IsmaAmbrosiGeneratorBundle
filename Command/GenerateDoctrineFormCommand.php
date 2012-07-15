@@ -13,7 +13,7 @@ class GenerateDoctrineFormCommand extends GenerateDoctrineCommand
 {
 
     /**
-     * @see Command
+     * {@inheritdoc}
      */
     protected function configure()
     {
@@ -33,20 +33,24 @@ EOT
     }
 
     /**
-     * @see Command
+     * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $document = Validators::validateDocumentName($input->getArgument('document'));
         list($bundle, $document) = $this->parseShortcutNotation($document);
 
+        /** @var $application \Symfony\Bundle\FrameworkBundle\Console\Application */
+        $application = $this->getApplication();
+
         /* @var $bundle \Symfony\Component\HttpKernel\Bundle\BundleInterface */
-        $bundle = $this->getApplication()->getKernel()->getBundle($bundle);
+        $bundle = $application->getKernel()->getBundle($bundle);
+
         $documentClass = $bundle->getNamespace().'\\Document\\'.$document;
 
         $metadata = $this->getDocumentMetadata($documentClass);
 
-        $generator = new DoctrineFormGenerator($this->getFilesystem(), __DIR__.'/../Resources/skeleton/form');
+        $generator = new DoctrineFormGenerator(dirname(__DIR__).'/Resources/skeleton/form');
         $generator->generate($bundle, $document, $metadata);
 
         $output->writeln(sprintf(

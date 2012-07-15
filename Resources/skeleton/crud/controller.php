@@ -18,7 +18,7 @@ use {{ namespace }}\Form\{{ document }}Type;
  * @Route("/{{ route_prefix }}")
 {% endif %}
  */
-class {{ controller_name }}Controller extends Controller
+class {{ document_class }}Controller extends Controller
 {
 
     {%- if 'index' in actions %}

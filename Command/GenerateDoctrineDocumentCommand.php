@@ -14,6 +14,26 @@ class GenerateDoctrineDocumentCommand extends GenerateDoctrineCommand
 
     private $generator;
 
+    /**
+     * @return DoctrineDocumentGenerator
+     */
+    public function getGenerator()
+    {
+        if (null === $this->generator) {
+            $this->generator = new DoctrineDocumentGenerator($this->getFilesystem(), $this->getDocumentManager());
+        }
+
+        return $this->generator;
+    }
+
+    /**
+     * @param \IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineDocumentGenerator $generator
+     */
+    public function setGenerator(DoctrineDocumentGenerator $generator)
+    {
+        $this->generator = $generator;
+    }
+
     protected function configure()
     {
         $this
@@ -22,7 +42,6 @@ class GenerateDoctrineDocumentCommand extends GenerateDoctrineCommand
             ->setDescription('Generates a new Doctrine document inside a bundle')
             ->addOption('document', null, InputOption::VALUE_REQUIRED, 'The document class name to initialize (shortcut notation)')
             ->addOption('fields', null, InputOption::VALUE_REQUIRED, 'The fields to create with the new document')
-            ->addOption('format', null, InputOption::VALUE_REQUIRED, 'Use the format for configuration files (php, xml, yml, or annotation)', 'annotation')
             ->addOption('with-repository', null, InputOption::VALUE_NONE, 'Whether to generate the document repository or not')
             ->setHelp(<<<EOT
 The <info>doctrine:generate:document</info> task generates a new Doctrine
@@ -43,15 +62,10 @@ The command can also generate the corresponding document repository class with t
 
 <info>php app/console doctrine:generate:document --document=AcmeBlogBundle:Blog/Post --with-repository</info>
 
-By default, the command uses annotations for the mapping information; change it
-with <comment>--format</comment>:
-
-<info>php app/console doctrine:generate:document --document=AcmeBlogBundle:Blog/Post --format=yml</info>
-
 To deactivate the interaction mode, simply use the `--no-interaction` option
-whitout forgetting to pass all needed options:
+without forgetting to pass all needed options:
 
-<info>php app/console doctrine:generate:document --document=AcmeBlogBundle:Blog/Post --format=annotation --fields="title:string body:string" --with-repository --no-interaction</info>
+<info>php app/console doctrine:generate:document --document=AcmeBlogBundle:Blog/Post --fields="title:string body:string" --with-repository --no-interaction</info>
 EOT
         );
     }
@@ -71,23 +85,28 @@ EOT
             }
         }
 
-        $entity = Validators::validateDocumentName($input->getOption('document'));
-        list($bundle, $entity) = $this->parseShortcutNotation($entity);
-        $format = Validators::validateFormat($input->getOption('format'));
+        $document = Validators::validateDocumentName($input->getOption('document'));
+        list($bundle, $document) = $this->parseShortcutNotation($document);
         $fields = $this->parseFields($input->getOption('fields'));
 
         $dialog->writeSection($output, 'Document generation');
 
-        $bundle = $this->getContainer()->get('kernel')->getBundle($bundle);
+        $bundle = $this->getKernel()->getBundle($bundle);
 
         $generator = $this->getGenerator();
-        $generator->generate($bundle, $entity, array_values($fields), $input->getOption('with-repository'));
+        $generator->generate($bundle, $document, array_values($fields), $input->getOption('with-repository'));
 
         $output->writeln('Generating the document code: <info>OK</info>');
 
         $dialog->writeGeneratorSummary($output, array());
+
+        return 0;
     }
 
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface   $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
         $dialog = $this->getDialogHelper();
@@ -96,7 +115,7 @@ EOT
         // namespace
         $output->writeln(array(
             '',
-            'This command helps you generate Doctrine2 entities.',
+            'This command helps you generate Doctrine2 documents.',
             '',
             'First, you need to give the document name you want to generate.',
             'You must use the shortcut notation like <comment>AcmeBlogBundle:Post</comment>.',
@@ -104,38 +123,26 @@ EOT
         ));
 
         while (true) {
-            $entity = $dialog->askAndValidate($output, $dialog->getQuestion('The Document shortcut name', $input->getOption('document')), array(
-                'Sensio\Bundle\GeneratorBundle\Command\Validators',
-                'validateEntityName'
+            $document = $dialog->askAndValidate($output, $dialog->getQuestion('The Document shortcut name', $input->getOption('document')), array(
+                'IsmaAmbrosi\Bundle\GeneratorBundle\Command\Validators',
+                'validateDocumentName'
             ), false, $input->getOption('document'));
 
-            list($bundle, $entity) = $this->parseShortcutNotation($entity);
+            list($bundle, $document) = $this->parseShortcutNotation($document);
 
             try {
-                $b = $this->getContainer()->get('kernel')->getBundle($bundle);
+                $b = $this->getKernel()->getBundle($bundle);
 
-                if (!file_exists($b->getPath().'/Document/'.str_replace('\\', '/', $entity).'.php')) {
+                if (!file_exists($b->getPath().'/Document/'.str_replace('\\', '/', $document).'.php')) {
                     break;
                 }
 
-                $output->writeln(sprintf('<bg=red>Document "%s:%s" already exists</>.', $bundle, $entity));
+                $output->writeln(sprintf('<bg=red>Document "%s:%s" already exists</>.', $bundle, $document));
             } catch (\Exception $e) {
                 $output->writeln(sprintf('<bg=red>Bundle "%s" does not exist.</>', $bundle));
             }
         }
-        $input->setOption('document', $bundle.':'.$entity);
-
-        // format
-        $output->writeln(array(
-            '',
-            'Determine the format to use for the mapping information.',
-            '',
-        ));
-        $format = $dialog->askAndValidate($output, $dialog->getQuestion('Configuration format (yml, xml, php, or annotation)', $input->getOption('format')), array(
-            'Sensio\Bundle\GeneratorBundle\Command\Validators',
-            'validateFormat'
-        ), false, $input->getOption('format'));
-        $input->setOption('format', $format);
+        $input->setOption('document', $bundle.':'.$document);
 
         // fields
         $input->setOption('fields', $this->addFields($input, $output, $dialog));
@@ -148,10 +155,9 @@ EOT
         // summary
         $output->writeln(array(
             '',
-            $this->getHelper('formatter')->formatBlock('Summary before generation', 'bg=blue;fg=white', true),
+            $this->getFormatter()->formatBlock('Summary before generation', 'bg=blue;fg=white', true),
             '',
-            sprintf("You are going to generate a \"<info>%s:%s</info>\" Doctrine2 document", $bundle, $entity),
-            sprintf("using the \"<info>%s</info>\" format.", $format),
+            sprintf("You are going to generate a \"<info>%s:%s</info>\" Doctrine2 document.", $bundle, $document),
             '',
         ));
     }
@@ -165,18 +171,13 @@ EOT
         $fields = array();
         foreach (explode(' ', $input) as $value) {
             $elements = explode(':', $value);
-            $name = $elements[0];
+            $name     = $elements[0];
             if (strlen($name)) {
                 $type = isset($elements[1]) ? $elements[1] : 'string';
                 preg_match_all('/(.*)\((.*)\)/', $type, $matches);
                 $type = isset($matches[1][0]) ? $matches[1][0] : $type;
-                $length = isset($matches[2][0]) ? $matches[2][0] : null;
 
-                $fields[$name] = array(
-                    'fieldName' => $name,
-                    'type'      => $type,
-                    'length'    => $length
-                );
+                $fields[$name] = array('fieldName' => $name, 'type' => $type);
             }
         }
 
@@ -220,25 +221,10 @@ EOT
             return $type;
         };
 
-        $lengthValidator = function ($length) {
-            if (!$length) {
-                return $length;
-            }
-
-            $result = filter_var($length, FILTER_VALIDATE_INT, array(
-                'options' => array('min_range' => 1)
-            ));
-
-            if (false === $result) {
-                throw new \InvalidArgumentException(sprintf('Invalid length "%s".', $length));
-            }
-
-            return $length;
-        };
-
         while (true) {
             $output->writeln('');
             $self = $this;
+
             $name = $dialog->askAndValidate($output, $dialog->getQuestion('New field name (press <return> to stop adding fields)', null), function ($name) use ($fields, $self) {
                 if (isset($fields[$name]) || 'id' == $name) {
                     throw new \InvalidArgumentException(sprintf('Field "%s" is already defined.', $name));
@@ -246,6 +232,7 @@ EOT
 
                 return $name;
             });
+
             if (!$name) {
                 break;
             }
@@ -254,8 +241,6 @@ EOT
 
             if (substr($name, -3) == '_at') {
                 $defaultType = 'timestamp';
-            } elseif (substr($name, -3) == '_id') {
-                $defaultType = 'int';
             }
 
             $type = $dialog->askAndValidate($output, $dialog->getQuestion('Field type', $defaultType), $fieldValidator, false, $defaultType);
@@ -269,29 +254,5 @@ EOT
         }
 
         return $fields;
-    }
-
-    public function getGenerator()
-    {
-        if (null === $this->generator) {
-            $this->generator = new DoctrineDocumentGenerator($this->getFilesystem(), $this->getDocumentManager());
-        }
-
-        return $this->generator;
-    }
-
-    public function setGenerator(DoctrineDocumentGenerator $generator)
-    {
-        $this->generator = $generator;
-    }
-
-    protected function getDialogHelper()
-    {
-        $dialog = $this->getHelperSet()->get('dialog');
-        if (!$dialog || get_class($dialog) !== 'Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper') {
-            $this->getHelperSet()->set($dialog = new DialogHelper());
-        }
-
-        return $dialog;
     }
 }

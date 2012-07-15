@@ -47,8 +47,7 @@ Using the --with-write option allows to generate the new, edit and delete action
 EOT
         )
             ->setName('doctrine:mongodb:generate:crud')
-            ->setAliases(array('generate:doctrine:mongodb:crud'))
-        ;
+            ->setAliases(array('generate:doctrine:mongodb:crud'));
     }
 
     /**
@@ -69,20 +68,18 @@ EOT
         $document = Validators::validateDocumentName($input->getOption('document'));
         list($bundle, $document) = $this->parseShortcutNotation($document);
 
-        $controller = Validators::validateControllerName($input->getOption('controller-name'));
-
-        $format = Validators::validateFormat($input->getOption('format'));
-        $prefix = $this->getRoutePrefix($input, $document);
+        $format    = Validators::validateFormat($input->getOption('format'));
+        $prefix    = $this->getRoutePrefix($input, $document);
         $withWrite = $input->getOption('with-write');
 
         $dialog->writeSection($output, 'CRUD generation');
 
         $documentClass = $this->getDocumentNamespace($bundle).'\\'.$document;
-        $metadata = $this->getDocumentMetadata($documentClass);
-        $bundle = $this->getBundle($bundle);
+        $metadata      = $this->getDocumentMetadata($documentClass);
+        $bundle        = $this->getBundle($bundle);
 
         $generator = $this->getGenerator();
-        $generator->generate($bundle, $document, $controller, $metadata, $format, $prefix, $withWrite);
+        $generator->generate($bundle, $document, $metadata, $format, $prefix, $withWrite);
 
         $output->writeln('Generating the CRUD code: <info>OK</info>');
 
@@ -97,10 +94,12 @@ EOT
 
         // routing
         if ('annotation' != $format) {
-            $runner($this->updateRouting($dialog, $input, $output, $bundle, $format, $document, $prefix));
+            call_user_func($runner, $this->updateRouting($dialog, $input, $output, $bundle, $format, $document, $prefix));
         }
 
         $dialog->writeGeneratorSummary($output, $errors);
+
+        return 0;
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -114,7 +113,7 @@ EOT
             'This command helps you generate CRUD controllers and templates.',
             '',
             'First, you need to give the document for which you want to generate a CRUD.',
-            'You can give an document that does not exist yet and the wizard will help',
+            'You can give a document that does not exist yet and the wizard will help',
             'you defining it.',
             '',
             'You must use the shortcut notation like <comment>AcmeBlogBundle:Post</comment>.',
@@ -130,23 +129,6 @@ EOT
 
         // Document exists?
         $documentClass = $this->getDocumentNamespace($bundle).'\\'.$document;
-        $metadata = $this->getDocumentMetadata($documentClass);
-
-        $output->writeln(array(
-            '',
-            'Now you can set the name for the controller. By default, the generator creates',
-            'the controller name based on the document.',
-            '',
-            'It is recommended to separate namespaces with a "/" instead of the "\\"',
-            ''
-        ));
-
-        $controllerName = $input->getOption('controller-name') ? $input->getOption('controller-name') : $document;
-        $controllerName = $dialog->askAndValidate($output, $dialog->getQuestion('The controller name', $controllerName), array(
-            'IsmaAmbrosi\Bundle\GeneratorBundle\Command\Validators',
-            'validateControllerName'
-        ), false, $controllerName);
-        $input->setOption('controller-name', $controllerName);
 
         // write?
         $withWrite = $input->getOption('with-write') ? : false;
@@ -186,7 +168,7 @@ EOT
         // summary
         $output->writeln(array(
             '',
-            $this->getHelper('formatter')->formatBlock('Summary before generation', 'bg=blue;fg=white', true),
+            $this->getFormatter()->formatBlock('Summary before generation', 'bg=blue;fg=white', true),
             '',
             sprintf("You are going to generate a CRUD controller for \"<info>%s:%s</info>\"", $bundle, $document),
             sprintf("using the \"<info>%s</info>\" format.", $format),
@@ -195,7 +177,7 @@ EOT
     }
 
     /**
-     * Tries to generate forms if they don't exist yet and if we need write operations on entities.
+     * Tries to generate forms if they don't exist yet and if we need write operations on documents.
      */
     private function generateForm(BundleInterface $bundle, $document, $metadata)
     {
@@ -206,7 +188,7 @@ EOT
         }
     }
 
-    private function updateRouting($dialog, InputInterface $input, OutputInterface $output, $bundle, $format, $document, $prefix)
+    private function updateRouting(DialogHelper $dialog, InputInterface $input, OutputInterface $output, BundleInterface $bundle, $format, $document, $prefix)
     {
         $auto = true;
         if ($input->isInteractive()) {
@@ -216,7 +198,7 @@ EOT
         $output->write('Importing the CRUD routes: ');
         $this->getFilesystem()->mkdir($bundle->getPath().'/Resources/config/');
         $routing = new RoutingManipulator($bundle->getPath().'/Resources/config/routing.yml');
-        $ret = $auto ? $routing->addResource($bundle->getName(), $format, '/'.$prefix, 'routing/'.strtolower(str_replace('\\', '_', $document))) : false;
+        $ret     = $auto ? $routing->addResource($bundle->getName(), $format, '/'.$prefix, 'routing/'.strtolower(str_replace('\\', '_', $document))) : false;
         if (!$ret) {
             $help = sprintf("        <comment>resource: \"@%s/Resources/config/routing/%s.%s\"</comment>\n", $bundle->getName(), strtolower(str_replace('\\', '_', $document)), $format);
             $help .= sprintf("        <comment>prefix:   /%s</comment>\n", $prefix);
@@ -230,6 +212,8 @@ EOT
                 '',
             );
         }
+
+        return null;
     }
 
     protected function getRoutePrefix(InputInterface $input, $document)
@@ -260,11 +244,13 @@ EOT
         $this->generator = $generator;
     }
 
+    /**
+     * @return DoctrineFormGenerator
+     */
     protected function getFormGenerator()
     {
         if (null === $this->formGenerator) {
-            $this->formGenerator = new DoctrineFormGenerator($this->getFilesystem(), __DIR__.'/../Resources/skeleton/form');
-            ;
+            $this->formGenerator = new DoctrineFormGenerator(__DIR__.'/../Resources/skeleton/form');
         }
 
         return $this->formGenerator;
@@ -273,15 +259,5 @@ EOT
     public function setFormGenerator(DoctrineFormGenerator $formGenerator)
     {
         $this->formGenerator = $formGenerator;
-    }
-
-    protected function getDialogHelper()
-    {
-        $dialog = $this->getHelperSet()->get('dialog');
-        if (!$dialog || get_class($dialog) !== 'Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper') {
-            $this->getHelperSet()->set($dialog = new DialogHelper());
-        }
-
-        return $dialog;
     }
 }

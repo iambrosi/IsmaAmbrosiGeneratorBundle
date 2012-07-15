@@ -2,32 +2,46 @@
 
 namespace IsmaAmbrosi\Bundle\GeneratorBundle\Generator;
 
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class DoctrineFormGenerator extends Generator
 {
 
-    private $filesystem;
-
+    /**
+     * @var string
+     */
     private $skeletonDir;
 
+    /**
+     * @var string
+     */
     private $className;
 
+    /**
+     * @var string
+     */
     private $classPath;
 
-    public function __construct(Filesystem $filesystem, $skeletonDir)
+    /**
+     * @param string $skeletonDir
+     */
+    public function __construct($skeletonDir)
     {
-        $this->filesystem = $filesystem;
         $this->skeletonDir = $skeletonDir;
     }
 
+    /**
+     * @return string
+     */
     public function getClassName()
     {
         return $this->className;
     }
 
+    /**
+     * @return string
+     */
     public function getClassPath()
     {
         return $this->classPath;
@@ -35,6 +49,7 @@ class DoctrineFormGenerator extends Generator
 
     /**
      * Generates the document form class if it does not exist.
+     *
      * @param \Symfony\Component\HttpKernel\Bundle\BundleInterface $bundle
      * @param string                                               $document
      * @param \Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo      $metadata
@@ -43,11 +58,11 @@ class DoctrineFormGenerator extends Generator
      */
     public function generate(BundleInterface $bundle, $document, ClassMetadataInfo $metadata)
     {
-        $parts = explode('\\', $document);
+        $parts         = explode('\\', $document);
         $documentClass = array_pop($parts);
 
         $this->className = $documentClass.'Type';
-        $dirPath = $bundle->getPath().'/Form';
+        $dirPath         = $bundle->getPath().'/Form';
         $this->classPath = $dirPath.'/'.str_replace('\\', '/', $document).'Type.php';
 
         if (file_exists($this->classPath)) {

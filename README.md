@@ -26,6 +26,7 @@ Update your vendors:
 ```bash
 $ php composer.phar update
 ```
+You will also need to install the DoctrineMongoDBBundle. The instructions on how to install it are available in the Symfony2 [documentation](http://symfony.com/doc/master/bundles/DoctrineMongoDBBundle/index.html).
 
 ### Enable the bundle in the app Kernel
 
@@ -34,7 +35,7 @@ $ php composer.phar update
 // app/AppKernel.php
 
 public function registerBundles()
-{	
+{
     // ...
     if (in_array($this->getEnvironment(), array('dev', 'test'))) {
         // ...

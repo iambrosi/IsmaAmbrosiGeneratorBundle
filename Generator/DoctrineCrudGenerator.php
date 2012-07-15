@@ -2,9 +2,9 @@
 
 namespace IsmaAmbrosi\Bundle\GeneratorBundle\Generator;
 
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 
 class DoctrineCrudGenerator extends Generator
 {
@@ -17,11 +17,10 @@ class DoctrineCrudGenerator extends Generator
 
     private $routeNamePrefix;
 
+    /** @var BundleInterface */
     private $bundle;
 
     private $document;
-
-    private $controller;
 
     private $metadata;
 
@@ -37,7 +36,7 @@ class DoctrineCrudGenerator extends Generator
      */
     public function __construct(Filesystem $filesystem, $skeletonDir)
     {
-        $this->filesystem = $filesystem;
+        $this->filesystem  = $filesystem;
         $this->skeletonDir = $skeletonDir;
     }
 
@@ -46,7 +45,6 @@ class DoctrineCrudGenerator extends Generator
      *
      * @param \Symfony\Component\HttpKernel\Bundle\BundleInterface $bundle           A bundle object
      * @param string                                               $document         The document relative class name
-     * @param string                                               $controller       The controller name
      * @param \Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo      $metadata         The document class metadata
      * @param string                                               $format
      * @param string                                               $routePrefix
@@ -54,11 +52,11 @@ class DoctrineCrudGenerator extends Generator
      *
      * @throws \RuntimeException
      */
-    public function generate(BundleInterface $bundle, $document, $controller, ClassMetadataInfo $metadata, $format, $routePrefix, $needWriteActions)
+    public function generate(BundleInterface $bundle, $document, ClassMetadataInfo $metadata, $format, $routePrefix, $needWriteActions)
     {
-        $this->routePrefix = $routePrefix;
+        $this->routePrefix     = $routePrefix;
         $this->routeNamePrefix = preg_replace('/[^\w]+/', '_', $routePrefix);
-        $this->actions = $needWriteActions ? array('index', 'show', 'new', 'edit', 'delete') : array('index', 'show');
+        $this->actions         = $needWriteActions ? array('index', 'show', 'new', 'edit', 'delete') : array('index', 'show');
 
         if (count($metadata->identifier) > 1) {
             throw new \RuntimeException('The CRUD generator does not support document classes with multiple primary keys.');
@@ -69,15 +67,13 @@ class DoctrineCrudGenerator extends Generator
         }
 
         $this->document = $document;
-        $this->bundle = $bundle;
+        $this->bundle   = $bundle;
         $this->metadata = $metadata;
         $this->setFormat($format);
 
-        $this->controller = $controller;
-
         $this->generateControllerClass();
 
-        $dir = sprintf('%s/Resources/views/%s', $this->bundle->getPath(), str_replace('\\', DIRECTORY_SEPARATOR, $this->controller));
+        $dir = sprintf('%s/Resources/views/%s', $this->bundle->getPath(), str_replace('\\', DIRECTORY_SEPARATOR, $this->document));
 
         if (!file_exists($dir)) {
             $this->filesystem->mkdir($dir, 0777);
@@ -158,19 +154,13 @@ class DoctrineCrudGenerator extends Generator
         $documentParts = explode('\\', $this->document);
         $documentClass = array_pop($documentParts);
 
-        $controllerParts = explode('\\', $this->controller);
-        $controllerClass = array_pop($controllerParts);
-        if (false !== strpos($this->controller, '\\')) {
-            $namespace = implode('\\', $controllerParts);
-        } else {
-            $namespace = implode('\\', $documentParts);
-        }
+        $namespace = implode('\\', $documentParts);
 
         $target = sprintf(
             '%s/Controller/%s/%sController.php',
             $dir,
             str_replace('\\', '/', $namespace),
-            $controllerClass
+            $documentClass
         );
 
         if (file_exists($target)) {
@@ -185,7 +175,6 @@ class DoctrineCrudGenerator extends Generator
             'bundle'               => $this->bundle->getName(),
             'document'             => $this->document,
             'document_class'       => $documentClass,
-            'controller_name'      => $controllerClass,
             'namespace'            => $this->bundle->getNamespace(),
             'controller_namespace' => $namespace,
             'format'               => $this->format,
@@ -201,16 +190,10 @@ class DoctrineCrudGenerator extends Generator
         $documentParts = explode('\\', $this->document);
         $documentClass = array_pop($documentParts);
 
-        $controllerParts = explode('\\', $this->controller);
-        $controllerClass = array_pop($controllerParts);
-        if (false !== strpos($this->controller, '\\')) {
-            $namespace = implode('\\', $controllerParts);
-        } else {
-            $namespace = implode('\\', $documentParts);
-        }
+        $namespace = implode('\\', $documentParts);
 
-        $dir = $this->bundle->getPath().'/Tests/Controller';
-        $target = $dir.'/'.str_replace('\\', '/', $namespace).'/'.$controllerClass.'ControllerTest.php';
+        $dir    = $this->bundle->getPath().'/Tests/Controller';
+        $target = $dir.'/'.str_replace('\\', '/', $namespace).'/'.$documentClass.'ControllerTest.php';
 
         $this->renderFile($this->skeletonDir, 'tests/test.php', $target, array(
             'route_prefix'         => $this->routePrefix,
@@ -218,7 +201,6 @@ class DoctrineCrudGenerator extends Generator
             'document'             => $this->document,
             'document_class'       => $documentClass,
             'namespace'            => $this->bundle->getNamespace(),
-            'controller_class'     => $controllerClass,
             'controller_namespace' => $namespace,
             'actions'              => $this->actions,
             'dir'                  => $this->skeletonDir,
