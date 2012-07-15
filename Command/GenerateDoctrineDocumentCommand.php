@@ -14,6 +14,26 @@ class GenerateDoctrineDocumentCommand extends GenerateDoctrineCommand
 
     private $generator;
 
+    /**
+     * @return DoctrineDocumentGenerator
+     */
+    public function getGenerator()
+    {
+        if (null === $this->generator) {
+            $this->generator = new DoctrineDocumentGenerator($this->getFilesystem(), $this->getDocumentManager());
+        }
+
+        return $this->generator;
+    }
+
+    /**
+     * @param \IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineDocumentGenerator $generator
+     */
+    public function setGenerator(DoctrineDocumentGenerator $generator)
+    {
+        $this->generator = $generator;
+    }
+
     protected function configure()
     {
         $this
@@ -234,25 +254,5 @@ EOT
         }
 
         return $fields;
-    }
-
-    /**
-     * @return DoctrineDocumentGenerator
-     */
-    private function getGenerator()
-    {
-        if (null === $this->generator) {
-            $this->generator = new DoctrineDocumentGenerator($this->getFilesystem(), $this->getDocumentManager());
-        }
-
-        return $this->generator;
-    }
-
-    /**
-     * @param \IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineDocumentGenerator $generator
-     */
-    private function setGenerator(DoctrineDocumentGenerator $generator)
-    {
-        $this->generator = $generator;
     }
 }
