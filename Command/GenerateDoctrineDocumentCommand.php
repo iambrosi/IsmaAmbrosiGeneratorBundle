@@ -22,7 +22,6 @@ class GenerateDoctrineDocumentCommand extends GenerateDoctrineCommand
             ->setDescription('Generates a new Doctrine document inside a bundle')
             ->addOption('document', null, InputOption::VALUE_REQUIRED, 'The document class name to initialize (shortcut notation)')
             ->addOption('fields', null, InputOption::VALUE_REQUIRED, 'The fields to create with the new document')
-            ->addOption('format', null, InputOption::VALUE_REQUIRED, 'Use the format for configuration files (php, xml, yml, or annotation)', 'annotation')
             ->addOption('with-repository', null, InputOption::VALUE_NONE, 'Whether to generate the document repository or not')
             ->setHelp(<<<EOT
 The <info>doctrine:generate:document</info> task generates a new Doctrine
@@ -43,15 +42,10 @@ The command can also generate the corresponding document repository class with t
 
 <info>php app/console doctrine:generate:document --document=AcmeBlogBundle:Blog/Post --with-repository</info>
 
-By default, the command uses annotations for the mapping information; change it
-with <comment>--format</comment>:
-
-<info>php app/console doctrine:generate:document --document=AcmeBlogBundle:Blog/Post --format=yml</info>
-
 To deactivate the interaction mode, simply use the `--no-interaction` option
 without forgetting to pass all needed options:
 
-<info>php app/console doctrine:generate:document --document=AcmeBlogBundle:Blog/Post --format=annotation --fields="title:string body:string" --with-repository --no-interaction</info>
+<info>php app/console doctrine:generate:document --document=AcmeBlogBundle:Blog/Post --fields="title:string body:string" --with-repository --no-interaction</info>
 EOT
         );
     }
@@ -73,7 +67,6 @@ EOT
 
         $document = Validators::validateDocumentName($input->getOption('document'));
         list($bundle, $document) = $this->parseShortcutNotation($document);
-        Validators::validateFormat($input->getOption('format'));
         $fields = $this->parseFields($input->getOption('fields'));
 
         $dialog->writeSection($output, 'Document generation');
@@ -131,18 +124,6 @@ EOT
         }
         $input->setOption('document', $bundle.':'.$document);
 
-        // format
-        $output->writeln(array(
-            '',
-            'Determine the format to use for the mapping information.',
-            '',
-        ));
-        $format = $dialog->askAndValidate($output, $dialog->getQuestion('Configuration format (yml, xml, php, or annotation)', $input->getOption('format')), array(
-            'IsmaAmbrosi\Bundle\GeneratorBundle\Command\Validators',
-            'validateFormat'
-        ), false, $input->getOption('format'));
-        $input->setOption('format', $format);
-
         // fields
         $input->setOption('fields', $this->addFields($input, $output, $dialog));
 
@@ -156,8 +137,7 @@ EOT
             '',
             $this->getFormatter()->formatBlock('Summary before generation', 'bg=blue;fg=white', true),
             '',
-            sprintf("You are going to generate a \"<info>%s:%s</info>\" Doctrine2 document", $bundle, $document),
-            sprintf("using the \"<info>%s</info>\" format.", $format),
+            sprintf("You are going to generate a \"<info>%s:%s</info>\" Doctrine2 document.", $bundle, $document),
             '',
         ));
     }
@@ -175,14 +155,9 @@ EOT
             if (strlen($name)) {
                 $type = isset($elements[1]) ? $elements[1] : 'string';
                 preg_match_all('/(.*)\((.*)\)/', $type, $matches);
-                $type   = isset($matches[1][0]) ? $matches[1][0] : $type;
-                $length = isset($matches[2][0]) ? $matches[2][0] : null;
+                $type = isset($matches[1][0]) ? $matches[1][0] : $type;
 
-                $fields[$name] = array(
-                    'fieldName' => $name,
-                    'type'      => $type,
-                    'length'    => $length
-                );
+                $fields[$name] = array('fieldName' => $name, 'type' => $type);
             }
         }
 
