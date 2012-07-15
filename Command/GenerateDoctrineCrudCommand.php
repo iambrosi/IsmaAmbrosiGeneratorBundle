@@ -250,8 +250,7 @@ EOT
     protected function getFormGenerator()
     {
         if (null === $this->formGenerator) {
-            $this->formGenerator = new DoctrineFormGenerator($this->getFilesystem(), __DIR__.'/../Resources/skeleton/form');
-            ;
+            $this->formGenerator = new DoctrineFormGenerator(__DIR__.'/../Resources/skeleton/form');
         }
 
         return $this->formGenerator;
