@@ -4,6 +4,7 @@
     "type": "symfony-bundle",
     "license": "MIT",
     "require": {
+        "php": ">=5.3.4",
         "sensio/generator-bundle": "2.1.x-dev",
         "symfony/framework-bundle": "v2.1.0-BETA2",
         "doctrine/mongodb-odm": "dev-master"
