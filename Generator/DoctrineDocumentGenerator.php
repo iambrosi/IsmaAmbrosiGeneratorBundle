@@ -69,7 +69,7 @@ class DoctrineDocumentGenerator extends Generator
         $documentCode      = $documentGenerator->generateDocumentClass($class);
 
         $this->filesystem->mkdir(dirname($documentPath));
-        file_put_contents($documentPath, $documentCode, LOCK_EX);
+        file_put_contents($documentPath, rtrim($documentCode).PHP_EOL, LOCK_EX);
 
         if ($withRepository) {
             $path = $bundle->getPath().str_repeat('/..', substr_count(get_class($bundle), '\\'));
