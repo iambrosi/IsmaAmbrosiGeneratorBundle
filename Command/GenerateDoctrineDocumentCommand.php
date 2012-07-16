@@ -193,8 +193,8 @@ EOT
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param \Symfony\Component\Console\Input\InputInterface            $input
+     * @param \Symfony\Component\Console\Output\OutputInterface          $output
      * @param \Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper $dialog
      *
      * @return array

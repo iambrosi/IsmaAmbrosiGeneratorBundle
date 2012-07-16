@@ -4,23 +4,19 @@
     "keywords": [],
     "type": "symfony-bundle",
     "license": "MIT",
-    "require": {
-        "php": ">=5.3.3",
-        "sensio/generator-bundle": "2.1.x-dev",
-        "doctrine/mongodb-odm": "dev-master"
-    },
     "authors": [
         {
             "name": "Ismael Ambrosi",
             "email": "ismaambrosi@gmail.com"
         }
     ],
+    "require": {
+        "sensio/generator-bundle": ">=2.0,<2.1",
+        "doctrine/mongodb-odm": "dev-master"
+    },
+    "minimum-stability": "dev",
     "autoload": {
         "psr-0": { "IsmaAmbrosi\\Bundle\\GeneratorBundle": "" }
     },
-    "minimum-stability": "dev",
-    "target-dir": "IsmaAmbrosi/Bundle/GeneratorBundle",
-    "require-dev": {
-        "twig/twig": ">=1.4,<2.0-dev"
-    }
+    "target-dir": "IsmaAmbrosi/Bundle/GeneratorBundle"
 }

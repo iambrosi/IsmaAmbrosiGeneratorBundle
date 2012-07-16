@@ -224,7 +224,7 @@ EOT
 
     /**
      * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param string $document
+     * @param string                                          $document
      *
      * @return string
      */

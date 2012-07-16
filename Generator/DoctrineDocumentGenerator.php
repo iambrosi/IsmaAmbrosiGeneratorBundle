@@ -7,7 +7,7 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 use Doctrine\ODM\MongoDB\Tools\DocumentGenerator;
 use Doctrine\ODM\MongoDB\Tools\DocumentRepositoryGenerator;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpKernel\Util\Filesystem;
 
 /**
  * Class DoctrineDocumentGenerator
@@ -18,7 +18,7 @@ class DoctrineDocumentGenerator extends Generator
 {
 
     /**
-     * @var \Symfony\Component\Filesystem\Filesystem
+     * @var \Symfony\Component\HttpKernel\Util\Filesystem
      */
     private $filesystem;
 
@@ -30,8 +30,8 @@ class DoctrineDocumentGenerator extends Generator
     /**
      * Constructor
      *
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem
-     * @param \Doctrine\ODM\MongoDB\DocumentManager    $documentManager
+     * @param \Symfony\Component\HttpKernel\Util\Filesystem $filesystem
+     * @param \Doctrine\ODM\MongoDB\DocumentManager         $documentManager
      */
     public function __construct(Filesystem $filesystem, DocumentManager $documentManager)
     {

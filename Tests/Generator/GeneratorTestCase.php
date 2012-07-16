@@ -2,7 +2,7 @@
 
 namespace IsmaAmbrosi\Bundle\GeneratorBundle\Tests\Generator;
 
-use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpKernel\Util\Filesystem;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 
 /**
@@ -80,7 +80,7 @@ abstract class GeneratorTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Symfony\Component\Filesystem\Filesystem
+     * @return \Symfony\Component\HttpKernel\Util\Filesystem
      */
     protected function getFilesystem()
     {

@@ -3,14 +3,14 @@
 namespace IsmaAmbrosi\Bundle\GeneratorBundle\Generator;
 
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
-use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpKernel\Util\Filesystem;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class DoctrineCrudGenerator extends Generator
 {
 
     /**
-     * @var \Symfony\Component\Filesystem\Filesystem
+     * @var \Symfony\Component\HttpKernel\Util\Filesystem
      */
     private $filesystem;
 
@@ -57,8 +57,8 @@ class DoctrineCrudGenerator extends Generator
     /**
      * Constructor.
      *
-     * @param \Symfony\Component\Filesystem\Filesystem $filesystem  A Filesystem instance
-     * @param string                                   $skeletonDir Path to the skeleton directory
+     * @param \Symfony\Component\HttpKernel\Util\Filesystem $filesystem  A Filesystem instance
+     * @param string                                        $skeletonDir Path to the skeleton directory
      */
     public function __construct(Filesystem $filesystem, $skeletonDir)
     {
@@ -307,8 +307,7 @@ class DoctrineCrudGenerator extends Generator
      */
     private function getRecordActions()
     {
-        return array_filter($this->actions, function($item)
-        {
+        return array_filter($this->actions, function($item) {
             return in_array($item, array('show', 'edit'));
         });
     }
