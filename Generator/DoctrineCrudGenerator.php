@@ -9,23 +9,49 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 class DoctrineCrudGenerator extends Generator
 {
 
+    /**
+     * @var \Symfony\Component\Filesystem\Filesystem
+     */
     private $filesystem;
 
+    /**
+     * @var string
+     */
     private $skeletonDir;
 
+    /**
+     * @var string
+     */
     private $routePrefix;
 
+    /**
+     * @var string
+     */
     private $routeNamePrefix;
 
-    /** @var BundleInterface */
+    /**
+     * @var BundleInterface
+     */
     private $bundle;
 
+    /**
+     * @var string
+     */
     private $document;
 
+    /**
+     * @var ClassMetadataInfo
+     */
     private $metadata;
 
+    /**
+     * @var string
+     */
     private $format;
 
+    /**
+     * @var array
+     */
     private $actions;
 
     /**
@@ -281,7 +307,8 @@ class DoctrineCrudGenerator extends Generator
      */
     private function getRecordActions()
     {
-        return array_filter($this->actions, function($item) {
+        return array_filter($this->actions, function($item)
+        {
             return in_array($item, array('show', 'edit'));
         });
     }

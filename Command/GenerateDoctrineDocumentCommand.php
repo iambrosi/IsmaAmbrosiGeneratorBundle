@@ -12,6 +12,9 @@ use Doctrine\ODM\MongoDB\Mapping\Types\Type;
 class GenerateDoctrineDocumentCommand extends GenerateDoctrineCommand
 {
 
+    /**
+     * @var DoctrineDocumentGenerator
+     */
     private $generator;
 
     /**
@@ -162,6 +165,11 @@ EOT
         ));
     }
 
+    /**
+     * @param string $input
+     *
+     * @return array
+     */
     private function parseFields($input)
     {
         if (is_array($input)) {
@@ -184,6 +192,14 @@ EOT
         return $fields;
     }
 
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param \Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper $dialog
+     *
+     * @return array
+     * @throws \InvalidArgumentException
+     */
     private function addFields(InputInterface $input, OutputInterface $output, DialogHelper $dialog)
     {
         $fields = $this->parseFields($input->getOption('fields'));

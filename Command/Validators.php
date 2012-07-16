@@ -7,7 +7,7 @@ use Sensio\Bundle\GeneratorBundle\Command\Validators as BaseValidators;
 /**
  * Class Validators
  *
- * @author Ismael Ambrosi<ismael@servergrove.com>
+ * @author Ismael Ambrosi<ismaambrosi@gmail.com>
  */
 class Validators extends BaseValidators
 {
@@ -29,14 +29,5 @@ class Validators extends BaseValidators
         }
 
         return $document;
-    }
-
-    public static function validateControllerName($controller)
-    {
-        if (preg_match('/[^\w\/]+$/', $controller)) {
-            throw new \InvalidArgumentException(sprintf('The controller name must end with "Controller" : ("%s" given, expecting something like PostController)', $controller));
-        }
-
-        return str_replace('/', '\\', $controller);
     }
 }

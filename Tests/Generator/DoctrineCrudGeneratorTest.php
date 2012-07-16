@@ -7,7 +7,7 @@ use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator;
 /**
  * Class DoctrineDocumentGeneratorTest
  *
- * @author Ismael Ambrosi<ismael@servergrove.com>
+ * @author Ismael Ambrosi<ismaambrosi@gmail.com>
  */
 class DoctrineCrudGeneratorTest extends GeneratorTestCase
 {

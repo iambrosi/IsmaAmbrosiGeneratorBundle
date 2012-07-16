@@ -8,21 +8,29 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 /**
  * Class GeneratorTest
  *
- * @author Ismael Ambrosi<ismael@servergrove.com>
+ * @author Ismael Ambrosi<ismaambrosi@gmail.com>
  */
 abstract class GeneratorTestCase extends \PHPUnit_Framework_TestCase
 {
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $tmpDir;
 
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $documentName;
 
-    /** @var ClassMetadataInfo */
+    /**
+     * @var ClassMetadataInfo
+     */
     protected $metadata;
 
-    /** @var Filesystem */
+    /**
+     * @var Filesystem
+     */
     protected $filesystem;
 
     protected function setUp()

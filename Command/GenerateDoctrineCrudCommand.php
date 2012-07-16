@@ -16,8 +16,14 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 class GenerateDoctrineCrudCommand extends GenerateDoctrineCommand
 {
 
+    /**
+     * @var DoctrineCrudGenerator
+     */
     private $generator;
 
+    /**
+     * @var DoctrineFormGenerator
+     */
     private $formGenerator;
 
     /**
@@ -216,6 +222,12 @@ EOT
         return null;
     }
 
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param string $document
+     *
+     * @return string
+     */
     protected function getRoutePrefix(InputInterface $input, $document)
     {
         $prefix = $input->getOption('route-prefix') ? : strtolower(str_replace(array('\\', '/'), '_', $document));
@@ -239,6 +251,9 @@ EOT
         return $this->generator;
     }
 
+    /**
+     * @param \IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator $generator
+     */
     public function setGenerator(DoctrineCrudGenerator $generator)
     {
         $this->generator = $generator;
@@ -256,6 +271,9 @@ EOT
         return $this->formGenerator;
     }
 
+    /**
+     * @param \IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineFormGenerator $formGenerator
+     */
     public function setFormGenerator(DoctrineFormGenerator $formGenerator)
     {
         $this->formGenerator = $formGenerator;

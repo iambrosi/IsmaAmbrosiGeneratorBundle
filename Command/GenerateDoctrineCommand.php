@@ -8,6 +8,12 @@ use Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper;
 abstract class GenerateDoctrineCommand extends ContainerAwareCommand
 {
 
+    /**
+     * @param string $shortcut
+     *
+     * @return array
+     * @throws \InvalidArgumentException
+     */
     protected function parseShortcutNotation($shortcut)
     {
         $document = str_replace('/', '\\', $shortcut);

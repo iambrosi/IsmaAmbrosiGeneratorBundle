@@ -9,7 +9,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 /**
  * Class GenerateDoctrineCrudCommandTest
  *
- * @author Ismael Ambrosi<ismael@servergrove.com>
+ * @author Ismael Ambrosi<ismaambrosi@gmail.com>
  */
 class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
 {
@@ -73,8 +73,15 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
         );
     }
 
+    /**
+     * @param \IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator $generator
+     * @param string $input
+     *
+     * @return \IsmaAmbrosi\Bundle\GeneratorBundle\Command\GenerateDoctrineCrudCommand
+     */
     protected function getCommand($generator, $input)
     {
+        /** @var $command GenerateDoctrineCrudCommand */
         $command = $this
             ->getMockBuilder('IsmaAmbrosi\Bundle\GeneratorBundle\Command\GenerateDoctrineCrudCommand')
             ->setMethods(array('getDocumentMetadata'))
@@ -93,6 +100,9 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
         return $command;
     }
 
+    /**
+     * @return \Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo
+     */
     protected function getDoctrineMetadata()
     {
         return $this
@@ -101,6 +111,9 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
             ->getMock();
     }
 
+    /**
+     * @return \IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator
+     */
     protected function getGenerator()
     {
         // get a noop generator
@@ -111,6 +124,9 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
             ->getMock();
     }
 
+    /**
+     * @return \IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineFormGenerator
+     */
     protected function getFormGenerator()
     {
         return $this
@@ -120,6 +136,9 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
             ->getMock();
     }
 
+    /**
+     * @return \Symfony\Component\DependencyInjection\Container
+     */
     protected function getContainer()
     {
         $container = parent::getContainer();
@@ -138,6 +157,9 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
         return $container;
     }
 
+    /**
+     * @return \Symfony\Component\HttpKernel\Bundle\BundleInterface
+     */
     protected function getBundle()
     {
         $bundle = parent::getBundle();

@@ -7,7 +7,7 @@ use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineFormGenerator;
 /**
  * Class DoctrineDocumentGeneratorTest
  *
- * @author Ismael Ambrosi<ismael@servergrove.com>
+ * @author Ismael Ambrosi<ismaambrosi@gmail.com>
  */
 class DoctrineFormGeneratorTest extends GeneratorTestCase
 {

@@ -9,7 +9,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 /**
  * Class GenerateDoctrineDocumentCommandTest
  *
- * @author Ismael Ambrosi<ismael@servergrove.com>
+ * @author Ismael Ambrosi<ismaambrosi@gmail.com>
  */
 class GenerateDoctrineDocumentCommandTest extends GenerateCommandTest
 {
