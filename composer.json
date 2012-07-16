@@ -4,17 +4,17 @@
     "keywords": [],
     "type": "symfony-bundle",
     "license": "MIT",
-    "require": {
-        "php": ">=5.3.3",
-        "sensio/generator-bundle": "2.1.x-dev",
-        "doctrine/mongodb-odm": "dev-master"
-    },
     "authors": [
         {
             "name": "Ismael Ambrosi",
             "email": "ismaambrosi@gmail.com"
         }
     ],
+    "require": {
+        "php": ">=5.3.3",
+        "sensio/generator-bundle": "2.1.x-dev",
+        "doctrine/mongodb-odm": "dev-master"
+    },
     "autoload": {
         "psr-0": { "IsmaAmbrosi\\Bundle\\GeneratorBundle": "" }
     },
