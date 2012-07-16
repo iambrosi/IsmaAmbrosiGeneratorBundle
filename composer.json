@@ -22,5 +22,10 @@
     "target-dir": "IsmaAmbrosi/Bundle/GeneratorBundle",
     "require-dev": {
         "twig/twig": ">=1.4,<2.0-dev"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.1.x-dev"
+        }
     }
 }
