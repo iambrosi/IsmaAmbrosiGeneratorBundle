@@ -75,7 +75,7 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
 
     /**
      * @param \IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator $generator
-     * @param string $input
+     * @param string                                                              $input
      *
      * @return \IsmaAmbrosi\Bundle\GeneratorBundle\Command\GenerateDoctrineCrudCommand
      */

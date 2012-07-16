@@ -307,8 +307,7 @@ class DoctrineCrudGenerator extends Generator
      */
     private function getRecordActions()
     {
-        return array_filter($this->actions, function($item)
-        {
+        return array_filter($this->actions, function($item) {
             return in_array($item, array('show', 'edit'));
         });
     }
