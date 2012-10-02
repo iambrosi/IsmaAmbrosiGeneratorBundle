@@ -133,9 +133,6 @@ EOT
         $input->setOption('document', $document);
         list($bundle, $document) = $this->parseShortcutNotation($document);
 
-        // Document exists?
-        $documentClass = $this->getDocumentNamespace($bundle).'\\'.$document;
-
         // write?
         $withWrite = $input->getOption('with-write') ? : false;
         $output->writeln(array(
