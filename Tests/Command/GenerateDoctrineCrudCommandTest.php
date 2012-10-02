@@ -19,16 +19,23 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
     public function testInteractiveCommand($options, $input, $expected)
     {
         list($document, $format, $prefix, $withWrite) = $expected;
+
+        /** @var $generator \PHPUnit_Framework_MockObject_MockObject */
         $generator = $this->getGenerator();
         $generator
             ->expects($this->once())
             ->method('generate')
             ->with($this->getBundle(), $document, $this->getDoctrineMetadata(), $format, $prefix, $withWrite);
 
+        /** @var $generator \IsmaAmbrosi\Bundle\GeneratorBundle\Generator\Generator */
+
         $tester = new CommandTester($this->getCommand($generator, $input));
         $tester->execute($options);
     }
 
+    /**
+     * @return array
+     */
     public function getInteractiveCommandData()
     {
         return array(
@@ -50,6 +57,7 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
     {
         list($document, $format, $prefix, $withWrite) = $expected;
 
+        /** @var $generator \PHPUnit_Framework_MockObject_MockObject */
         $generator = $this->getGenerator();
         $generator
             ->expects($this->once())
@@ -60,6 +68,9 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
         $tester->execute($options, array('interactive' => false));
     }
 
+    /**
+     * @return array
+     */
     public function getNonInteractiveCommandData()
     {
         return array(
@@ -81,7 +92,7 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
      */
     protected function getCommand($generator, $input)
     {
-        /** @var $command GenerateDoctrineCrudCommand */
+        /** @var $command \PHPUnit_Framework_MockObject_MockObject */
         $command = $this
             ->getMockBuilder('IsmaAmbrosi\Bundle\GeneratorBundle\Command\GenerateDoctrineCrudCommand')
             ->setMethods(array('getDocumentMetadata'))
@@ -92,6 +103,7 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
             ->method('getDocumentMetadata')
             ->will($this->returnValue($this->getDoctrineMetadata()));
 
+        /** @var $command GenerateDoctrineCrudCommand */
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet($input));
         $command->setGenerator($generator);

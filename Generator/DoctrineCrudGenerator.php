@@ -6,6 +6,11 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
+/**
+ * Class DoctrineCrudGenerator
+ *
+ * @author Ismael Ambrosi<ismaambrosi@gmail.com>
+ */
 class DoctrineCrudGenerator extends Generator
 {
 

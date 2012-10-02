@@ -125,7 +125,8 @@ EOT
             ''
         ));
 
-        while (true) {
+        do {
+            $retry = true;
             $document = $dialog->askAndValidate($output, $dialog->getQuestion('The Document shortcut name', $input->getOption('document')), array(
                 'IsmaAmbrosi\Bundle\GeneratorBundle\Command\Validators',
                 'validateDocumentName'
@@ -136,15 +137,15 @@ EOT
             try {
                 $b = $this->getKernel()->getBundle($bundle);
 
-                if (!file_exists($b->getPath().'/Document/'.str_replace('\\', '/', $document).'.php')) {
-                    break;
+                if (!file_exists($b->getPath() . '/Document/' . str_replace('\\', '/', $document) . '.php')) {
+                    $retry = false;
+                } else {
+                    $output->writeln(sprintf('<bg=red>Document "%s:%s" already exists</>.', $bundle, $document));
                 }
-
-                $output->writeln(sprintf('<bg=red>Document "%s:%s" already exists</>.', $bundle, $document));
             } catch (\Exception $e) {
                 $output->writeln(sprintf('<bg=red>Bundle "%s" does not exist.</>', $bundle));
             }
-        }
+        } while ($retry);
         $input->setOption('document', $bundle.':'.$document);
 
         // fields
