@@ -39,6 +39,13 @@ class DoctrineDocumentGenerator extends Generator
         $this->documentManager = $documentManager;
     }
 
+    /**
+     * @param \Symfony\Component\HttpKernel\Bundle\BundleInterface $bundle
+     * @param string $document
+     * @param array $fields
+     * @param Boolean $withRepository
+     * @throws \RuntimeException
+     */
     public function generate(BundleInterface $bundle, $document, array $fields, $withRepository)
     {
         $config = $this->documentManager->getConfiguration();

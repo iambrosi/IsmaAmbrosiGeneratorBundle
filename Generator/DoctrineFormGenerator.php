@@ -5,6 +5,11 @@ namespace IsmaAmbrosi\Bundle\GeneratorBundle\Generator;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
+/**
+ * Class DoctrineFormGenerator
+ *
+ * @author Ismael Ambrosi<ismaambrosi@gmail.com>
+ */
 class DoctrineFormGenerator extends Generator
 {
 

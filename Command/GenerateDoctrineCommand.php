@@ -5,6 +5,11 @@ namespace IsmaAmbrosi\Bundle\GeneratorBundle\Command;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper;
 
+/**
+ * Class GenerateDoctrineCommand
+ *
+ * @author Ismael Ambrosi<ismaambrosi@gmail.com>
+ */
 abstract class GenerateDoctrineCommand extends ContainerAwareCommand
 {
 
