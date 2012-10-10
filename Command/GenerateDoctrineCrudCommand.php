@@ -109,7 +109,7 @@ EOT
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Input\InputInterface   $input
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -196,13 +196,13 @@ EOT
     }
 
     /**
-     * @param \Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper $dialog
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     * @param \Symfony\Component\HttpKernel\Bundle\BundleInterface $bundle
-     * @param string $format
-     * @param string $document
-     * @param string $prefix
+     * @param  \Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper $dialog
+     * @param  \Symfony\Component\Console\Input\InputInterface            $input
+     * @param  \Symfony\Component\Console\Output\OutputInterface          $output
+     * @param  \Symfony\Component\HttpKernel\Bundle\BundleInterface       $bundle
+     * @param  string                                                     $format
+     * @param  string                                                     $document
+     * @param  string                                                     $prefix
      * @return array|null
      */
     private function updateRouting(DialogHelper $dialog, InputInterface $input, OutputInterface $output, BundleInterface $bundle, $format, $document, $prefix)

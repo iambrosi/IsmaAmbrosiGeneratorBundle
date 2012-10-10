@@ -40,10 +40,10 @@ class DoctrineDocumentGenerator extends Generator
     }
 
     /**
-     * @param \Symfony\Component\HttpKernel\Bundle\BundleInterface $bundle
-     * @param string $document
-     * @param array $fields
-     * @param Boolean $withRepository
+     * @param  \Symfony\Component\HttpKernel\Bundle\BundleInterface $bundle
+     * @param  string                                               $document
+     * @param  array                                                $fields
+     * @param  Boolean                                              $withRepository
      * @throws \RuntimeException
      */
     public function generate(BundleInterface $bundle, $document, array $fields, $withRepository)
