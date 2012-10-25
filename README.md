@@ -12,20 +12,10 @@ Installation
 
 Add the requirement to composer:
 
-```json
-/* composer.json */
-{
-    "require": {
-        "ismaambrosi/generator-bundle": "dev-master"
-    }
-}
-```
-
-Update your vendors:
-
 ```bash
-$ php composer.phar update
+$ php composer.phar require ismaambrosi/generator-bundle:dev-master
 ```
+
 You will also need to install the DoctrineMongoDBBundle. The instructions on how to install it are available in the Symfony2 [documentation](http://symfony.com/doc/master/bundles/DoctrineMongoDBBundle/index.html).
 
 ### Enable the bundle in the app Kernel
