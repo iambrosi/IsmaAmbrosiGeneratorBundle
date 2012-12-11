@@ -4,8 +4,12 @@ namespace {{ namespace }}\Controller{{ controller_namespace ? '\\' ~ controller_
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 {% if 'annotation' == format -%}
+{% if 'new' in actions or 'edit' in actions or 'delete' in actions -%}
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+{% endif %}
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-{%- endif %}
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+{% endif %}
 use {{ namespace }}\Document\{{ document }};
 {% if 'new' in actions or 'edit' in actions %}
 use {{ namespace }}\Form\{{ document }}Type;
