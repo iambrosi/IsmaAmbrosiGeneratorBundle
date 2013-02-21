@@ -7,5 +7,5 @@ php:
 
 before_script:
   - pecl -q install mongo && echo "extension=mongo.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
-  - composer.phar --dev install
+  - composer --dev install
 
