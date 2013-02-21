@@ -18,7 +18,6 @@
     "autoload": {
         "psr-0": { "IsmaAmbrosi\\Bundle\\GeneratorBundle": "" }
     },
-    "minimum-stability": "dev",
     "target-dir": "IsmaAmbrosi/Bundle/GeneratorBundle",
     "require-dev": {
         "twig/twig": ">=1.4,<2.0-dev"
