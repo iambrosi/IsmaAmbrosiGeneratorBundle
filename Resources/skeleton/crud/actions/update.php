@@ -4,21 +4,23 @@
      *
 {% if 'annotation' == format %}
      * @Route("/{id}/update", name="{{ route_name_prefix }}_update")
-     * @Method("post")
+     * @Method("POST")
      * @Template("{{ bundle }}:{{ controller_namespace ? controller_namespace|replace({"\\": "/"}) ~ '/' : '' }}{{ document }}:edit.html.twig")
      *
-     * @param string $id The document ID
+     * @param Request $request The request object
+     * @param string $id       The document ID
      *
      * @return array
 {% else %}
-     * @param string $id The document ID
+     * @param Request $request The request object
+     * @param string $id       The document ID
      *
      * @return \Symfony\Component\HttpFoundation\Response
 {% endif %}
      *
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException If document doesn't exists
      */
-    public function updateAction($id)
+    public function updateAction(Request $request, $id)
     {
         $dm = $this->getDocumentManager();
 
@@ -33,7 +35,7 @@
 
         $request = $this->getRequest();
 
-        $editForm->bindRequest($request);
+        $editForm->bind($request);
 
         if ($editForm->isValid()) {
             $dm->persist($document);

@@ -4,20 +4,23 @@
      *
 {% if 'annotation' == format %}
      * @Route("/create", name="{{ route_name_prefix }}_create")
-     * @Method("post")
+     * @Method("POST")
      * @Template("{{ bundle }}:{{ controller_namespace ? controller_namespace|replace({"\\": "/"}) ~ '/' : '' }}{{ document }}:new.html.twig")
+     *
+     * @param Request $request
      *
      * @return array
 {% else %}
+     * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\Response
 {% endif %}
      */
-    public function createAction()
+    public function createAction(Request $request)
     {
-        $document  = new {{ document_class }}();
-        $request = $this->getRequest();
-        $form    = $this->createForm(new {{ document_class }}Type(), $document);
-        $form->bindRequest($request);
+        $document = new {{ document_class }}();
+        $form     = $this->createForm(new {{ document_class }}Type(), $document);
+        $form->bind($request);
 
         if ($form->isValid()) {
             $dm = $this->getDocumentManager();

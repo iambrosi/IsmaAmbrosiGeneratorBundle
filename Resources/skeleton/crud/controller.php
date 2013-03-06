@@ -6,14 +6,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 {% if 'annotation' == format -%}
 {% if 'new' in actions or 'edit' in actions or 'delete' in actions -%}
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Request;
 {% endif %}
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 {% endif %}
 {% if 'new' in actions or 'edit' in actions %}
 use {{ namespace }}\Document\{{ document }};
-{% endif %}
-{% if 'new' in actions or 'edit' in actions %}
 use {{ namespace }}\Form\{{ document }}Type;
 {% endif %}
 

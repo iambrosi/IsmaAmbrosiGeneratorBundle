@@ -23,7 +23,7 @@
 
         {%- elseif metadata.type in ['date', 'datetime'] %}
 
-            <td>{{ '{% if document.'~ field|replace({'_': ''}) ~' %}{{ document.'~ field|replace({'_': ''}) ~'|date(\'Y-m-d H:i:s\') }}{% endif%}' }}</td>
+            <td>{{ '{% if document.'~ field|replace({'_': ''}) ~' %}{{ document.'~ field|replace({'_': ''}) ~'|date(\'Y-m-d H:i:s\') }}{% endif %}' }}</td>
 
         {%- else %}
 

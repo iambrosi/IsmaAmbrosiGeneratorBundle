@@ -182,16 +182,16 @@ class DoctrineCrudGenerator extends Generator
     {
         $dir = $this->bundle->getPath();
 
-        $documentParts = explode('\\', $this->document);
-        $documentClass = array_pop($documentParts);
+        $parts = explode('\\', $this->document);
+        $class = array_pop($parts);
 
-        $namespace = implode('\\', $documentParts);
+        $namespace = implode('\\', $parts);
 
         $target = sprintf(
             '%s/Controller/%s/%sController.php',
             $dir,
             str_replace('\\', '/', $namespace),
-            $documentClass
+            $class
         );
 
         if (file_exists($target)) {
@@ -205,7 +205,7 @@ class DoctrineCrudGenerator extends Generator
             'dir'                  => $this->skeletonDir,
             'bundle'               => $this->bundle->getName(),
             'document'             => $this->document,
-            'document_class'       => $documentClass,
+            'document_class'       => $class,
             'namespace'            => $this->bundle->getNamespace(),
             'controller_namespace' => $namespace,
             'format'               => $this->format,
@@ -218,22 +218,23 @@ class DoctrineCrudGenerator extends Generator
      */
     private function generateTestClass()
     {
-        $documentParts = explode('\\', $this->document);
-        $documentClass = array_pop($documentParts);
+        $parts = explode('\\', $this->document);
+        $class = array_pop($parts);
 
-        $namespace = implode('\\', $documentParts);
+        $namespace = implode('\\', $parts);
 
         $dir    = $this->bundle->getPath().'/Tests/Controller';
-        $target = $dir.'/'.str_replace('\\', '/', $namespace).'/'.$documentClass.'ControllerTest.php';
+        $target = $dir.'/'.str_replace('\\', '/', $namespace).'/'.$class.'ControllerTest.php';
 
         $this->renderFile($this->skeletonDir, 'tests/test.php', $target, array(
             'route_prefix'         => $this->routePrefix,
             'route_name_prefix'    => $this->routeNamePrefix,
             'document'             => $this->document,
-            'document_class'       => $documentClass,
+            'document_class'       => $class,
             'namespace'            => $this->bundle->getNamespace(),
             'controller_namespace' => $namespace,
             'actions'              => $this->actions,
+            'form_type_name'       => strtolower(str_replace('\\', '_', $this->bundle->getNamespace()).($parts ? '_' : '').implode('_', $parts).'_'.$class.'Type'),
             'dir'                  => $this->skeletonDir,
         ));
     }

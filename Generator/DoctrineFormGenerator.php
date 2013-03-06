@@ -63,10 +63,10 @@ class DoctrineFormGenerator extends Generator
      */
     public function generate(BundleInterface $bundle, $document, ClassMetadataInfo $metadata)
     {
-        $parts         = explode('\\', $document);
-        $documentClass = array_pop($parts);
+        $parts = explode('\\', $document);
+        $class = array_pop($parts);
 
-        $this->className = $documentClass.'Type';
+        $this->className = $class.'Type';
         $dirPath         = $bundle->getPath().'/Form';
         $this->classPath = $dirPath.'/'.str_replace('\\', '/', $document).'Type.php';
 
@@ -85,6 +85,7 @@ class DoctrineFormGenerator extends Generator
             'dir'                => $this->skeletonDir,
             'fields'             => $this->getFieldsFromMetadata($metadata),
             'namespace'          => $bundle->getNamespace(),
+            'document_class'     => $class,
             'document_namespace' => implode('\\', $parts),
             'form_class'         => $this->className,
             'form_type_name'     => strtolower(str_replace('\\', '_', $bundle->getNamespace()).($parts ? '_' : '').implode('_', $parts).'_'.$this->className),

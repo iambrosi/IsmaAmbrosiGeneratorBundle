@@ -23,5 +23,6 @@ class DoctrineFormGeneratorTest extends GeneratorTestCase
         $this->assertContains('->add(\'name\')', $content);
         $this->assertContains('->add(\'description\')', $content);
         $this->assertContains('class '.$this->documentName.'Type extends AbstractType', $content);
+        $this->assertContains("'data_class' => 'Foo\BarBundle\Document\\$this->documentName'", $content);
     }
 }
