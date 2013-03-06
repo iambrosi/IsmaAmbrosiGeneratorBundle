@@ -47,7 +47,7 @@ class GenerateDoctrineDocumentCommand extends GenerateDoctrineCommand
             ->addOption('fields', null, InputOption::VALUE_REQUIRED, 'The fields to create with the new document')
             ->addOption('with-repository', null, InputOption::VALUE_NONE, 'Whether to generate the document repository or not')
             ->setHelp(<<<EOT
-The <info>doctrine:generate:document</info> task generates a new Doctrine
+The <info>doctrine:mongodb:generate:document</info> task generates a new Doctrine
 document inside a bundle:
 
 <info>php app/console doctrine:mongodb:generate:document --document=AcmeBlogBundle:Blog/Post</info>
@@ -58,17 +58,17 @@ namespace <info>Acme\BlogBundle\Document\Blog\Post</info>.
 You can also optionally specify the fields you want to generate in the new
 document:
 
-<info>php app/console doctrine:generate:document --document=AcmeBlogBundle:Blog/Post --fields="title:string body:string"</info>
+<info>php app/console doctrine:mongodb:generate:document --document=AcmeBlogBundle:Blog/Post --fields="title:string body:string"</info>
 
 The command can also generate the corresponding document repository class with the
 <comment>--with-repository</comment> option:
 
-<info>php app/console doctrine:generate:document --document=AcmeBlogBundle:Blog/Post --with-repository</info>
+<info>php app/console doctrine:mongodb:generate:document --document=AcmeBlogBundle:Blog/Post --with-repository</info>
 
 To deactivate the interaction mode, simply use the `--no-interaction` option
 without forgetting to pass all needed options:
 
-<info>php app/console doctrine:generate:document --document=AcmeBlogBundle:Blog/Post --fields="title:string body:string" --with-repository --no-interaction</info>
+<info>php app/console doctrine:mongodb:generate:document --document=AcmeBlogBundle:Blog/Post --fields="title:string body:string" --with-repository --no-interaction</info>
 EOT
         );
     }

@@ -41,15 +41,15 @@ class GenerateDoctrineCrudCommand extends GenerateDoctrineCommand
         ))
             ->setDescription('Generates a CRUD based on a Doctrine document')
             ->setHelp(<<<EOT
-The <info>doctrine:generate:crud</info> command generates a CRUD based on a Doctrine document.
+The <info>doctrine:mongodb:generate:crud</info> command generates a CRUD based on a Doctrine document.
 
 The default command only generates the list and show actions.
 
-<info>php app/console doctrine:generate:crud --document=AcmeBlogBundle:Post --route-prefix=post_admin</info>
+<info>php app/console doctrine:mongodb:generate:crud --document=AcmeBlogBundle:Post --route-prefix=post_admin</info>
 
 Using the --with-write option allows to generate the new, edit and delete actions.
 
-<info>php app/console doctrine:generate:crud --document=AcmeBlogBundle:Post --route-prefix=post_admin --with-write</info>
+<info>php app/console doctrine:mongodb:generate:crud --document=AcmeBlogBundle:Post --route-prefix=post_admin --with-write</info>
 EOT
         )
             ->setName('doctrine:mongodb:generate:crud')
