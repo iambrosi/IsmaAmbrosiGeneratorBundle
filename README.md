@@ -1,7 +1,7 @@
 IsmaAmbrosiGeneratorBundle
 ==========================
 
-[![Build Status](https://secure.travis-ci.org/iambrosi/IsmaAmbrosiGeneratorBundle.png?branch=master)](http://travis-ci.org/iambrosi/IsmaAmbrosiGeneratorBundle)
+[![Build Status](https://secure.travis-ci.org/iambrosi/IsmaAmbrosiGeneratorBundle.png?branch=2.1)](http://travis-ci.org/iambrosi/IsmaAmbrosiGeneratorBundle)
 
 This bundle extends the commands provided by [SensioGeneratorBundle](https://github.com/sensio/SensioGeneratorBundle), adding a MongoDB document generator and CRUD generators for those MongoDB documents.
 
