@@ -1,7 +1,7 @@
 IsmaAmbrosiGeneratorBundle
 ==========================
 
-[![Build Status](https://secure.travis-ci.org/iambrosi/IsmaAmbrosiGeneratorBundle.png?branch=2.1)](http://travis-ci.org/iambrosi/IsmaAmbrosiGeneratorBundle)
+[![Build Status](https://secure.travis-ci.org/iambrosi/IsmaAmbrosiGeneratorBundle.png?branch=2.2)](http://travis-ci.org/iambrosi/IsmaAmbrosiGeneratorBundle)
 
 This bundle extends the commands provided by [SensioGeneratorBundle](https://github.com/sensio/SensioGeneratorBundle), adding a MongoDB document generator and CRUD generators for those MongoDB documents.
 
@@ -13,7 +13,7 @@ Installation
 Add the requirement to composer:
 
 ```bash
-$ php composer.phar require ismaambrosi/generator-bundle:dev-master
+$ php composer.phar require ismaambrosi/generator-bundle:2.2.*@dev
 ```
 
 You will also need to install the DoctrineMongoDBBundle. The instructions on how to install it are available in the Symfony2 [documentation](http://symfony.com/doc/master/bundles/DoctrineMongoDBBundle/index.html).
