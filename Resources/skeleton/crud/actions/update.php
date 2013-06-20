@@ -30,11 +30,8 @@
             throw $this->createNotFoundException('Unable to find {{ document }} document.');
         }
 
-        $editForm   = $this->createForm(new {{ document_class }}Type(), $document);
         $deleteForm = $this->createDeleteForm($id);
-
-        $request = $this->getRequest();
-
+        $editForm   = $this->createForm(new {{ document_class }}Type(), $document);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
