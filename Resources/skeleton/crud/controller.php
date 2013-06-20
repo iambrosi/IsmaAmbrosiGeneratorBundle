@@ -2,11 +2,14 @@
 
 namespace {{ namespace }}\Controller{{ controller_namespace ? '\\' ~ controller_namespace : '' }};
 
+{% if 'new' in actions or 'edit' in actions or 'delete' in actions %}
+use Symfony\Component\HttpFoundation\Request;
+{%- endif %}
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 {% if 'annotation' == format -%}
 {% if 'new' in actions or 'edit' in actions or 'delete' in actions -%}
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\Request;
 {% endif %}
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -30,13 +33,13 @@ class {{ document_class }}Controller extends Controller
         {%- include 'actions/index.php' %}
     {%- endif %}
 
-    {%- if 'show' in actions %}
-        {%- include 'actions/show.php' %}
-    {%- endif %}
-
     {%- if 'new' in actions %}
         {%- include 'actions/new.php' %}
         {%- include 'actions/create.php' %}
+    {%- endif %}
+
+    {%- if 'show' in actions %}
+        {%- include 'actions/show.php' %}
     {%- endif %}
 
     {%- if 'edit' in actions %}
