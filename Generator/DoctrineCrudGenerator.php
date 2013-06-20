@@ -165,7 +165,7 @@ class DoctrineCrudGenerator extends Generator
             $this->format
         );
 
-        $this->renderFile($this->skeletonDir, 'config/routing.'.$this->format, $target, array(
+        $this->renderFile($this->skeletonDir, 'config/routing.'.$this->format.'.twig', $target, array(
             'actions'             => $this->actions,
             'route_prefix'        => $this->routePrefix,
             'route_name_prefix'   => $this->routeNamePrefix,
@@ -198,7 +198,7 @@ class DoctrineCrudGenerator extends Generator
             throw new \RuntimeException('Unable to generate the controller as it already exists.');
         }
 
-        $this->renderFile($this->skeletonDir, 'controller.php', $target, array(
+        $this->renderFile($this->skeletonDir, 'controller.php.twig', $target, array(
             'actions'              => $this->actions,
             'route_prefix'         => $this->routePrefix,
             'route_name_prefix'    => $this->routeNamePrefix,
@@ -226,7 +226,7 @@ class DoctrineCrudGenerator extends Generator
         $dir    = $this->bundle->getPath().'/Tests/Controller';
         $target = $dir.'/'.str_replace('\\', '/', $namespace).'/'.$class.'ControllerTest.php';
 
-        $this->renderFile($this->skeletonDir, 'tests/test.php', $target, array(
+        $this->renderFile($this->skeletonDir, 'tests/test.php.twig', $target, array(
             'route_prefix'         => $this->routePrefix,
             'route_name_prefix'    => $this->routeNamePrefix,
             'document'             => $this->document,
