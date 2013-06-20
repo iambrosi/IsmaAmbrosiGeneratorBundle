@@ -12,12 +12,13 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "sensio/generator-bundle": "2.1.*@dev",
-        "doctrine/mongodb-odm": "1.0.*@dev"
+        "sensio/generator-bundle": "2.1.*",
+        "doctrine/mongodb-odm": "1.0.*@beta,<1.0.0-BETA9"
     },
     "autoload": {
         "psr-0": { "IsmaAmbrosi\\Bundle\\GeneratorBundle": "" }
     },
+    "minimum-stability": "beta",
     "target-dir": "IsmaAmbrosi/Bundle/GeneratorBundle",
     "require-dev": {
         "twig/twig": ">=1.4,<2.0-dev"
