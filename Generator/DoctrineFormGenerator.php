@@ -33,7 +33,7 @@ class DoctrineFormGenerator extends Generator
      */
     public function __construct($skeletonDir)
     {
-        $this->skeletonDir = $skeletonDir;
+        $this->setSkeletonDirs($skeletonDir);
     }
 
     /**
@@ -81,7 +81,7 @@ class DoctrineFormGenerator extends Generator
         $parts = explode('\\', $document);
         array_pop($parts);
 
-        $this->renderFile($this->skeletonDir, 'FormType.php', $this->classPath, array(
+        $this->renderFile('FormType.php', $this->classPath, array(
             'dir'                => $this->skeletonDir,
             'fields'             => $this->getFieldsFromMetadata($metadata),
             'namespace'          => $bundle->getNamespace(),
