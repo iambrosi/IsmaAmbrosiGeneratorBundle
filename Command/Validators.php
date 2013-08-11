@@ -24,7 +24,7 @@ class Validators extends BaseValidators
      */
     public static function validateDocumentName($document)
     {
-        if (false === $pos = strpos($document, ':')) {
+        if (false === strpos($document, ':')) {
             throw new \InvalidArgumentException(sprintf('The document name must contain a : ("%s" given, expecting something like AcmeBlogBundle:Blog/Post)', $document));
         }
 
