@@ -2,12 +2,12 @@
 
 namespace IsmaAmbrosi\Bundle\GeneratorBundle\Command;
 
+use Doctrine\ODM\MongoDB\Types\Type;
 use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineDocumentGenerator;
 use Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Doctrine\ODM\MongoDB\Types\Type;
 
 class GenerateDoctrineDocumentCommand extends GenerateDoctrineCommand
 {
@@ -70,7 +70,7 @@ without forgetting to pass all needed options:
 
 <info>php app/console doctrine:mongodb:generate:document --document=AcmeBlogBundle:Blog/Post --fields="title:string body:string" --with-repository --no-interaction</info>
 EOT
-        );
+            );
     }
 
     /**
@@ -125,28 +125,7 @@ EOT
             ''
         ));
 
-        do {
-            $retry = true;
-            $document = $dialog->askAndValidate($output, $dialog->getQuestion('The Document shortcut name', $input->getOption('document')), array(
-                'IsmaAmbrosi\Bundle\GeneratorBundle\Command\Validators',
-                'validateDocumentName'
-            ), false, $input->getOption('document'));
-
-            list($bundle, $document) = $this->parseShortcutNotation($document);
-
-            try {
-                $b = $this->getKernel()->getBundle($bundle);
-
-                if (!file_exists($b->getPath() . '/Document/' . str_replace('\\', '/', $document) . '.php')) {
-                    $retry = false;
-                } else {
-                    $output->writeln(sprintf('<bg=red>Document "%s:%s" already exists</>.', $bundle, $document));
-                }
-            } catch (\Exception $e) {
-                $output->writeln(sprintf('<bg=red>Bundle "%s" does not exist.</>', $bundle));
-            }
-        } while ($retry);
-        $input->setOption('document', $bundle.':'.$document);
+        list($bundle, $document) = $this->askForDocument($input, $output, $dialog);
 
         // fields
         $input->setOption('fields', $this->addFields($input, $output, $dialog));
@@ -221,11 +200,7 @@ EOT
             }
             $count += strlen($type);
             $output->write(sprintf('<comment>%s</comment>', $type));
-            if (count($types) != $i + 1) {
-                $output->write(', ');
-            } else {
-                $output->write('.');
-            }
+            $output->write(count($types) != $i + 1 ? ', ' : '.');
         }
         $output->writeln('');
 
@@ -240,36 +215,76 @@ EOT
 
         while (true) {
             $output->writeln('');
-            $self = $this;
 
-            $name = $dialog->askAndValidate($output, $dialog->getQuestion('New field name (press <return> to stop adding fields)', null), function ($name) use ($fields, $self) {
-                if (isset($fields[$name]) || 'id' == $name) {
-                    throw new \InvalidArgumentException(sprintf('Field "%s" is already defined.', $name));
-                }
-
-                return $name;
-            });
-
-            if (!$name) {
+            if (!$name = $this->askForFieldName($output, $dialog, $fields)) {
                 break;
             }
 
             $defaultType = 'string';
-
             if (substr($name, -3) == '_at') {
                 $defaultType = 'timestamp';
             }
 
             $type = $dialog->askAndValidate($output, $dialog->getQuestion('Field type', $defaultType), $fieldValidator, false, $defaultType);
 
-            $data = array(
-                'fieldName' => $name,
-                'type'      => $type
-            );
-
-            $fields[$name] = $data;
+            $fields[$name] = array('fieldName' => $name, 'type' => $type);
         }
 
         return $fields;
+    }
+
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     * @param DialogHelper    $dialog
+     *
+     * @return array
+     */
+    private function askForDocument(InputInterface $input, OutputInterface $output, DialogHelper $dialog)
+    {
+        do {
+            $retry    = true;
+            $document = $dialog->askAndValidate($output, $dialog->getQuestion('The Document shortcut name', $input->getOption('document')), array(
+                'IsmaAmbrosi\Bundle\GeneratorBundle\Command\Validators',
+                'validateDocumentName'
+            ), false, $input->getOption('document'));
+
+            list($bundle, $document) = $this->parseShortcutNotation($document);
+
+            try {
+                $b = $this->getKernel()->getBundle($bundle);
+
+                if (!file_exists($b->getPath().'/Document/'.str_replace('\\', '/', $document).'.php')) {
+                    $retry = false;
+                } else {
+                    $output->writeln(sprintf('<bg=red>Document "%s:%s" already exists</>.', $bundle, $document));
+                }
+            } catch (\Exception $e) {
+                $output->writeln(sprintf('<bg=red>Bundle "%s" does not exist.</>', $bundle));
+            }
+        } while ($retry);
+        $input->setOption('document', $bundle.':'.$document);
+
+        return array($bundle, $document);
+    }
+
+    /**
+     * @param OutputInterface $output
+     * @param DialogHelper    $dialog
+     * @param                 $fields
+     *
+     * @return string
+     */
+    private function askForFieldName(OutputInterface $output, DialogHelper $dialog, $fields)
+    {
+        $self = $this;
+
+        return $dialog->askAndValidate($output, $dialog->getQuestion('New field name (press <return> to stop adding fields)', null), function ($name) use ($fields, $self) {
+            if (isset($fields[$name]) || 'id' == $name) {
+                throw new \InvalidArgumentException(sprintf('Field "%s" is already defined.', $name));
+            }
+
+            return $name;
+        });
     }
 }

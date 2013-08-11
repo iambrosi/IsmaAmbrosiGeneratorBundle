@@ -2,15 +2,15 @@
 
 namespace IsmaAmbrosi\Bundle\GeneratorBundle\Command;
 
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Output\Output;
-use Symfony\Component\Console\Command\Command;
 use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator;
 use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineFormGenerator;
 use Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper;
 use Sensio\Bundle\GeneratorBundle\Manipulator\RoutingManipulator;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\Output;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class GenerateDoctrineCrudCommand extends GenerateDoctrineCommand
@@ -33,12 +33,12 @@ class GenerateDoctrineCrudCommand extends GenerateDoctrineCommand
     {
         $this
             ->setDefinition(array(
-            new InputOption('document', '', InputOption::VALUE_REQUIRED, 'The document class name to initialize (shortcut notation)'),
-            new InputOption('route-prefix', '', InputOption::VALUE_REQUIRED, 'The route prefix'),
-            new InputOption('controller-name', '', InputOption::VALUE_REQUIRED, 'The controller name'),
-            new InputOption('with-write', '', InputOption::VALUE_NONE, 'Whether or not to generate create, new and delete actions'),
-            new InputOption('format', '', InputOption::VALUE_REQUIRED, 'Use the format for configuration files (php, xml, yml, or annotation)', 'annotation'),
-        ))
+                new InputOption('document', '', InputOption::VALUE_REQUIRED, 'The document class name to initialize (shortcut notation)'),
+                new InputOption('route-prefix', '', InputOption::VALUE_REQUIRED, 'The route prefix'),
+                new InputOption('controller-name', '', InputOption::VALUE_REQUIRED, 'The controller name'),
+                new InputOption('with-write', '', InputOption::VALUE_NONE, 'Whether or not to generate create, new and delete actions'),
+                new InputOption('format', '', InputOption::VALUE_REQUIRED, 'Use the format for configuration files (php, xml, yml, or annotation)', 'annotation'),
+            ))
             ->setDescription('Generates a CRUD based on a Doctrine document')
             ->setHelp(<<<EOT
 The <info>doctrine:mongodb:generate:crud</info> command generates a CRUD based on a Doctrine document.
@@ -51,7 +51,7 @@ Using the --with-write option allows to generate the new, edit and delete action
 
 <info>php app/console doctrine:mongodb:generate:crud --document=AcmeBlogBundle:Post --route-prefix=post_admin --with-write</info>
 EOT
-        )
+            )
             ->setName('doctrine:mongodb:generate:crud')
             ->setAliases(array('generate:doctrine:mongodb:crud'));
     }
@@ -109,8 +109,8 @@ EOT
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface   $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     * @param InputInterface  $input
+     * @param OutputInterface $output
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
@@ -130,47 +130,13 @@ EOT
             '',
         ));
 
-        $document = $dialog->askAndValidate($output, $dialog->getQuestion('The Document shortcut name', $input->getOption('document')), array(
-            'IsmaAmbrosi\Bundle\GeneratorBundle\Command\Validators',
-            'validateDocumentName'
-        ), false, $input->getOption('document'));
-        $input->setOption('document', $document);
-        list($bundle, $document) = $this->parseShortcutNotation($document);
+        list($document, $bundle) = $this->askForDocument($input, $output, $dialog);
 
-        // write?
-        $withWrite = $input->getOption('with-write') ? : false;
-        $output->writeln(array(
-            '',
-            'By default, the generator creates two actions: list and show.',
-            'You can also ask it to generate "write" actions: new, update, and delete.',
-            '',
-        ));
-        $withWrite = $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate the "write" actions', $withWrite ? 'yes' : 'no', '?'), $withWrite);
-        $input->setOption('with-write', $withWrite);
+        $this->askForWriteOption($input, $output, $dialog);
 
-        // format
-        $format = $input->getOption('format');
-        $output->writeln(array(
-            '',
-            'Determine the format to use for the generated CRUD.',
-            '',
-        ));
-        $format = $dialog->askAndValidate($output, $dialog->getQuestion('Configuration format (yml, xml, php, or annotation)', $format), array(
-            'Sensio\Bundle\GeneratorBundle\Command\Validators',
-            'validateFormat'
-        ), false, $format);
-        $input->setOption('format', $format);
+        $format = $this->askForMappingFormat($input, $output, $dialog);
 
-        // route prefix
-        $prefix = $this->getRoutePrefix($input, $document);
-        $output->writeln(array(
-            '',
-            'Determine the routes prefix (all the routes will be "mounted" under this',
-            'prefix: /prefix/, /prefix/new, ...).',
-            '',
-        ));
-        $prefix = $dialog->ask($output, $dialog->getQuestion('Routes prefix', '/'.$prefix), '/'.$prefix);
-        $input->setOption('route-prefix', $prefix);
+        $this->askForRoutePrefix($input, $output, $dialog, $document);
 
         // summary
         $output->writeln(array(
@@ -181,6 +147,82 @@ EOT
             sprintf("using the \"<info>%s</info>\" format.", $format),
             '',
         ));
+    }
+
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param string                                          $document
+     *
+     * @return string
+     */
+    protected function getRoutePrefix(InputInterface $input, $document)
+    {
+        $prefix = $input->getOption('route-prefix') ? : strtolower(str_replace(array('\\', '/'), '_', $document));
+
+        if ($prefix && '/' === $prefix[0]) {
+            $prefix = substr($prefix, 1);
+        }
+
+        return $prefix;
+    }
+
+    /**
+     * @return DoctrineCrudGenerator
+     */
+    protected function getGenerator()
+    {
+        if (null === $this->generator) {
+            $this->generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../Resources/skeleton/crud');
+        }
+
+        return $this->generator;
+    }
+
+    /**
+     * @param DoctrineCrudGenerator $generator
+     */
+    public function setGenerator(DoctrineCrudGenerator $generator)
+    {
+        $this->generator = $generator;
+    }
+
+    /**
+     * @return DoctrineFormGenerator
+     */
+    protected function getFormGenerator()
+    {
+        if (null === $this->formGenerator) {
+            $this->formGenerator = new DoctrineFormGenerator(__DIR__.'/../Resources/skeleton/form');
+        }
+
+        return $this->formGenerator;
+    }
+
+    /**
+     * @param DoctrineFormGenerator $formGenerator
+     */
+    public function setFormGenerator(DoctrineFormGenerator $formGenerator)
+    {
+        $this->formGenerator = $formGenerator;
+    }
+
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     * @param DialogHelper    $dialog
+     *
+     * @return array
+     */
+    private function askForDocument(InputInterface $input, OutputInterface $output, DialogHelper $dialog)
+    {
+        $document = $dialog->askAndValidate($output, $dialog->getQuestion('The Document shortcut name', $input->getOption('document')), array(
+            'IsmaAmbrosi\Bundle\GeneratorBundle\Command\Validators',
+            'validateDocumentName'
+        ), false, $input->getOption('document'));
+        $input->setOption('document', $document);
+        list($bundle, $document) = $this->parseShortcutNotation($document);
+
+        return array($document, $bundle);
     }
 
     /**
@@ -196,13 +238,14 @@ EOT
     }
 
     /**
-     * @param  \Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper $dialog
-     * @param  \Symfony\Component\Console\Input\InputInterface            $input
-     * @param  \Symfony\Component\Console\Output\OutputInterface          $output
-     * @param  \Symfony\Component\HttpKernel\Bundle\BundleInterface       $bundle
-     * @param  string                                                     $format
-     * @param  string                                                     $document
-     * @param  string                                                     $prefix
+     * @param DialogHelper    $dialog
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     * @param BundleInterface $bundle
+     * @param string          $format
+     * @param string          $document
+     * @param string          $prefix
+     *
      * @return array|null
      */
     private function updateRouting(DialogHelper $dialog, InputInterface $input, OutputInterface $output, BundleInterface $bundle, $format, $document, $prefix)
@@ -234,59 +277,63 @@ EOT
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param string                                          $document
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     * @param DialogHelper    $dialog
+     */
+    private function askForWriteOption(InputInterface $input, OutputInterface $output, DialogHelper $dialog)
+    {
+        $withWrite = $input->getOption('with-write') ? : false;
+        $output->writeln(array(
+            '',
+            'By default, the generator creates two actions: list and show.',
+            'You can also ask it to generate "write" actions: new, update, and delete.',
+            '',
+        ));
+        $withWrite = $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate the "write" actions', $withWrite ? 'yes' : 'no', '?'), $withWrite);
+        $input->setOption('with-write', $withWrite);
+    }
+
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     * @param DialogHelper    $dialog
      *
-     * @return string
+     * @return mixed
      */
-    protected function getRoutePrefix(InputInterface $input, $document)
+    private function askForMappingFormat(InputInterface $input, OutputInterface $output, DialogHelper $dialog)
     {
-        $prefix = $input->getOption('route-prefix') ? : strtolower(str_replace(array('\\', '/'), '_', $document));
+        $format = $input->getOption('format');
+        $output->writeln(array(
+            '',
+            'Determine the format to use for the generated CRUD.',
+            '',
+        ));
+        $format = $dialog->askAndValidate($output, $dialog->getQuestion('Configuration format (yml, xml, php, or annotation)', $format), array(
+            'Sensio\Bundle\GeneratorBundle\Command\Validators',
+            'validateFormat'
+        ), false, $format);
+        $input->setOption('format', $format);
 
-        if ($prefix && '/' === $prefix[0]) {
-            $prefix = substr($prefix, 1);
-        }
-
-        return $prefix;
+        return $format;
     }
 
     /**
-     * @return \IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     * @param DialogHelper    $dialog
+     * @param                 $document
      */
-    protected function getGenerator()
+    private function askForRoutePrefix(InputInterface $input, OutputInterface $output, DialogHelper $dialog, $document)
     {
-        if (null === $this->generator) {
-            $this->generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../Resources/skeleton/crud');
-        }
-
-        return $this->generator;
-    }
-
-    /**
-     * @param \IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator $generator
-     */
-    public function setGenerator(DoctrineCrudGenerator $generator)
-    {
-        $this->generator = $generator;
-    }
-
-    /**
-     * @return DoctrineFormGenerator
-     */
-    protected function getFormGenerator()
-    {
-        if (null === $this->formGenerator) {
-            $this->formGenerator = new DoctrineFormGenerator(__DIR__.'/../Resources/skeleton/form');
-        }
-
-        return $this->formGenerator;
-    }
-
-    /**
-     * @param \IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineFormGenerator $formGenerator
-     */
-    public function setFormGenerator(DoctrineFormGenerator $formGenerator)
-    {
-        $this->formGenerator = $formGenerator;
+        $prefix = $this->getRoutePrefix($input, $document);
+        $output->writeln(array(
+            '',
+            'Determine the routes prefix (all the routes will be "mounted" under this',
+            'prefix: /prefix/, /prefix/new, ...).',
+            '',
+        ));
+        $prefix = $dialog->ask($output, $dialog->getQuestion('Routes prefix', '/'.$prefix), '/'.$prefix);
+        $input->setOption('route-prefix', $prefix);
     }
 }
