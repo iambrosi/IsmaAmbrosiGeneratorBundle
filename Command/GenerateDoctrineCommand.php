@@ -31,6 +31,16 @@ abstract class GenerateDoctrineCommand extends ContainerAwareCommand
     }
 
     /**
+     * Returns the path to the skeleton templates
+     *
+     * @return string
+     */
+    protected function getSkeletonPath()
+    {
+        return $this->getBundle('IsmaAmbrosiGeneratorBundle')->getPath().'/Resources/skeleton';
+    }
+
+    /**
      * @param string $name
      *
      * @return \Symfony\Component\HttpKernel\Bundle\BundleInterface

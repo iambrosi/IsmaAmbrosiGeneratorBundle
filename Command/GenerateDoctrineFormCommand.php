@@ -5,7 +5,6 @@ namespace IsmaAmbrosi\Bundle\GeneratorBundle\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Output\Output;
 use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineFormGenerator;
 
 class GenerateDoctrineFormCommand extends GenerateDoctrineCommand
@@ -49,7 +48,7 @@ EOT
 
         $metadata = $this->getDocumentMetadata($documentClass);
 
-        $generator = new DoctrineFormGenerator(dirname(__DIR__).'/Resources/skeleton/form');
+        $generator = new DoctrineFormGenerator($this->getSkeletonPath().'/form');
         $generator->generate($bundle, $document, $metadata);
 
         $output->writeln(sprintf(
