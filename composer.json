@@ -20,6 +20,10 @@
     },
     "target-dir": "IsmaAmbrosi/Bundle/GeneratorBundle",
     "require-dev": {
-        "twig/twig": ">=1.4,<2.0-dev"
+        "twig/twig": ">=1.4,<2.0-dev",
+        "phpunit/phpunit": "~3.7"
+    },
+    "config": {
+        "bin-dir": "bin/"
     }
 }
