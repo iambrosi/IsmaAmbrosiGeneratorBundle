@@ -81,7 +81,7 @@ class DoctrineFormGenerator extends Generator
         $parts = explode('\\', $document);
         array_pop($parts);
 
-        $this->renderFile('FormType.php', $this->classPath, array(
+        $this->renderFile('FormType.php.twig', $this->classPath, array(
             'dir'                => $this->skeletonDir,
             'fields'             => $this->getFieldsFromMetadata($metadata),
             'namespace'          => $bundle->getNamespace(),
