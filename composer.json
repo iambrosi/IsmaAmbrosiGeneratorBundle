@@ -13,17 +13,15 @@
     "require": {
         "php": ">=5.3.3",
         "sensio/generator-bundle": "~2.3",
-        "doctrine/mongodb-odm": "1.0.*@beta"
+        "doctrine/mongodb-odm": "1.0.*@dev"
+    },
+    "require-dev": {
+        "twig/twig": ">=1.4,<2.0-dev",
+        "phpunit/phpunit": "~3.7"
     },
     "autoload": {
         "psr-0": { "IsmaAmbrosi\\Bundle\\GeneratorBundle": "" }
     },
     "target-dir": "IsmaAmbrosi/Bundle/GeneratorBundle",
-    "require-dev": {
-        "twig/twig": ">=1.4,<2.0-dev",
-        "phpunit/phpunit": "~3.7"
-    },
-    "config": {
-        "bin-dir": "bin/"
-    }
+    "minimum-stability": "dev"
 }
