@@ -9,6 +9,7 @@ php:
 
 before_script:
   - echo '' > ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
+  - echo 'extension = "mongo.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer install --prefer-source --dev
 
 script: ./vendor/bin/phpunit
