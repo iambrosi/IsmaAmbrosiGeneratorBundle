@@ -17,7 +17,7 @@
     },
     "require-dev": {
         "twig/twig": ">=1.4,<2.0-dev",
-        "phpunit/phpunit": "~3.7"
+        "phpunit/phpunit": "~4.2"
     },
     "autoload": {
         "psr-0": { "IsmaAmbrosi\\Bundle\\GeneratorBundle": "" }

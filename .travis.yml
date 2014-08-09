@@ -9,6 +9,6 @@ php:
 
 before_script:
   - echo '' > ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
-  - pecl -q install -f mongo-1.3.7 && echo "extension=mongo.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
   - composer install --prefer-source --dev
 
+script: ./vendor/bin/phpunit
