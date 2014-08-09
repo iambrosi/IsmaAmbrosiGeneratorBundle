@@ -1,7 +1,7 @@
 {
     "name": "ismaambrosi/generator-bundle",
     "description": "Generates Symfony2 documents, forms and CRUD",
-    "keywords": [],
+    "keywords": ["mongodb", "symfony"],
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
