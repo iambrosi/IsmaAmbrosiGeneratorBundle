@@ -255,25 +255,34 @@ EOT
             $auto = $dialog->askConfirmation($output, $dialog->getQuestion('Confirm automatic update of the Routing', 'yes', '?'), true);
         }
 
-        $output->write('Importing the CRUD routes: ');
-        $this->getFilesystem()->mkdir($bundle->getPath().'/Resources/config/');
-        $routing = new RoutingManipulator($bundle->getPath().'/Resources/config/routing.yml');
-        $ret     = $auto ? $routing->addResource($bundle->getName(), $format, '/'.$prefix, 'routing/'.strtolower(str_replace('\\', '_', $document))) : false;
-        if (!$ret) {
-            $help = sprintf("        <comment>resource: \"@%s/Resources/config/routing/%s.%s\"</comment>\n", $bundle->getName(), strtolower(str_replace('\\', '_', $document)), $format);
-            $help .= sprintf("        <comment>prefix:   /%s</comment>\n", $prefix);
+        $configPath  = $bundle->getPath().'/Resources/config';
+        $routingFile = $configPath.'/routing.yml';
 
-            return array(
-                '- Import the bundle\'s routing resource in the bundle routing file',
-                sprintf('  (%s).', $bundle->getPath().'/Resources/config/routing.yml'),
-                '',
-                sprintf('    <comment>%s:</comment>', $bundle->getName().('' !== $prefix ? '_'.str_replace('/', '_', $prefix) : '')),
-                $help,
-                '',
-            );
+        $output->write('Importing the CRUD routes: ');
+        $this->getFilesystem()->mkdir($configPath);
+        $routing = new RoutingManipulator($routingFile);
+
+        try {
+            $ret = $auto ? $routing->addResource($bundle->getName(), $format, '/'.$prefix, 'routing/'.strtolower(str_replace('\\', '_', $document))) : false;
+        } catch (\RuntimeException $exc) {
+            $ret = false;
         }
 
-        return null;
+        if ($ret) {
+            return null;
+        }
+
+        $help = sprintf("        <comment>resource: \"@%s/Resources/config/routing/%s.%s\"</comment>\n", $bundle->getName(), strtolower(str_replace('\\', '_', $document)), $format);
+        $help .= sprintf("        <comment>prefix:   /%s</comment>\n", $prefix);
+
+        return array(
+            '- Import the bundle\'s routing resource in the bundle routing file',
+            sprintf('  (%s).', $routingFile),
+            '',
+            sprintf('    <comment>%s:</comment>', $bundle->getName().('' !== $prefix ? '_'.str_replace('/', '_', $prefix) : '')),
+            $help,
+            '',
+        );
     }
 
     /**

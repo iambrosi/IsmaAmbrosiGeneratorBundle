@@ -168,18 +168,4 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
 
         return $container;
     }
-
-    /**
-     * @return \Symfony\Component\HttpKernel\Bundle\BundleInterface
-     */
-    protected function getBundle()
-    {
-        $bundle = parent::getBundle();
-        $bundle
-            ->expects($this->any())
-            ->method('getNamespace')
-            ->will($this->returnValue('Acme\DemoBundle'));
-
-        return $bundle;
-    }
 }
