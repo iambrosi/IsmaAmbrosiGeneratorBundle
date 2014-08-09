@@ -276,9 +276,9 @@ EOT
      */
     private function askForFieldName(OutputInterface $output, DialogHelper $dialog, $fields)
     {
-        $self = $this;
+        $question = $dialog->getQuestion('New field name (press <return> to stop adding fields)', null);
 
-        return $dialog->askAndValidate($output, $dialog->getQuestion('New field name (press <return> to stop adding fields)', null), function ($name) use ($fields, $self) {
+        return $dialog->askAndValidate($output, $question, function ($name) use ($fields) {
             if (isset($fields[$name]) || 'id' == $name) {
                 throw new \InvalidArgumentException(sprintf('Field "%s" is already defined.', $name));
             }
