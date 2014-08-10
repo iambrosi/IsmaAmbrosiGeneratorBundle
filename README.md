@@ -1,9 +1,13 @@
-# IsmaAmbrosiGeneratorBundle [![Build Status](https://secure.travis-ci.org/iambrosi/IsmaAmbrosiGeneratorBundle.png?branch=master)](http://travis-ci.org/iambrosi/IsmaAmbrosiGeneratorBundle)
+# IsmaAmbrosiGeneratorBundle 
 
-[![Latest Stable Version](https://poser.pugx.org/ismaambrosi/generator-bundle/v/stable.png)](https://packagist.org/packages/ismaambrosi/generator-bundle)
+[![Build Status](https://secure.travis-ci.org/iambrosi/IsmaAmbrosiGeneratorBundle.png?branch=master)](http://travis-ci.org/iambrosi/IsmaAmbrosiGeneratorBundle)
 [![Total Downloads](https://poser.pugx.org/ismaambrosi/generator-bundle/downloads.png)](https://packagist.org/packages/ismaambrosi/generator-bundle)
+[![Latest Stable Version](https://poser.pugx.org/ismaambrosi/generator-bundle/v/stable.png)](https://packagist.org/packages/ismaambrosi/generator-bundle)
+[![Latest Unstable Version](https://poser.pugx.org/ismaambrosi/generator-bundle/v/unstable.png)](https://packagist.org/packages/ismaambrosi/generator-bundle)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/54e00601-0232-471a-ae8e-b5d534a3a819/mini.png)](https://insight.sensiolabs.com/projects/54e00601-0232-471a-ae8e-b5d534a3a819)
 
 This bundle extends the commands provided by [SensioGeneratorBundle](https://github.com/sensio/SensioGeneratorBundle), adding a MongoDB document generator and CRUD generators for those MongoDB documents.
+
 
 Installation
 ------------
