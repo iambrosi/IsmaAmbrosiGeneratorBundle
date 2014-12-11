@@ -4,13 +4,14 @@ namespace IsmaAmbrosi\Bundle\GeneratorBundle\Command;
 
 use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator;
 use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineFormGenerator;
-use Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper;
+use Sensio\Bundle\GeneratorBundle\Command\Helper\QuestionHelper;
 use Sensio\Bundle\GeneratorBundle\Manipulator\RoutingManipulator;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Question\Question;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class GenerateDoctrineCrudCommand extends GenerateDoctrineCommand
@@ -61,10 +62,10 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $dialog = $this->getQuestionHelper();
 
         if ($input->isInteractive()) {
-            if (!$dialog->askConfirmation($output, $dialog->getQuestion('Do you confirm generation', 'yes', '?'), true)) {
+            if (!$dialog->ask($input, $output, new ConfirmationQuestion($dialog->getQuestion('Do you confirm generation', 'yes', '?')), true)) {
                 $output->writeln('<error>Command aborted</error>');
 
                 return 1;
@@ -114,7 +115,7 @@ EOT
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $dialog = $this->getQuestionHelper();
         $dialog->writeSection($output, 'Welcome to the Doctrine2 CRUD generator');
 
         // namespace
@@ -209,16 +210,19 @@ EOT
     /**
      * @param InputInterface  $input
      * @param OutputInterface $output
-     * @param DialogHelper    $dialog
+     * @param QuestionHelper  $dialog
      *
      * @return array
      */
-    private function askForDocument(InputInterface $input, OutputInterface $output, DialogHelper $dialog)
+    private function askForDocument(InputInterface $input, OutputInterface $output, QuestionHelper $dialog)
     {
-        $document = $dialog->askAndValidate($output, $dialog->getQuestion('The Document shortcut name', $input->getOption('document')), array(
+        $question = new Question($dialog->getQuestion('The Document shortcut name', $input->getOption('document')), $input->getOption('document'));
+        $question->setValidator(array(
             'IsmaAmbrosi\Bundle\GeneratorBundle\Command\Validators',
             'validateDocumentName'
-        ), false, $input->getOption('document'));
+        ));
+
+        $document = $dialog->ask($input, $output, $question, false, $input->getOption('document'));
         $input->setOption('document', $document);
         list($bundle, $document) = $this->parseShortcutNotation($document);
 
@@ -238,7 +242,7 @@ EOT
     }
 
     /**
-     * @param DialogHelper    $dialog
+     * @param QuestionHelper  $dialog
      * @param InputInterface  $input
      * @param OutputInterface $output
      * @param BundleInterface $bundle
@@ -248,11 +252,11 @@ EOT
      *
      * @return array|null
      */
-    private function updateRouting(DialogHelper $dialog, InputInterface $input, OutputInterface $output, BundleInterface $bundle, $format, $document, $prefix)
+    private function updateRouting(QuestionHelper $dialog, InputInterface $input, OutputInterface $output, BundleInterface $bundle, $format, $document, $prefix)
     {
         $auto = true;
         if ($input->isInteractive()) {
-            $auto = $dialog->askConfirmation($output, $dialog->getQuestion('Confirm automatic update of the Routing', 'yes', '?'), true);
+            $auto = $dialog->ask($input, $output, new ConfirmationQuestion($dialog->getQuestion('Confirm automatic update of the Routing', 'yes', '?')), true);
         }
 
         $configPath  = $bundle->getPath().'/Resources/config';
@@ -288,9 +292,9 @@ EOT
     /**
      * @param InputInterface  $input
      * @param OutputInterface $output
-     * @param DialogHelper    $dialog
+     * @param QuestionHelper  $dialog
      */
-    private function askForWriteOption(InputInterface $input, OutputInterface $output, DialogHelper $dialog)
+    private function askForWriteOption(InputInterface $input, OutputInterface $output, QuestionHelper $dialog)
     {
         $withWrite = $input->getOption('with-write') ? : false;
         $output->writeln(array(
@@ -299,18 +303,19 @@ EOT
             'You can also ask it to generate "write" actions: new, update, and delete.',
             '',
         ));
-        $withWrite = $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate the "write" actions', $withWrite ? 'yes' : 'no', '?'), $withWrite);
+        $question  = new ConfirmationQuestion($dialog->getQuestion('Do you want to generate the "write" actions', $withWrite ? 'yes' : 'no', '?'), $withWrite);
+        $withWrite = $dialog->ask($input, $output, $question);
         $input->setOption('with-write', $withWrite);
     }
 
     /**
      * @param InputInterface  $input
      * @param OutputInterface $output
-     * @param DialogHelper    $dialog
+     * @param QuestionHelper  $dialog
      *
      * @return mixed
      */
-    private function askForMappingFormat(InputInterface $input, OutputInterface $output, DialogHelper $dialog)
+    private function askForMappingFormat(InputInterface $input, OutputInterface $output, QuestionHelper $dialog)
     {
         $format = $input->getOption('format');
         $output->writeln(array(
@@ -318,10 +323,13 @@ EOT
             'Determine the format to use for the generated CRUD.',
             '',
         ));
-        $format = $dialog->askAndValidate($output, $dialog->getQuestion('Configuration format (yml, xml, php, or annotation)', $format), array(
+        $question = new Question($dialog->getQuestion('Configuration format (yml, xml, php, or annotation)', $format), $format);
+        $question->setValidator(array(
             'Sensio\Bundle\GeneratorBundle\Command\Validators',
             'validateFormat'
-        ), false, $format);
+        ));
+
+        $format = $dialog->ask($input, $output, $question);
         $input->setOption('format', $format);
 
         return $format;
@@ -330,10 +338,10 @@ EOT
     /**
      * @param InputInterface  $input
      * @param OutputInterface $output
-     * @param DialogHelper    $dialog
+     * @param QuestionHelper  $dialog
      * @param                 $document
      */
-    private function askForRoutePrefix(InputInterface $input, OutputInterface $output, DialogHelper $dialog, $document)
+    private function askForRoutePrefix(InputInterface $input, OutputInterface $output, QuestionHelper $dialog, $document)
     {
         $prefix = $this->getRoutePrefix($input, $document);
         $output->writeln(array(
@@ -342,7 +350,8 @@ EOT
             'prefix: /prefix/, /prefix/new, ...).',
             '',
         ));
-        $prefix = $dialog->ask($output, $dialog->getQuestion('Routes prefix', '/'.$prefix), '/'.$prefix);
+        $question = new Question($dialog->getQuestion('Routes prefix', '/'.$prefix), '/'.$prefix);
+        $prefix   = $dialog->ask($input, $output, $question, '/'.$prefix);
         $input->setOption('route-prefix', $prefix);
     }
 }

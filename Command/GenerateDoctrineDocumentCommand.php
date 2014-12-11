@@ -4,10 +4,12 @@ namespace IsmaAmbrosi\Bundle\GeneratorBundle\Command;
 
 use Doctrine\ODM\MongoDB\Types\Type;
 use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineDocumentGenerator;
-use Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper;
+use Sensio\Bundle\GeneratorBundle\Command\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
+use Symfony\Component\Console\Question\Question;
 
 class GenerateDoctrineDocumentCommand extends GenerateDoctrineCommand
 {
@@ -78,10 +80,11 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $dialog = $this->getQuestionHelper();
 
         if ($input->isInteractive()) {
-            if (!$dialog->askConfirmation($output, $dialog->getQuestion('Do you confirm generation', 'yes', '?'), true)) {
+            $confirmationQuestion = new ConfirmationQuestion($dialog->getQuestion('Do you confirm generation', 'yes', '?'), true);
+            if (!$dialog->ask($input, $output, $confirmationQuestion)) {
                 $output->writeln('<error>Command aborted</error>');
 
                 return 1;
@@ -112,7 +115,7 @@ EOT
      */
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        $dialog = $this->getDialogHelper();
+        $dialog = $this->getQuestionHelper();
         $dialog->writeSection($output, 'Welcome to the Doctrine2 document generator');
 
         // namespace
@@ -132,7 +135,8 @@ EOT
 
         // repository?
         $output->writeln('');
-        $withRepository = $dialog->askConfirmation($output, $dialog->getQuestion('Do you want to generate an empty repository class', $input->getOption('with-repository') ? 'yes' : 'no', '?'), $input->getOption('with-repository'));
+        $repositoryQuestion = new ConfirmationQuestion($dialog->getQuestion('Do you want to generate an empty repository class', $input->getOption('with-repository') ? 'yes' : 'no', '?'), $input->getOption('with-repository'));
+        $withRepository     = $dialog->ask($input, $output, $repositoryQuestion);
         $input->setOption('with-repository', $withRepository);
 
         // summary
@@ -173,14 +177,14 @@ EOT
     }
 
     /**
-     * @param \Symfony\Component\Console\Input\InputInterface            $input
-     * @param \Symfony\Component\Console\Output\OutputInterface          $output
-     * @param \Sensio\Bundle\GeneratorBundle\Command\Helper\DialogHelper $dialog
+     * @param \Symfony\Component\Console\Input\InputInterface              $input
+     * @param \Symfony\Component\Console\Output\OutputInterface            $output
+     * @param \Sensio\Bundle\GeneratorBundle\Command\Helper\QuestionHelper $dialog
      *
      * @return array
      * @throws \InvalidArgumentException
      */
-    private function addFields(InputInterface $input, OutputInterface $output, DialogHelper $dialog)
+    private function addFields(InputInterface $input, OutputInterface $output, QuestionHelper $dialog)
     {
         $fields = $this->parseFields($input->getOption('fields'));
         $output->writeln(array(
@@ -215,7 +219,7 @@ EOT
         while (true) {
             $output->writeln('');
 
-            if (!$name = $this->askForFieldName($output, $dialog, $fields)) {
+            if (!$name = $this->askForFieldName($input, $output, $dialog, $fields)) {
                 break;
             }
 
@@ -224,7 +228,9 @@ EOT
                 $defaultType = 'timestamp';
             }
 
-            $type = $dialog->askAndValidate($output, $dialog->getQuestion('Field type', $defaultType), $fieldValidator, false, $defaultType);
+            $question = new Question($dialog->getQuestion('Field type', $defaultType), $defaultType);
+            $question->setValidator($fieldValidator);
+            $type = $dialog->ask($input, $output, $question);
 
             $fields[$name] = array('fieldName' => $name, 'type' => $type);
         }
@@ -235,18 +241,20 @@ EOT
     /**
      * @param InputInterface  $input
      * @param OutputInterface $output
-     * @param DialogHelper    $dialog
+     * @param QuestionHelper  $dialog
      *
      * @return array
      */
-    private function askForDocument(InputInterface $input, OutputInterface $output, DialogHelper $dialog)
+    private function askForDocument(InputInterface $input, OutputInterface $output, QuestionHelper $dialog)
     {
         do {
             $retry    = true;
-            $document = $dialog->askAndValidate($output, $dialog->getQuestion('The Document shortcut name', $input->getOption('document')), array(
+            $question = new Question($dialog->getQuestion('The Document shortcut name', $input->getOption('document')), $input->getOption('document'));
+            $question->setValidator(array(
                 'IsmaAmbrosi\Bundle\GeneratorBundle\Command\Validators',
                 'validateDocumentName'
-            ), false, $input->getOption('document'));
+            ), $input->getOption('document'));
+            $document = $dialog->ask($input, $output, $question);
 
             list($bundle, $document) = $this->parseShortcutNotation($document);
 
@@ -268,22 +276,24 @@ EOT
     }
 
     /**
+     * @param InputInterface  $input
      * @param OutputInterface $output
-     * @param DialogHelper    $dialog
-     * @param                 $fields
+     * @param QuestionHelper  $dialog
+     * @param array           $fields
      *
      * @return string
      */
-    private function askForFieldName(OutputInterface $output, DialogHelper $dialog, $fields)
+    private function askForFieldName(InputInterface $input, OutputInterface $output, QuestionHelper $dialog, $fields)
     {
-        $question = $dialog->getQuestion('New field name (press <return> to stop adding fields)', null);
-
-        return $dialog->askAndValidate($output, $question, function ($name) use ($fields) {
+        $question = new Question($dialog->getQuestion('New field name (press <return> to stop adding fields)', null));
+        $question->setValidator(function ($name) use ($fields) {
             if (isset($fields[$name]) || 'id' == $name) {
                 throw new \InvalidArgumentException(sprintf('Field "%s" is already defined.', $name));
             }
 
             return $name;
         });
+
+        return $dialog->ask($input, $output, $question);
     }
 }
