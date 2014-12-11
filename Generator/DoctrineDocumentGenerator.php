@@ -16,7 +16,6 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class DoctrineDocumentGenerator extends Generator
 {
-
     /**
      * @var \Symfony\Component\Filesystem\Filesystem
      */
@@ -65,7 +64,7 @@ class DoctrineDocumentGenerator extends Generator
         $class->mapField(array(
             'fieldName' => 'id',
             'type'      => 'integer',
-            'id'        => true
+            'id'        => true,
         ));
         $class->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_AUTO);
         foreach ($fields as $field) {

@@ -12,7 +12,6 @@ use Sensio\Bundle\GeneratorBundle\Command\Helper\QuestionHelper;
  */
 abstract class GenerateDoctrineCommand extends ContainerAwareCommand
 {
-
     /**
      * @param string $shortcut
      *

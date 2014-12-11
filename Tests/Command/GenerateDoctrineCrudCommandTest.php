@@ -46,7 +46,7 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
             array(array('--document'        => 'AcmeBlogBundle:Blog/Post',
                         '--format'          => 'yml',
                         '--route-prefix'    => 'foo',
-                        '--with-write'      => true), '', array('Blog\\Post', 'yml', 'foo', true)),
+                        '--with-write'      => true, ), '', array('Blog\\Post', 'yml', 'foo', true)),
         );
     }
 
@@ -79,7 +79,7 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
                 '--document'        => 'AcmeBlogBundle:Blog/Post',
                 '--format'          => 'yml',
                 '--route-prefix'    => 'foo',
-                '--with-write'      => true
+                '--with-write'      => true,
             ), array('Blog\\Post', 'yml', 'foo', true)),
         );
     }

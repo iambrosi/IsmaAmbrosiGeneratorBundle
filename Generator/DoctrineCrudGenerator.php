@@ -13,7 +13,6 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
  */
 class DoctrineCrudGenerator extends Generator
 {
-
     /**
      * @var \Symfony\Component\Filesystem\Filesystem
      */
@@ -313,7 +312,7 @@ class DoctrineCrudGenerator extends Generator
      */
     private function getRecordActions()
     {
-        return array_filter($this->actions, function($item) {
+        return array_filter($this->actions, function ($item) {
             return in_array($item, array('show', 'edit'));
         });
     }

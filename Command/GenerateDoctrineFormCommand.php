@@ -9,7 +9,6 @@ use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineFormGenerator;
 
 class GenerateDoctrineFormCommand extends GenerateDoctrineCommand
 {
-
     /**
      * {@inheritdoc}
      */

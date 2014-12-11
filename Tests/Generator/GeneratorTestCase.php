@@ -12,7 +12,6 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
  */
 abstract class GeneratorTestCase extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var string
      */
@@ -46,17 +45,17 @@ abstract class GeneratorTestCase extends \PHPUnit_Framework_TestCase
         $this->metadata->mapField(array(
             'name'      => 'id',
             'id'        => true,
-            'strategy'  => 'auto'
+            'strategy'  => 'auto',
         ));
 
         $this->metadata->mapField(array(
             'fieldName' => 'name',
-            'type'      => 'string'
+            'type'      => 'string',
         ));
 
         $this->metadata->mapField(array(
             'fieldName' => 'description',
-            'type'      => 'string'
+            'type'      => 'string',
         ));
     }
 
