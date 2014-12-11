@@ -17,7 +17,7 @@ Installation
 Add the requirement to composer:
 
 ```bash
-$ php composer.phar require ismaambrosi/generator-bundle:dev-master
+$ php composer.phar require ismaambrosi/generator-bundle
 ```
 
 You will also need to install the DoctrineMongoDBBundle. The instructions on how to install it are available in the Symfony2 [documentation](http://symfony.com/doc/master/bundles/DoctrineMongoDBBundle/index.html).
