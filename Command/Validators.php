@@ -11,7 +11,6 @@ use Sensio\Bundle\GeneratorBundle\Command\Validators as BaseValidators;
  */
 class Validators extends BaseValidators
 {
-
     /**
      * Validates the document name
      *

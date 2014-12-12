@@ -11,7 +11,6 @@ use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineFormGenerator;
  */
 class DoctrineFormGeneratorTest extends GeneratorTestCase
 {
-
     public function testSimpleGenerator()
     {
         $generator = new DoctrineFormGenerator(dirname(dirname(__DIR__)).'/Resources/skeleton/form');

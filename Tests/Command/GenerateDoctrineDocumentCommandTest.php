@@ -41,7 +41,7 @@ class GenerateDoctrineDocumentCommandTest extends GenerateCommandTest
                 array('Blog\\Post', array(
                     array('fieldName' => 'title', 'type' => 'string'),
                     array('fieldName' => 'description', 'type' => 'string'),
-                ))),
+                )), ),
         );
     }
 
@@ -71,7 +71,7 @@ class GenerateDoctrineDocumentCommandTest extends GenerateCommandTest
         return array(
             array(array('--document' => 'AcmeBlogBundle:Blog/Post'), array('Blog\\Post', array())),
             array(array('--document' => 'AcmeBlogBundle:Blog/Post',
-                        '--fields' => 'title:string description:string'), array('Blog\\Post', array(
+                        '--fields' => 'title:string description:string', ), array('Blog\\Post', array(
                 array('fieldName' => 'title', 'type' => 'string'),
                 array('fieldName' => 'description', 'type' => 'string'),
             ))),

@@ -11,7 +11,6 @@ use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator;
  */
 class DoctrineCrudGeneratorTest extends GeneratorTestCase
 {
-
     public function testAnnotation()
     {
         $prefix    = $this->getPathPrefix();

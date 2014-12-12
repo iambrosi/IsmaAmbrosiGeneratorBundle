@@ -12,7 +12,6 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
  */
 class DoctrineFormGenerator extends Generator
 {
-
     /**
      * @var string
      */

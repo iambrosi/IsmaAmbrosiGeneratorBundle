@@ -2,7 +2,7 @@
 
 namespace IsmaAmbrosi\Bundle\GeneratorBundle\Generator;
 
-use \Sensio\Bundle\GeneratorBundle\Generator\Generator as BaseGenerator;
+use Sensio\Bundle\GeneratorBundle\Generator\Generator as BaseGenerator;
 
 /**
  * Class Generator
@@ -11,5 +11,4 @@ use \Sensio\Bundle\GeneratorBundle\Generator\Generator as BaseGenerator;
  */
 class Generator extends BaseGenerator
 {
-
 }

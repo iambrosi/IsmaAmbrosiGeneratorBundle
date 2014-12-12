@@ -16,7 +16,6 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class GenerateDoctrineCrudCommand extends GenerateDoctrineCommand
 {
-
     /**
      * @var DoctrineCrudGenerator
      */
@@ -158,7 +157,7 @@ EOT
      */
     protected function getRoutePrefix(InputInterface $input, $document)
     {
-        $prefix = $input->getOption('route-prefix') ? : strtolower(str_replace(array('\\', '/'), '_', $document));
+        $prefix = $input->getOption('route-prefix') ?: strtolower(str_replace(array('\\', '/'), '_', $document));
 
         if ($prefix && '/' === $prefix[0]) {
             $prefix = substr($prefix, 1);
@@ -219,7 +218,7 @@ EOT
         $question = new Question($dialog->getQuestion('The Document shortcut name', $input->getOption('document')), $input->getOption('document'));
         $question->setValidator(array(
             'IsmaAmbrosi\Bundle\GeneratorBundle\Command\Validators',
-            'validateDocumentName'
+            'validateDocumentName',
         ));
 
         $document = $dialog->ask($input, $output, $question, false, $input->getOption('document'));
@@ -273,7 +272,7 @@ EOT
         }
 
         if ($ret) {
-            return null;
+            return;
         }
 
         $help = sprintf("        <comment>resource: \"@%s/Resources/config/routing/%s.%s\"</comment>\n", $bundle->getName(), strtolower(str_replace('\\', '_', $document)), $format);
@@ -296,7 +295,7 @@ EOT
      */
     private function askForWriteOption(InputInterface $input, OutputInterface $output, QuestionHelper $dialog)
     {
-        $withWrite = $input->getOption('with-write') ? : false;
+        $withWrite = $input->getOption('with-write') ?: false;
         $output->writeln(array(
             '',
             'By default, the generator creates two actions: list and show.',
@@ -326,7 +325,7 @@ EOT
         $question = new Question($dialog->getQuestion('Configuration format (yml, xml, php, or annotation)', $format), $format);
         $question->setValidator(array(
             'Sensio\Bundle\GeneratorBundle\Command\Validators',
-            'validateFormat'
+            'validateFormat',
         ));
 
         $format = $dialog->ask($input, $output, $question);

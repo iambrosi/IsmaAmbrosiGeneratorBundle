@@ -13,7 +13,6 @@ use Symfony\Component\Console\Question\Question;
 
 class GenerateDoctrineDocumentCommand extends GenerateDoctrineCommand
 {
-
     /**
      * @var DoctrineDocumentGenerator
      */
@@ -125,7 +124,7 @@ EOT
             '',
             'First, you need to give the document name you want to generate.',
             'You must use the shortcut notation like <comment>AcmeBlogBundle:Post</comment>.',
-            ''
+            '',
         ));
 
         list($bundle, $document) = $this->askForDocument($input, $output, $dialog);
@@ -252,7 +251,7 @@ EOT
             $question = new Question($dialog->getQuestion('The Document shortcut name', $input->getOption('document')), $input->getOption('document'));
             $question->setValidator(array(
                 'IsmaAmbrosi\Bundle\GeneratorBundle\Command\Validators',
-                'validateDocumentName'
+                'validateDocumentName',
             ), $input->getOption('document'));
             $document = $dialog->ask($input, $output, $question);
 
