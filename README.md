@@ -38,3 +38,59 @@ public function registerBundles()
 }
 ```
 It is recommended to disable this bundle for the production environment.
+
+
+### Commands
+
+This bundle contains three commands that will allow you to generate code for documents, forms and CRUD controllers. These commands can be executed either on interactive mode or manual mode. I would recommend you to use the interactive mode.
+
+#### Generating ODM documents
+
+The first command allows to generate the document classes.
+
+Examples:
+
+```bash
+$ php app/console doctrine:mongodb:generate:document
+```
+
+```bash
+$ php app/console doctrine:mongodb:generate:document \
+--document=AcmeBlogBundle:Blog/Post \
+--with-repository
+```
+
+
+#### Generating forms
+
+With the second command we can generate the form type classes, used by the form component.
+
+Example:
+
+```bash
+$ php app/console doctrine:mongodb:generate:form AcmeBlogBundle:Post
+```
+
+#### Generating the CRUD
+
+The last command generates the CRUD controllers, with read-only actions to handle the documents that were generated previously. It also allows to include the _write actions_, for creating, updating and deleting documents.
+
+Examples:
+
+```bash
+$ php app/console doctrine:mongodb:generate:crud
+```
+
+```bash
+# Specifying the document and the routing prefix
+$ php app/console doctrine:mongodb:generate:crud \
+--document=AcmeBlogBundle:Post \
+--route-prefix=post_admin
+```
+
+```bash
+# Specifying the document, routing and write-actions
+$ php app/console doctrine:mongodb:generate:crud \
+--document=AcmeBlogBundle:Post \
+--route-prefix=post_admin --with-write
+```
