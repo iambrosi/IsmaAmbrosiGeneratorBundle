@@ -9,8 +9,8 @@ php:
   - 7
 
 before_script:
-  - echo '' > ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
-  - echo 'extension = "mongo.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  - yes '' | pecl -q install -f mongo-stable
+  - php --ri mongo
   - composer install --prefer-source --dev
 
 script: ./vendor/bin/phpunit
