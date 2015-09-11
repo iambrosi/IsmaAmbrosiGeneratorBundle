@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Class DoctrineDocumentGenerator
+ * Class DoctrineDocumentGenerator.
  *
  * @author Ismael Ambrosi<ismaambrosi@gmail.com>
  */
@@ -27,22 +27,23 @@ class DoctrineDocumentGenerator extends Generator
     private $documentManager;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param \Symfony\Component\Filesystem\Filesystem $filesystem
      * @param \Doctrine\ODM\MongoDB\DocumentManager    $documentManager
      */
     public function __construct(Filesystem $filesystem, DocumentManager $documentManager)
     {
-        $this->filesystem      = $filesystem;
+        $this->filesystem = $filesystem;
         $this->documentManager = $documentManager;
     }
 
     /**
-     * @param  \Symfony\Component\HttpKernel\Bundle\BundleInterface $bundle
-     * @param  string                                               $document
-     * @param  array                                                $fields
-     * @param  Boolean                                              $withRepository
+     * @param \Symfony\Component\HttpKernel\Bundle\BundleInterface $bundle
+     * @param string                                               $document
+     * @param array                                                $fields
+     * @param Boolean                                              $withRepository
+     *
      * @throws \RuntimeException
      */
     public function generate(BundleInterface $bundle, $document, array $fields, $withRepository)
@@ -51,7 +52,7 @@ class DoctrineDocumentGenerator extends Generator
         $config->addDocumentNamespace($bundle->getName(), $bundle->getNamespace().'\\Document');
 
         $documentClass = $config->getDocumentNamespace($bundle->getName()).'\\'.$document;
-        $documentPath  = $bundle->getPath().'/Document/'.str_replace('\\', '/', $document).'.php';
+        $documentPath = $bundle->getPath().'/Document/'.str_replace('\\', '/', $document).'.php';
         if (file_exists($documentPath)) {
             throw new \RuntimeException(sprintf('Document "%s" already exists.', $documentClass));
         }
@@ -63,8 +64,8 @@ class DoctrineDocumentGenerator extends Generator
 
         $class->mapField(array(
             'fieldName' => 'id',
-            'type'      => 'integer',
-            'id'        => true,
+            'type' => 'integer',
+            'id' => true,
         ));
         $class->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_AUTO);
         foreach ($fields as $field) {
@@ -72,7 +73,7 @@ class DoctrineDocumentGenerator extends Generator
         }
 
         $documentGenerator = $this->getDocumentGenerator();
-        $documentCode      = $documentGenerator->generateDocumentClass($class);
+        $documentCode = $documentGenerator->generateDocumentClass($class);
 
         $this->filesystem->mkdir(dirname($documentPath));
         file_put_contents($documentPath, rtrim($documentCode).PHP_EOL, LOCK_EX);

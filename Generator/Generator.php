@@ -5,7 +5,7 @@ namespace IsmaAmbrosi\Bundle\GeneratorBundle\Generator;
 use Sensio\Bundle\GeneratorBundle\Generator\Generator as BaseGenerator;
 
 /**
- * Class Generator
+ * Class Generator.
  *
  * @author Ismael Ambrosi<ismaambrosi@gmail.com>
  */

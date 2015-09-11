@@ -5,7 +5,7 @@ namespace IsmaAmbrosi\Bundle\GeneratorBundle\Tests\Generator;
 use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator;
 
 /**
- * Class DoctrineDocumentGeneratorTest
+ * Class DoctrineDocumentGeneratorTest.
  *
  * @author Ismael Ambrosi<ismaambrosi@gmail.com>
  */
@@ -13,7 +13,7 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
 {
     public function testAnnotation()
     {
-        $prefix    = $this->getPathPrefix();
+        $prefix = $this->getPathPrefix();
         $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
         $generator->generate($this->getTestBundle(), $this->documentName, $this->metadata, 'annotation', $prefix, false);
 
@@ -30,7 +30,7 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
 
     public function testAnnotationWithWriteActions()
     {
-        $prefix    = $this->getPathPrefix();
+        $prefix = $this->getPathPrefix();
         $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
         $generator->generate($this->getTestBundle(), $this->documentName, $this->metadata, 'annotation', $prefix, true);
 
@@ -47,7 +47,7 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
 
     public function testYaml()
     {
-        $prefix    = $this->getPathPrefix();
+        $prefix = $this->getPathPrefix();
         $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
         $generator->generate($this->getTestBundle(), $this->documentName, $this->metadata, 'yaml', $prefix, false);
 
@@ -66,7 +66,7 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
 
     public function testYamlWithWriteActions()
     {
-        $prefix    = $this->getPathPrefix();
+        $prefix = $this->getPathPrefix();
         $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
         $generator->generate($this->getTestBundle(), $this->documentName, $this->metadata, 'yaml', $prefix, true);
 
@@ -85,7 +85,7 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
 
     public function testXml()
     {
-        $prefix    = $this->getPathPrefix();
+        $prefix = $this->getPathPrefix();
         $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
         $generator->generate($this->getTestBundle(), $this->documentName, $this->metadata, 'xml', $prefix, false);
 
@@ -104,7 +104,7 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
 
     public function testXmlWithWriteActions()
     {
-        $prefix    = $this->getPathPrefix();
+        $prefix = $this->getPathPrefix();
         $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
         $generator->generate($this->getTestBundle(), $this->documentName, $this->metadata, 'xml', $prefix, true);
 
@@ -123,11 +123,11 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
 
     public function testGeneratorWithInvalidCharsOnRoutePrefix()
     {
-        $prefix    = 'my-very-strange-prefix';
+        $prefix = 'my-very-strange-prefix';
         $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
         $generator->generate($this->getTestBundle(), $this->documentName, $this->metadata, 'annotation', $prefix, true);
 
-        $file         = $this->getTestBundle()->getPath().'/Controller/'.$this->documentName.'Controller.php';
+        $file = $this->getTestBundle()->getPath().'/Controller/'.$this->documentName.'Controller.php';
         $classContent = file_get_contents($file);
 
         $this->assertFalse((bool) preg_match('/.*\@Route\(\"([\w\/\-\{\}]+)\", name="([^\w\_]+)"\).*/', $classContent));

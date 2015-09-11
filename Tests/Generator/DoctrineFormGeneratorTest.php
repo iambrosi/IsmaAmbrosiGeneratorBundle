@@ -5,7 +5,7 @@ namespace IsmaAmbrosi\Bundle\GeneratorBundle\Tests\Generator;
 use IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineFormGenerator;
 
 /**
- * Class DoctrineDocumentGeneratorTest
+ * Class DoctrineDocumentGeneratorTest.
  *
  * @author Ismael Ambrosi<ismaambrosi@gmail.com>
  */

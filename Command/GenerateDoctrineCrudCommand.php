@@ -74,15 +74,15 @@ EOT
         $document = Validators::validateDocumentName($input->getOption('document'));
         list($bundle, $document) = $this->parseShortcutNotation($document);
 
-        $format    = Validators::validateFormat($input->getOption('format'));
-        $prefix    = $this->getRoutePrefix($input, $document);
+        $format = Validators::validateFormat($input->getOption('format'));
+        $prefix = $this->getRoutePrefix($input, $document);
         $withWrite = $input->getOption('with-write');
 
         $dialog->writeSection($output, 'CRUD generation');
 
         $documentClass = $this->getDocumentNamespace($bundle).'\\'.$document;
-        $metadata      = $this->getDocumentMetadata($documentClass);
-        $bundle        = $this->getBundle($bundle);
+        $metadata = $this->getDocumentMetadata($documentClass);
+        $bundle = $this->getBundle($bundle);
 
         $generator = $this->getGenerator();
         $generator->generate($bundle, $document, $metadata, $format, $prefix, $withWrite);
@@ -143,8 +143,8 @@ EOT
             '',
             $this->getFormatter()->formatBlock('Summary before generation', 'bg=blue;fg=white', true),
             '',
-            sprintf("You are going to generate a CRUD controller for \"<info>%s:%s</info>\"", $bundle, $document),
-            sprintf("using the \"<info>%s</info>\" format.", $format),
+            sprintf('You are going to generate a CRUD controller for "<info>%s:%s</info>"', $bundle, $document),
+            sprintf('using the "<info>%s</info>" format.', $format),
             '',
         ));
     }
@@ -258,7 +258,7 @@ EOT
             $auto = $dialog->ask($input, $output, new ConfirmationQuestion($dialog->getQuestion('Confirm automatic update of the Routing', 'yes', '?')), true);
         }
 
-        $configPath  = $bundle->getPath().'/Resources/config';
+        $configPath = $bundle->getPath().'/Resources/config';
         $routingFile = $configPath.'/routing.yml';
 
         $output->write('Importing the CRUD routes: ');
@@ -302,7 +302,7 @@ EOT
             'You can also ask it to generate "write" actions: new, update, and delete.',
             '',
         ));
-        $question  = new ConfirmationQuestion($dialog->getQuestion('Do you want to generate the "write" actions', $withWrite ? 'yes' : 'no', '?'), $withWrite);
+        $question = new ConfirmationQuestion($dialog->getQuestion('Do you want to generate the "write" actions', $withWrite ? 'yes' : 'no', '?'), $withWrite);
         $withWrite = $dialog->ask($input, $output, $question);
         $input->setOption('with-write', $withWrite);
     }
@@ -350,7 +350,7 @@ EOT
             '',
         ));
         $question = new Question($dialog->getQuestion('Routes prefix', '/'.$prefix), '/'.$prefix);
-        $prefix   = $dialog->ask($input, $output, $question, '/'.$prefix);
+        $prefix = $dialog->ask($input, $output, $question, '/'.$prefix);
         $input->setOption('route-prefix', $prefix);
     }
 }

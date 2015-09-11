@@ -6,7 +6,7 @@ use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 /**
- * Class DoctrineFormGenerator
+ * Class DoctrineFormGenerator.
  *
  * @author Ismael Ambrosi<ismaambrosi@gmail.com>
  */
@@ -66,7 +66,7 @@ class DoctrineFormGenerator extends Generator
         $class = array_pop($parts);
 
         $this->className = $class.'Type';
-        $dirPath         = $bundle->getPath().'/Form';
+        $dirPath = $bundle->getPath().'/Form';
         $this->classPath = $dirPath.'/'.str_replace('\\', '/', $document).'Type.php';
 
         if (file_exists($this->classPath)) {
@@ -81,13 +81,13 @@ class DoctrineFormGenerator extends Generator
         array_pop($parts);
 
         $this->renderFile('FormType.php.twig', $this->classPath, array(
-            'dir'                => $this->skeletonDir,
-            'fields'             => $this->getFieldsFromMetadata($metadata),
-            'namespace'          => $bundle->getNamespace(),
-            'document_class'     => $class,
+            'dir' => $this->skeletonDir,
+            'fields' => $this->getFieldsFromMetadata($metadata),
+            'namespace' => $bundle->getNamespace(),
+            'document_class' => $class,
             'document_namespace' => implode('\\', $parts),
-            'form_class'         => $this->className,
-            'form_type_name'     => strtolower(str_replace('\\', '_', $bundle->getNamespace()).($parts ? '_' : '').implode('_', $parts).'_'.$this->className),
+            'form_class' => $this->className,
+            'form_type_name' => strtolower(str_replace('\\', '_', $bundle->getNamespace()).($parts ? '_' : '').implode('_', $parts).'_'.$this->className),
         ));
     }
 

@@ -7,7 +7,7 @@ use Sensio\Bundle\GeneratorBundle\Tests\Command\GenerateCommandTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
- * Class GenerateDoctrineCrudCommandTest
+ * Class GenerateDoctrineCrudCommandTest.
  *
  * @author Ismael Ambrosi<ismaambrosi@gmail.com>
  */
@@ -27,7 +27,7 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
             ->method('generate')
             ->with($this->getBundle(), $document, $this->getDoctrineMetadata(), $format, $prefix, $withWrite);
 
-        /** @var $generator \IsmaAmbrosi\Bundle\GeneratorBundle\Generator\Generator */
+        /* @var $generator \IsmaAmbrosi\Bundle\GeneratorBundle\Generator\Generator */
 
         $tester = new CommandTester($this->getCommand($generator, $input));
         $tester->execute($options);
@@ -43,10 +43,10 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
             array(array('--document' => 'AcmeBlogBundle:Blog/Post'), '', array('Blog\\Post', 'annotation', 'blog_post', false)),
             array(array(), "AcmeBlogBundle:Blog/Post\ny\nyml\nfoobar\n", array('Blog\\Post', 'yml', 'foobar', true)),
             array(array(), "AcmeBlogBundle:Blog/Post\ny\nyml\n/foobar\n", array('Blog\\Post', 'yml', 'foobar', true)),
-            array(array('--document'        => 'AcmeBlogBundle:Blog/Post',
-                        '--format'          => 'yml',
-                        '--route-prefix'    => 'foo',
-                        '--with-write'      => true, ), '', array('Blog\\Post', 'yml', 'foo', true)),
+            array(array('--document' => 'AcmeBlogBundle:Blog/Post',
+                        '--format' => 'yml',
+                        '--route-prefix' => 'foo',
+                        '--with-write' => true, ), '', array('Blog\\Post', 'yml', 'foo', true)),
         );
     }
 
@@ -76,10 +76,10 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
         return array(
             array(array('--document' => 'AcmeBlogBundle:Blog/Post'), array('Blog\\Post', 'annotation', 'blog_post', false)),
             array(array(
-                '--document'        => 'AcmeBlogBundle:Blog/Post',
-                '--format'          => 'yml',
-                '--route-prefix'    => 'foo',
-                '--with-write'      => true,
+                '--document' => 'AcmeBlogBundle:Blog/Post',
+                '--format' => 'yml',
+                '--route-prefix' => 'foo',
+                '--with-write' => true,
             ), array('Blog\\Post', 'yml', 'foo', true)),
         );
     }
@@ -103,7 +103,7 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
             ->method('getDocumentMetadata')
             ->will($this->returnValue($this->getDoctrineMetadata()));
 
-        /** @var $command GenerateDoctrineCrudCommand */
+        /* @var $command GenerateDoctrineCrudCommand */
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet($input));
         $command->setGenerator($generator);
