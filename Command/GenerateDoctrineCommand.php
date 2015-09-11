@@ -2,11 +2,11 @@
 
 namespace IsmaAmbrosi\Bundle\GeneratorBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Sensio\Bundle\GeneratorBundle\Command\Helper\QuestionHelper;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 
 /**
- * Class GenerateDoctrineCommand
+ * Class GenerateDoctrineCommand.
  *
  * @author Ismael Ambrosi<ismaambrosi@gmail.com>
  */
@@ -16,6 +16,7 @@ abstract class GenerateDoctrineCommand extends ContainerAwareCommand
      * @param string $shortcut
      *
      * @return array
+     *
      * @throws \InvalidArgumentException
      */
     protected function parseShortcutNotation($shortcut)
@@ -30,7 +31,7 @@ abstract class GenerateDoctrineCommand extends ContainerAwareCommand
     }
 
     /**
-     * Returns the path to the skeleton templates
+     * Returns the path to the skeleton templates.
      *
      * @return string
      */

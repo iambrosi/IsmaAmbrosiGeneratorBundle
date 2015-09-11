@@ -5,20 +5,21 @@ namespace IsmaAmbrosi\Bundle\GeneratorBundle\Command;
 use Sensio\Bundle\GeneratorBundle\Command\Validators as BaseValidators;
 
 /**
- * Class Validators
+ * Class Validators.
  *
  * @author Ismael Ambrosi<ismaambrosi@gmail.com>
  */
 class Validators extends BaseValidators
 {
     /**
-     * Validates the document name
+     * Validates the document name.
      *
      * @static
      *
      * @param string $document
      *
      * @return mixed
+     *
      * @throws \InvalidArgumentException
      */
     public static function validateDocumentName($document)

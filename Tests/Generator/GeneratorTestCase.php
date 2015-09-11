@@ -6,7 +6,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
 
 /**
- * Class GeneratorTest
+ * Class GeneratorTest.
  *
  * @author Ismael Ambrosi<ismaambrosi@gmail.com>
  */
@@ -39,23 +39,23 @@ abstract class GeneratorTestCase extends \PHPUnit_Framework_TestCase
         $this->filesystem = new Filesystem();
 
         $this->documentName = ucfirst($this->getName());
-        $this->tmpDir       = sys_get_temp_dir().'/ismaambrosi';
+        $this->tmpDir = sys_get_temp_dir().'/ismaambrosi';
 
         $this->metadata = new ClassMetadataInfo($this->documentName);
         $this->metadata->mapField(array(
-            'name'      => 'id',
-            'id'        => true,
-            'strategy'  => 'auto',
+            'name' => 'id',
+            'id' => true,
+            'strategy' => 'auto',
         ));
 
         $this->metadata->mapField(array(
             'fieldName' => 'name',
-            'type'      => 'string',
+            'type' => 'string',
         ));
 
         $this->metadata->mapField(array(
             'fieldName' => 'description',
-            'type'      => 'string',
+            'type' => 'string',
         ));
     }
 

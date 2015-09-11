@@ -135,7 +135,7 @@ EOT
         // repository?
         $output->writeln('');
         $repositoryQuestion = new ConfirmationQuestion($dialog->getQuestion('Do you want to generate an empty repository class', $input->getOption('with-repository') ? 'yes' : 'no', '?'), $input->getOption('with-repository'));
-        $withRepository     = $dialog->ask($input, $output, $repositoryQuestion);
+        $withRepository = $dialog->ask($input, $output, $repositoryQuestion);
         $input->setOption('with-repository', $withRepository);
 
         // summary
@@ -143,7 +143,7 @@ EOT
             '',
             $this->getFormatter()->formatBlock('Summary before generation', 'bg=blue;fg=white', true),
             '',
-            sprintf("You are going to generate a \"<info>%s:%s</info>\" Doctrine2 document.", $bundle, $document),
+            sprintf('You are going to generate a "<info>%s:%s</info>" Doctrine2 document.', $bundle, $document),
             '',
         ));
     }
@@ -162,7 +162,7 @@ EOT
         $fields = array();
         foreach (explode(' ', $input) as $value) {
             $elements = explode(':', $value);
-            $name     = $elements[0];
+            $name = $elements[0];
             if (strlen($name)) {
                 $type = isset($elements[1]) ? $elements[1] : 'string';
                 preg_match_all('/(.*)\((.*)\)/', $type, $matches);
@@ -181,6 +181,7 @@ EOT
      * @param \Sensio\Bundle\GeneratorBundle\Command\Helper\QuestionHelper $dialog
      *
      * @return array
+     *
      * @throws \InvalidArgumentException
      */
     private function addFields(InputInterface $input, OutputInterface $output, QuestionHelper $dialog)
@@ -247,7 +248,7 @@ EOT
     private function askForDocument(InputInterface $input, OutputInterface $output, QuestionHelper $dialog)
     {
         do {
-            $retry    = true;
+            $retry = true;
             $question = new Question($dialog->getQuestion('The Document shortcut name', $input->getOption('document')), $input->getOption('document'));
             $question->setValidator(array(
                 'IsmaAmbrosi\Bundle\GeneratorBundle\Command\Validators',

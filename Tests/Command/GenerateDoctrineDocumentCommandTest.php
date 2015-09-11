@@ -7,7 +7,7 @@ use Sensio\Bundle\GeneratorBundle\Tests\Command\GenerateCommandTest;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
- * Class GenerateDoctrineDocumentCommandTest
+ * Class GenerateDoctrineDocumentCommandTest.
  *
  * @author Ismael Ambrosi<ismaambrosi@gmail.com>
  */
