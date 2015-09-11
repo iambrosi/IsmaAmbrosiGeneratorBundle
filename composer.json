@@ -22,6 +22,5 @@
     "autoload": {
         "psr-0": { "IsmaAmbrosi\\Bundle\\GeneratorBundle": "" }
     },
-    "target-dir": "IsmaAmbrosi/Bundle/GeneratorBundle",
-    "minimum-stability": "dev"
+    "target-dir": "IsmaAmbrosi/Bundle/GeneratorBundle"
 }
