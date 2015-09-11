@@ -17,11 +17,11 @@
     },
     "require-dev": {
         "twig/twig": ">=1.4,<2.0-dev",
+        "symfony/dependency-injection": "~2.1",
         "phpunit/phpunit": "~4.2"
     },
     "autoload": {
         "psr-0": { "IsmaAmbrosi\\Bundle\\GeneratorBundle": "" }
     },
-    "target-dir": "IsmaAmbrosi/Bundle/GeneratorBundle",
-    "minimum-stability": "dev"
+    "target-dir": "IsmaAmbrosi/Bundle/GeneratorBundle"
 }
