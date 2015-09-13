@@ -28,6 +28,19 @@ class DoctrineCrudGeneratorTest extends GeneratorTestCase
         $this->assertTrue(false !== strpos($content, '@Route("/'.$prefix.'")'), 'Route annotation not found in class');
     }
 
+    /**
+     * @depends testAnnotation
+     * @expectedException RuntimeException
+     * @expectedExceptionMessage Unable to generate the controller as it already exists.
+     */
+    public function testDisallowGeneratingExistingDocuments()
+    {
+        $prefix = $this->getPathPrefix();
+        $generator = new DoctrineCrudGenerator($this->getFilesystem(), __DIR__.'/../../Resources/skeleton/crud');
+        $generator->generate($this->getTestBundle(), $this->documentName, $this->metadata, 'annotation', $prefix, false);
+        $generator->generate($this->getTestBundle(), $this->documentName, $this->metadata, 'annotation', $prefix, false);
+    }
+
     public function testAnnotationWithWriteActions()
     {
         $prefix = $this->getPathPrefix();
