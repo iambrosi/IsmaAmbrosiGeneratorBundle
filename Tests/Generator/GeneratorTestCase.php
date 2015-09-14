@@ -2,8 +2,8 @@
 
 namespace IsmaAmbrosi\Bundle\GeneratorBundle\Tests\Generator;
 
-use Symfony\Component\Filesystem\Filesystem;
 use Doctrine\ODM\MongoDB\Mapping\ClassMetadataInfo;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class GeneratorTest.
@@ -70,12 +70,12 @@ abstract class GeneratorTestCase extends \PHPUnit_Framework_TestCase
      */
     protected function getTestBundle()
     {
-        $bundle = $this->getMock('Symfony\Component\HttpKernel\Bundle\BundleInterface');
-        $bundle->expects($this->any())->method('getPath')->will($this->returnValue($this->tmpDir));
-        $bundle->expects($this->any())->method('getNamespace')->will($this->returnValue('Foo\BarBundle'));
-        $bundle->expects($this->any())->method('getName')->will($this->returnValue('FooBarBundle'));
+        $bundle = $this->prophesize('Symfony\Component\HttpKernel\Bundle\BundleInterface');
+        $bundle->getPath()->willReturn($this->tmpDir.'/Foo/BarBundle');
+        $bundle->getNamespace()->willReturn('Foo\BarBundle');
+        $bundle->getName()->willReturn('FooBarBundle');
 
-        return $bundle;
+        return $bundle->reveal();
     }
 
     /**
