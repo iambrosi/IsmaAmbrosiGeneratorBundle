@@ -13,6 +13,8 @@ use Symfony\Component\Console\Tester\CommandTester;
  */
 class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
 {
+    private $generator, $formGenerator, $dm;
+
     /**
      * @dataProvider getInteractiveCommandData
      */
@@ -20,17 +22,16 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
     {
         list($document, $format, $prefix, $withWrite) = $expected;
 
-        /** @var $generator \PHPUnit_Framework_MockObject_MockObject */
-        $generator = $this->getGenerator();
-        $generator
-            ->expects($this->once())
-            ->method('generate')
-            ->with($this->getBundle(), $document, $this->getDoctrineMetadata(), $format, $prefix, $withWrite);
-
-        /* @var $generator \IsmaAmbrosi\Bundle\GeneratorBundle\Generator\Generator */
-
-        $tester = new CommandTester($this->getCommand($generator, $input));
+        $tester = new CommandTester($this->getCommand($input));
         $tester->execute($options);
+
+        $this->generator
+            ->generate($this->getBundle(), $document, $this->getDoctrineMetadata(), $format, $prefix, $withWrite)
+            ->shouldHaveBeenCalledTimes(1);
+
+        $this->formGenerator
+            ->generate($this->getBundle(), $document, $this->getDoctrineMetadata())
+            ->shouldHaveBeenCalledTimes($withWrite ? 1 : 0);
     }
 
     /**
@@ -57,15 +58,16 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
     {
         list($document, $format, $prefix, $withWrite) = $expected;
 
-        /** @var $generator \PHPUnit_Framework_MockObject_MockObject */
-        $generator = $this->getGenerator();
-        $generator
-            ->expects($this->once())
-            ->method('generate')
-            ->with($this->getBundle(), $document, $this->getDoctrineMetadata(), $format, $prefix, $withWrite);
-
-        $tester = new CommandTester($this->getCommand($generator, ''));
+        $tester = new CommandTester($this->getCommand(''));
         $tester->execute($options, array('interactive' => false));
+
+        $this->generator
+            ->generate($this->getBundle(), $document, $this->getDoctrineMetadata(), $format, $prefix, $withWrite)
+            ->shouldHaveBeenCalledTimes(1);
+
+        $this->formGenerator
+            ->generate($this->getBundle(), $document, $this->getDoctrineMetadata())
+            ->shouldHaveBeenCalledTimes($withWrite ? 1 : 0);
     }
 
     /**
@@ -85,12 +87,11 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
     }
 
     /**
-     * @param \IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator $generator
-     * @param string                                                              $input
+     * @param string $input
      *
-     * @return \IsmaAmbrosi\Bundle\GeneratorBundle\Command\GenerateDoctrineCrudCommand
+     * @return GenerateDoctrineCrudCommand
      */
-    protected function getCommand($generator, $input)
+    protected function getCommand($input)
     {
         /** @var $command \PHPUnit_Framework_MockObject_MockObject */
         $command = $this
@@ -106,8 +107,8 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
         /* @var $command GenerateDoctrineCrudCommand */
         $command->setContainer($this->getContainer());
         $command->setHelperSet($this->getHelperSet($input));
-        $command->setGenerator($generator);
-        $command->setFormGenerator($this->getFormGenerator());
+        $command->setGenerator($this->generator->reveal());
+        $command->setFormGenerator($this->formGenerator->reveal());
 
         return $command;
     }
@@ -124,48 +125,27 @@ class GenerateDoctrineCrudCommandTest extends GenerateCommandTest
     }
 
     /**
-     * @return \IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator
-     */
-    protected function getGenerator()
-    {
-        // get a noop generator
-        return $this
-            ->getMockBuilder('IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator')
-            ->disableOriginalConstructor()
-            ->setMethods(array('generate'))
-            ->getMock();
-    }
-
-    /**
-     * @return \IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineFormGenerator
-     */
-    protected function getFormGenerator()
-    {
-        return $this
-            ->getMockBuilder('IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineFormGenerator')
-            ->disableOriginalConstructor()
-            ->setMethods(array('generate'))
-            ->getMock();
-    }
-
-    /**
      * @return \Symfony\Component\DependencyInjection\Container
      */
     protected function getContainer()
     {
         $container = parent::getContainer();
-
-        $dm = $this->getMockBuilder('Doctrine\ODM\MongoDB\DocumentManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $dm
-            ->expects($this->any())
-            ->method('getConfiguration')
-            ->will($this->returnValue(new \Doctrine\ODM\MongoDB\Configuration()));
-
-        $container->set('doctrine.odm.mongodb.document_manager', $dm);
+        $container->set('doctrine.odm.mongodb.document_manager', $this->dm->reveal());
 
         return $container;
+    }
+
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->generator = $this->prophesize('IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineCrudGenerator');
+        $this->formGenerator = $this->prophesize('IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineFormGenerator');
+
+        $this->dm = $this->prophesize('Doctrine\ODM\MongoDB\DocumentManager');
+
+        $this->dm
+            ->getConfiguration()
+            ->willReturn(new \Doctrine\ODM\MongoDB\Configuration());
     }
 }

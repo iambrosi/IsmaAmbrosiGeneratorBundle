@@ -21,13 +21,13 @@ class GenerateDoctrineDocumentCommandTest extends GenerateCommandTest
         list($document, $fields) = $expected;
 
         $generator = $this->getGenerator();
-        $generator
-            ->expects($this->once())
-            ->method('generate')
-            ->with($this->getBundle(), $document, $fields);
 
-        $tester = new CommandTester($this->getCommand($generator, $input));
+        $tester = new CommandTester($this->getCommand($generator->reveal(), $input));
         $tester->execute($options);
+
+        $generator
+            ->generate($this->getBundle(), $document, $fields, false)
+            ->shouldHaveBeenCalledTimes(1);
     }
 
     public function getInteractiveCommandData()
@@ -53,17 +53,13 @@ class GenerateDoctrineDocumentCommandTest extends GenerateCommandTest
         list($document, $fields) = $expected;
 
         $generator = $this->getGenerator();
-        $generator
-            ->expects($this->once())
-            ->method('generate')
-            ->with($this->getBundle(), $document, $fields);
-        $generator
-            ->expects($this->any())
-            ->method('isReservedKeyword')
-            ->will($this->returnValue(false));
 
-        $tester = new CommandTester($this->getCommand($generator, ''));
+        $tester = new CommandTester($this->getCommand($generator->reveal(), ''));
         $tester->execute($options, array('interactive' => false));
+
+        $generator
+            ->generate($this->getBundle(), $document, $fields, false)
+            ->shouldHaveBeenCalledTimes(1);
     }
 
     public function getNonInteractiveCommandData()
@@ -90,11 +86,6 @@ class GenerateDoctrineDocumentCommandTest extends GenerateCommandTest
 
     protected function getGenerator()
     {
-        // get a noop generator
-        return $this
-            ->getMockBuilder('IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineDocumentGenerator')
-            ->disableOriginalConstructor()
-            ->setMethods(array('generate', 'isReservedKeyword'))
-            ->getMock();
+        return $this->prophesize('IsmaAmbrosi\Bundle\GeneratorBundle\Generator\DoctrineDocumentGenerator');
     }
 }
