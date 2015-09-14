@@ -88,6 +88,11 @@ class DoctrineFormGenerator extends Generator
             'document_namespace' => implode('\\', $parts),
             'form_class' => $this->className,
             'form_type_name' => strtolower(str_replace('\\', '_', $bundle->getNamespace()).($parts ? '_' : '').implode('_', $parts).'_'.$this->className),
+
+            // Add 'setDefaultOptions' method with deprecated type hint, if the new 'configureOptions' isn't available.
+            // Required as long as Symfony 2.6 is supported.
+            // @see https://github.com/sensiolabs/SensioGeneratorBundle/pull/348
+            'configure_options_available' => method_exists('Symfony\Component\Form\AbstractType', 'configureOptions'),
         ));
     }
 
