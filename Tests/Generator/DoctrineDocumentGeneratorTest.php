@@ -59,8 +59,8 @@ class DoctrineDocumentGeneratorTest extends GeneratorTestCase
         $config = $this->prophesize('Doctrine\ODM\MongoDB\Configuration');
 
         $config->addDocumentNamespace(Argument::type('string'), Argument::type('string'))
-            ->will(function (array $args) {
-                $this
+            ->will(function (array $args) use ($config) {
+                $config
                     ->getDocumentNamespace($args[0])
                     ->willReturn($args[1]);
             });
