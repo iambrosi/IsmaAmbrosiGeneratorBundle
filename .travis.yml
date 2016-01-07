@@ -25,12 +25,14 @@ matrix:
       env: SYMFONY_VERSION=2.8.*
     - php: 5.6
       env: SYMFONY_VERSION=3.0.*
+      env: GENERATOR_BUNDLE_VERSION=3.0.*
 
 before_install:
   - echo '' > ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
   - echo 'extension = "mongo.so"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - composer self-update
   - if [ "$SYMFONY_VERSION" != "" ]; then composer require --dev --no-update symfony/symfony=$SYMFONY_VERSION; fi
+  - if [ "$GENERATOR_BUNDLE_VERSION" != "" ]; then composer require --dev --no-update sensio/generator-bundle=$GENERATOR_BUNDLE_VERSION; fi
 
 install: composer update --prefer-dist --no-interaction $COMPOSER_FLAGS
 
