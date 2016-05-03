@@ -22,7 +22,9 @@
         "phpspec/prophecy": "^1.4"
     },
     "autoload": {
-        "psr-0": { "IsmaAmbrosi\\Bundle\\GeneratorBundle": "" }
-    },
-    "target-dir": "IsmaAmbrosi/Bundle/GeneratorBundle"
+        "psr-4": { "IsmaAmbrosi\\Bundle\\GeneratorBundle\\": "" },
+        "exclude-from-classmap": [
+            "/Tests/"
+        ]
+    }
 }
